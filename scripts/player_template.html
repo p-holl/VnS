@@ -90,6 +90,76 @@
 const PLAYLIST = {playlist_data};
 
 // ============================================================================
+// COOKIE MANAGEMENT
+// ============================================================================
+
+function setCookie(name, value, days = 365){
+  const date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/;SameSite=Lax";
+}
+
+function getCookie(name){
+  const nameEQ = name + "=";
+  const cookies = document.cookie.split(';');
+  for(let i = 0; i < cookies.length; i++){
+    let c = cookies[i].trim();
+    if (c.indexOf(nameEQ) === 0){
+      return decodeURIComponent(c.substring(nameEQ.length));
+    }
+  }
+  return null;
+}
+
+function savePlaybackState(){
+  const track = tracks[currentIndex];
+  if (!track) return;
+
+  const state = {
+    trackIndex: currentIndex,
+    trackName: track.name,
+    majorVersion: PLAYLIST.majorVersion || 0,
+    minorVersion: PLAYLIST.minorVersion || 0
+  };
+
+  setCookie('vibeSeekState', JSON.stringify(state));
+}
+
+function loadPlaybackState(){
+  const cookie = getCookie('vibeSeekState');
+  if (!cookie) return 0;
+
+  try {
+    const state = JSON.parse(cookie);
+
+    // Check if playlist version has changed significantly (major version bump)
+    if (state.majorVersion !== undefined &&
+        PLAYLIST.majorVersion !== undefined &&
+        state.majorVersion !== PLAYLIST.majorVersion){
+      // Major version changed, start from beginning
+      return 0;
+    }
+
+    // Try to find track by name first
+    const trackByName = tracks.findIndex(t => t.name === state.trackName);
+    if (trackByName !== -1){
+      return trackByName;
+    }
+
+    // Fall back to index if name not found
+    if (state.trackIndex >= 0 && state.trackIndex < tracks.length){
+      return state.trackIndex;
+    }
+
+    // Default to first track
+    return 0;
+  } catch(e){
+    return 0;
+  }
+}
+
+// ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
@@ -280,6 +350,7 @@ function playTrack(index, autoplay = false){
   currentIndex = index;
   highlightActive();
   stopLoopWatcher();
+  savePlaybackState();
 
   const track = tracks[index];
 
@@ -485,9 +556,12 @@ document.getElementById('playBtn').onclick = togglePlayPause;
 // INITIALIZATION
 // ============================================================================
 
-// Load first track without autoplay
+// Load saved track position
+const savedIndex = loadPlaybackState();
+
+// Load first track (or saved track) without autoplay
 if (tracks.length > 0){
-  playTrack(0, false);
+  playTrack(savedIndex, false);
 }
 </script>
 </body>

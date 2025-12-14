@@ -30,14 +30,6 @@ OUT_AUDIO_DIR = OUT_DIR / "audio"
 OUT_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def build_html(playlist_data: dict, playlist_title: str) -> str:
-    with (Path(__file__).parent / "player_template.html").open('r', encoding='utf-8') as file:
-        content = file.read()
-    content = content.replace("{playlist_title}", escape(playlist_title))
-    content = content.replace("{playlist_data}", json.dumps(playlist_data, indent=2))
-    return content
-
-
 # ---- Generate HTML files ----
 
 index_entries = []
@@ -71,7 +63,10 @@ for f in playlist_files:
     filename = slugify(playlist_name) + ".html"
     outpath = OUT_DIR / filename
 
-    html_text = build_html(data, playlist_name)
+    with (Path(__file__).parent / "player_template.html").open('r', encoding='utf-8') as file:
+        html_text = file.read()
+    html_text = html_text.replace("{playlist_title}", escape(playlist_name))
+    html_text = html_text.replace("{playlist_data}", json.dumps(data, indent=2))
     outpath.write_text(html_text, encoding="utf-8")
 
     print("Wrote", outpath)
