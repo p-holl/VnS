@@ -48,6 +48,8 @@ for f in playlist_files:
             download_html = file.read()
         download_html = download_html.replace("{playlist_title}", escape(playlist_name))
         download_html = download_html.replace("{playlist_link}", filename)
+        files_and_sources = [{'url': mp3['url'], 'outputName': f"{i:03d}.mp3"} for i, mp3 in enumerate(mp3_tracks, 1)]
+        download_html = download_html.replace('{files_and_sources}', json.dumps(files_and_sources, indent=2))
         items = []
         with (Path(__file__).parent / "download_item_template.html").open('r', encoding='utf-8') as file:
             li_html = file.read()

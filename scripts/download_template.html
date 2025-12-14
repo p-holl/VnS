@@ -96,69 +96,100 @@
       </div>
     </header>
 
-    <div class="card">
-      <ul>
-        {items}
-      </ul>
-    </div>
-
     <div>
-      <button class="primary" onclick="downloadAll()">
+      <button id="download" class="primary">
         <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
-    </button>
-    <span class="filename">Alle herunterladen (ZIP)</span>
+      </button>
+      <span class="filename">Alle herunterladen (ZIP)</span>
+
+      <!-- Progress bar (hidden by default) -->
+      <div id="progress-container" style="display: none; margin-top: 16px;">
+        <div style="background: #e0e0e0; border-radius: 8px; overflow: hidden; height: 24px;">
+          <div id="progress-bar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;"></div>
+        </div>
+        <div id="progress-text" style="margin-top: 8px; text-align: center; font-size: 14px; color: #666;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <ol>
+        {items}
+      </ol>
     </div>
 
     <footer>
       <p><a href="{playlist_link}">Zurück zur Playlist</a></p>
       <p><a href="index.html">Andere Playlists</a></p>
-      <p>Impresum: Philipp Holl – philipp@mholl.de</p></footer>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
   </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <script>
 
-function downloadFile(url) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = ''; // optionally set a filename, e.g. 'song.mp3'
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-}
-
-
-const filesToDownload = [
-  {
-    url: "docs/source1.md",
-    outputName: "Introduction.md"
-  },
-  {
-    url: "docs/source2.md",
-    outputName: "Setup_Guide.md"
-  },
-  {
-    url: "examples/example.js",
-    outputName: "Sample_Code.js"
-  }
-];
+const filesToDownload = {files_and_sources};
 
 document.getElementById("download").onclick = async () => {
-  const zip = new JSZip();
-  for (const file of filesToDownload) {
-    const url = file.url;
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${file.githubPath}`);
+  const btn = document.getElementById("download");
+  const progressContainer = document.getElementById("progress-container");
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+
+  // Disable button and show progress
+  btn.disabled = true;
+  progressContainer.style.display = "block";
+
+  try {
+    const zip = new JSZip();
+    const total = filesToDownload.length;
+
+    for (let i = 0; i < total; i++) {
+      const file = filesToDownload[i];
+
+      // Update progress
+      const percent = Math.round(((i + 1) / total) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+      progressText.textContent = `Downloading ${i + 1} of ${total}: ${file.outputName}`;
+
+      const response = await fetch(file.url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch no. ${i}: ${file.url}`);
+      }
+      const content = await response.blob();
+      zip.file(file.outputName, content);
     }
-    const content = await response.blob();
-    zip.file(file.outputName, content);
+
+    // Show zipping progress
+    progressText.textContent = "Creating ZIP file...";
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "selected-files.zip");
+
+    // Success message
+    progressText.textContent = "Download complete!";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      btn.disabled = false;
+    }, 2000);
+
+  } catch (error) {
+    progressText.textContent = "Error: " + error.message;
+    progressText.style.color = "red";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      progressText.style.color = "#666";
+      btn.disabled = false;
+    }, 3000);
   }
-  const zipBlob = await zip.generateAsync({ type: "blob" });
-  saveAs(zipBlob, "selected-files.zip");
 };
 
 </script>
