@@ -170,7 +170,7 @@ document.getElementById("download").onclick = async () => {
     progressText.textContent = "Creating ZIP file...";
 
     const zipBlob = await zip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "selected-files.zip");
+    saveAs(zipBlob, "{playlist_title_filename}.zip");
 
     // Success message
     progressText.textContent = "Download complete!";
