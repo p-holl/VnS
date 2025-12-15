@@ -1,0 +1,41 @@
+{
+  "majorVersion": 0,
+  "minorVersion": 0,
+  "tracks": [
+    {
+      "name": "Pink Soul \u2022 Johnathon M. Horner",
+      "url": "Johnathon M. Horner - Pink Soul.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://https://freemusicarchive.org/music/beat-mekanik/single/pink-soul/"
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Pro Musica Bohemica",
+      "url": "Pro Musica Bohemica - Ouverture-Suite.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "New Hero in Town \u2022 Kevin MacLeod",
+      "url": "Kevin MacLeod - New Hero in Town.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": null
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Pro Musica Bohemica",
+      "url": "Pro Musica Bohemica - Ouverture-Suite (excerpt).mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Moonlight Sonata \u2022 Paul Pitman",
+      "url": "Paul Pitman - Moonlight Sonata.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/2547"
+    }
+  ]
+}

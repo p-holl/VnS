@@ -9,7 +9,7 @@ OUT_DIR = ROOT / "out"
 
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-playlist_files = [f for f in PLAYLISTS_DIR.glob("*.json")]
+playlist_files = [f for f in PLAYLISTS_DIR.glob("*.json") if not f.name.startswith('_')]
 AUDIO_EXTS = {".mp3", ".ogg", ".wav"}
 
 OUT_AUDIO_DIR = OUT_DIR / "audio"
@@ -55,7 +55,12 @@ for f in playlist_files:
         with (Path(__file__).parent / "download_item_template.html").open('r', encoding='utf-8') as file:
             li_html = file.read()
         for mp3 in mp3_tracks:
-            items.append(li_html.replace("{name}", mp3['name']).replace("{url}", mp3['source']).replace("{download_link}", mp3['url']))
+            mp3_li = li_html.replace("{name}", mp3['name']).replace("{download_link}", mp3['url'])
+            if mp3['source'] is not None:
+                mp3_li = mp3_li.replace("{original_href}", f'<a href="{mp3["source"]}" class="original-link" target="_blank">🗗</a>')
+            else:
+                mp3_li = mp3_li.replace("{original_href}", "")
+            items.append(mp3_li)
         download_html = download_html.replace("{items}", "\n".join(items))
         (OUT_DIR / download_file).write_text(download_html, encoding="utf-8")
     else:
