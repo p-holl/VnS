@@ -4,7 +4,7 @@ from pathlib import Path
 
 from html_gen.generate import generate_playlist_html
 from process_mp3.compress import compress_mp3_vbr_parallel
-from process_mp3.tracks import track_from_file, Track, search_track
+from process_mp3.tracks import track_from_file, Track, search_track, slugify
 
 
 def score_similarity(tags_a, tags_b):
@@ -30,8 +30,8 @@ def greedy_shuffle(tracks: list[Track]) -> list[Track]:
 
 
 def create_shuffled_playlist(src_dir: Path, amend=True):
-    output_dir = Path(__file__).parent.parent / 'docs' / 'audio'
     playlist_name = src_dir.name
+    output_dir = Path(__file__).parent.parent / 'docs' / 'audio' / slugify(playlist_name)
     playlist_file = Path(__file__).parent.parent / 'playlists' / (playlist_name + ".json")
     if playlist_file.is_file():
         with playlist_file.open('r', encoding='utf-8') as f:
@@ -73,6 +73,7 @@ def create_shuffled_playlist(src_dir: Path, amend=True):
         else:  # YouTube
             track_data.append({"name": track.display_name, "url": track.clean_url, "start": track.start_time, "end": None})
     playlist_data['tracks'] = track_data
+    playlist_file.parent.mkdir(exist_ok=True, parents=True)
     with playlist_file.open('w', encoding='utf-8') as f:
         json.dump(playlist_data, f, indent=2)
     print(f"✅ Created playlist {src_dir.name}! {len(hosted_src)} / {len(ordered)} audio files will be hosted", output_dir)

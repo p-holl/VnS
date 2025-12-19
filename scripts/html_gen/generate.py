@@ -1,31 +1,28 @@
 import json
 from pathlib import Path
 
-from .util import escape, slugify
+from html_gen.util import escape, slugify
 
 
 def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-
     playlist_files = [f for f in PLAYLISTS_DIR.glob("*.json") if not f.name.startswith('_')]
-
-    OUT_AUDIO_DIR = OUT_DIR / "audio"
-    OUT_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # ---- Generate HTML files ----
     index_entries = []
-
     for f in playlist_files:
         with open(f, "r", encoding="utf-8") as fp:
             data = json.load(fp)
         playlist_name = data.get("name", f.stem)
+        audio_out_dir = OUT_DIR / "audio" / slugify(playlist_name)
+        audio_out_dir.mkdir(parents=True, exist_ok=True)
         mp3_tracks = [t for t in data.get("tracks", []) if t['url'].lower().endswith('.mp3') and not t['url'].startswith('http')]
         supports_download = bool(mp3_tracks)
         filename = slugify(playlist_name) + ".html"
         download_file = slugify(playlist_name) + "-download.html" if supports_download else None
         for t in mp3_tracks:
             url = t.get("url")
-            t["url"] = f"audio/{url}"
+            t["url"] = f"audio/{slugify(playlist_name)}/{url}"
         # --- Write HTML ---
         index_entries.append((playlist_name, filename, f.name))
         with (Path(__file__).parent / "player_template.html").open('r', encoding='utf-8') as file:
@@ -85,4 +82,4 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
 
 if __name__ == '__main__':
     ROOT = Path(__file__).resolve().parent.parent.parent
-    generate_playlist_html(ROOT / "playlists", ROOT / "hosted")
+    generate_playlist_html(ROOT / "playlists", ROOT / "docs")

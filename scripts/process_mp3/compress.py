@@ -13,7 +13,7 @@ def compress_mp3_vbr(track: Track, output_path: Path, vbr_quality=7, overwrite=T
     if not overwrite and output_path.is_file():
         print(f"Already exists: {output_path}")
         return
-    output_path.parent.mkdir(exist_ok=True)
+    output_path.parent.mkdir(exist_ok=True, parents=True)
     command = [
         "ffmpeg",
         "-y",  # overwrite output without asking
