@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Vibe & Seek – Chill out (werbefrei)</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+  body{background:linear-gradient(180deg,#071227 0%, #0b1726 100%);color:var(--text);display:flex;align-items:flex-start;justify-content:center;padding:28px;}
+  .container{width:100%;max-width:980px;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  h1{margin:0;font-size:20px;letter-spacing:0.2px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+  .player-row{display:flex;gap:14px;align-items:center}
+  .video-wrap{flex:0 0 500px;height:80px;max-width:100%}
+  .video-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;background:#000}
+  .controls{flex:1;display:flex;flex-direction:column;gap:10px}
+  .big-controls{display:flex;gap:10px;align-items:center}
+  button{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  }
+  button.primary{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+  }
+  .download-button{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .track-list{margin-top:14px;display:flex;gap:12px}
+  .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
+  .track{padding:10px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
+  .track:hover{background:rgba(255,255,255,0.02)}
+  .track .idx{width:28px;text-align:center;color:var(--muted);font-size:13px}
+  .track .title{font-size:14px}
+  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,196,255,0.06));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
+  footer{margin-top:10px;color:var(--muted);font-size:13px}
+  @media (max-width:640px){
+    .player-row{flex-direction:column;align-items:stretch}
+    .video-wrap{height:64px;flex-basis:auto}
+    .controls{order:2}
+  }
+  .filename {
+    flex: 1;
+    color: #FFFFFF;
+    font-weight: 100;
+   }
+  .download-icon {
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+  .original-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 11px;
+    padding: 6px 8px;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Vibe & Seek</h1>
+        <div class="subtitle">Chill out (werbefrei)</div>
+      </div>
+    </header>
+
+    <div>
+      <button id="download" class="primary">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </button>
+      <span class="filename">Alle herunterladen (ZIP)</span>
+
+      <!-- Progress bar (hidden by default) -->
+      <div id="progress-container" style="display: none; margin-top: 16px;">
+        <div style="background: #e0e0e0; border-radius: 8px; overflow: hidden; height: 24px;">
+          <div id="progress-bar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;"></div>
+        </div>
+        <div id="progress-text" style="margin-top: 8px; text-align: center; font-size: 14px; color: #666;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <ol>
+        <li>
+    <a href="audio/chill-out-werbefrei/001 roa - alone-in-the-rain.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Alone In The Rain • Roa</span>
+    <a href="https://www.audiolibrary.com.co/roa-music/alone-in-the-rain" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/002 kv - awake.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Awake • KV</span>
+    <a href="https://www.audiolibrary.com.co/kv/awake" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/003 sakura-girl - happier.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Happier • Sakura Girl</span>
+    <a href="https://www.audiolibrary.com.co/sakura-girl/happier" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/004 begench-begenjov - memories.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Memories • Begench Begenjov</span>
+    <a href="https://www.audiolibrary.com.co/begench-begenjov/memories" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/005 atch - by-the-river.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">By The River • Atch</span>
+    <a href="https://www.audiolibrary.com.co/atch-and-hotham/by-the-river" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/006 ferco - watershed-moment.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Watershed Moment • Ferco</span>
+    <a href="https://www.audiolibrary.com.co/ferco/watershed-moment" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/007 alex-productions - cybernetic-dreams.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cybernetic Dreams • Alex- Productions</span>
+    <a href="https://www.audiolibrary.com.co/alex-productions/cybernetic-dreams" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/008 next-route - cherry.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cherry • next-route</span>
+    <a href="https://www.audiolibrary.com.co/next-route/cherry" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/009 filo-starquez - solitude.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Solitude • Filo Starquez</span>
+    <a href="https://www.audiolibrary.com.co/filo-starquez/solitude" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/010 kevin-macleod - hustle.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hustle • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Blues_Sampler/Hustle/" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/011 kv - division.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Division • KV</span>
+    <a href="https://www.audiolibrary.com.co/kv/division" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/012 onycs - keep-going.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Keep Going • Onycs</span>
+    <a href="https://www.audiolibrary.com.co/onycs/keep-going" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/013 johnathon-m-horner - inhale.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Inhale • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/inhale/" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/014 roa - shiny-day.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Shiny Day • Roa</span>
+    <a href="https://www.audiolibrary.com.co/roa-music/shiny-day" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/015 kv - stream.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Stream • KV</span>
+    <a href="https://www.audiolibrary.com.co/kv/stream" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/016 chillity - endless.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Endless • chillity</span>
+    <a href="https://www.audiolibrary.com.co/chillity/endless" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/017 qlowdy - comfy-days.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Comfy Days • Qlowdy</span>
+    <a href="https://www.audiolibrary.com.co/qlowdy/comfy-days" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/018 roa - all-night.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">All Night • Roa</span>
+    <a href="https://www.audiolibrary.com.co/roa-music/all-night" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/019 tomh-claptu - s-r-nade.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sérénade • claptu</span>
+    <a href="https://www.audiolibrary.com.co/tomh-and-claptu/serenade-ft-dimitri-prokofiev" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/020 alex-productions - eglair.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Eglair • Alex- Productions</span>
+    <a href="https://www.audiolibrary.com.co/alex-productions/eglair" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/021 roa - orange.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Orange • Roa</span>
+    <a href="https://www.audiolibrary.com.co/roa-music/orange" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/022 qlowdy - midnight.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Midnight • Qlowdy</span>
+    <a href="https://www.audiolibrary.com.co/qlowdy/midnight" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/023 kv - urban.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Urban • KV</span>
+    <a href="https://www.audiolibrary.com.co/kv/urban" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/024 johnathon-m-horner - nightlight.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Nightlight • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/nightlight/" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/025 scandinavianz - honolulu.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Honolulu • Scandinavianz</span>
+    <a href="https://www.audiolibrary.com.co/scandinavianz/honolulu" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/026 alex-productions - virus.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Virus • Alex- Productions</span>
+    <a href="https://www.audiolibrary.com.co/alex-productions/virus" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/027 sakura-girl - unboxing.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Unboxing • Sakura Girl</span>
+    <a href="https://www.audiolibrary.com.co/sakura-girl/unboxing" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/028 pold - games.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Games • Pold</span>
+    <a href="https://www.audiolibrary.com.co/pold/games" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/029 qlowdy - feelings.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Feelings • Qlowdy</span>
+    <a href="https://www.audiolibrary.com.co/qlowdy/feelings" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/030 alex-productions - heroic.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Heroic • Alex- Productions</span>
+    <a href="https://www.audiolibrary.com.co/alex-productions/heroic" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/031 johnathon-m-horner - flashy.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Flashy • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/flashy/" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/032 ashutosh - divinity.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Divinity • ASHUTOSH</span>
+    <a href="https://www.audiolibrary.com.co/ashutosh/divinity" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/033 scott-buckley - origami.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Origami • Scott Buckley</span>
+    <a href="https://www.audiolibrary.com.co/scott-buckley/origami" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/chill-out-werbefrei/034 galaxytones - amoris.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Amoris • GalaxyTones</span>
+    <a href="https://www.audiolibrary.com.co/galaxytones/amoris" class="original-link" target="_blank">🗗</a>
+</li>
+      </ol>
+    </div>
+
+    <footer>
+      <p><a href="chill-out-werbefrei.html">Zurück zur Playlist</a></p>
+      <p><a href="index.html">Andere Playlists</a></p>
+      <p>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"><img src="https://licensebuttons.net/l/zero/1.0/88x31.png"></a>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/licenses/by/4.0"><img src="https://licensebuttons.net/l/by/4.0/88x31.png"></a>
+        – Lizenzen und Details zu den Stücken können auf der Ursprungsseite (🗗) nachgeschlagen werden. Ist kein Ursprung angegeben, ist das Stück Public Domain (CC0).</p>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+
+const filesToDownload = [
+  {
+    "url": "audio/chill-out-werbefrei/001 roa - alone-in-the-rain.mp3",
+    "outputName": "001 alone-in-the-rain-roa.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/002 kv - awake.mp3",
+    "outputName": "002 awake-kv.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/003 sakura-girl - happier.mp3",
+    "outputName": "003 happier-sakura-girl.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/004 begench-begenjov - memories.mp3",
+    "outputName": "004 memories-begench-begenjov.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/005 atch - by-the-river.mp3",
+    "outputName": "005 by-the-river-atch.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/006 ferco - watershed-moment.mp3",
+    "outputName": "006 watershed-moment-ferco.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/007 alex-productions - cybernetic-dreams.mp3",
+    "outputName": "007 cybernetic-dreams-alex-productions.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/008 next-route - cherry.mp3",
+    "outputName": "008 cherry-next-route.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/009 filo-starquez - solitude.mp3",
+    "outputName": "009 solitude-filo-starquez.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/010 kevin-macleod - hustle.mp3",
+    "outputName": "010 hustle-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/011 kv - division.mp3",
+    "outputName": "011 division-kv.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/012 onycs - keep-going.mp3",
+    "outputName": "012 keep-going-onycs.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/013 johnathon-m-horner - inhale.mp3",
+    "outputName": "013 inhale-horner.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/014 roa - shiny-day.mp3",
+    "outputName": "014 shiny-day-roa.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/015 kv - stream.mp3",
+    "outputName": "015 stream-kv.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/016 chillity - endless.mp3",
+    "outputName": "016 endless-chillity.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/017 qlowdy - comfy-days.mp3",
+    "outputName": "017 comfy-days-qlowdy.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/018 roa - all-night.mp3",
+    "outputName": "018 all-night-roa.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/019 tomh-claptu - s-r-nade.mp3",
+    "outputName": "019 s-r-nade-claptu.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/020 alex-productions - eglair.mp3",
+    "outputName": "020 eglair-alex-productions.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/021 roa - orange.mp3",
+    "outputName": "021 orange-roa.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/022 qlowdy - midnight.mp3",
+    "outputName": "022 midnight-qlowdy.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/023 kv - urban.mp3",
+    "outputName": "023 urban-kv.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/024 johnathon-m-horner - nightlight.mp3",
+    "outputName": "024 nightlight-horner.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/025 scandinavianz - honolulu.mp3",
+    "outputName": "025 honolulu-scandinavianz.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/026 alex-productions - virus.mp3",
+    "outputName": "026 virus-alex-productions.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/027 sakura-girl - unboxing.mp3",
+    "outputName": "027 unboxing-sakura-girl.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/028 pold - games.mp3",
+    "outputName": "028 games-pold.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/029 qlowdy - feelings.mp3",
+    "outputName": "029 feelings-qlowdy.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/030 alex-productions - heroic.mp3",
+    "outputName": "030 heroic-alex-productions.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/031 johnathon-m-horner - flashy.mp3",
+    "outputName": "031 flashy-horner.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/032 ashutosh - divinity.mp3",
+    "outputName": "032 divinity-ashutosh.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/033 scott-buckley - origami.mp3",
+    "outputName": "033 origami-scott-buckley.mp3"
+  },
+  {
+    "url": "audio/chill-out-werbefrei/034 galaxytones - amoris.mp3",
+    "outputName": "034 amoris-galaxytones.mp3"
+  }
+];
+
+document.getElementById("download").onclick = async () => {
+  const btn = document.getElementById("download");
+  const progressContainer = document.getElementById("progress-container");
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+
+  // Disable button and show progress
+  btn.disabled = true;
+  progressContainer.style.display = "block";
+
+  try {
+    const zip = new JSZip();
+    const total = filesToDownload.length;
+
+    for (let i = 0; i < total; i++) {
+      const file = filesToDownload[i];
+
+      // Update progress
+      const percent = Math.round(((i + 1) / total) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+      progressText.textContent = `Downloading ${i + 1} of ${total}: ${file.outputName}`;
+
+      const response = await fetch(file.url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch no. ${i}: ${file.url}`);
+      }
+      const content = await response.blob();
+      zip.file(file.outputName, content);
+    }
+
+    // Show zipping progress
+    progressText.textContent = "Creating ZIP file...";
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "chill-out-werbefrei.zip");
+
+    // Success message
+    progressText.textContent = "Download complete!";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      btn.disabled = false;
+    }, 2000);
+
+  } catch (error) {
+    progressText.textContent = "Error: " + error.message;
+    progressText.style.color = "red";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      progressText.style.color = "#666";
+      btn.disabled = false;
+    }, 3000);
+  }
+};
+
+</script>
+</body>
+</html>
