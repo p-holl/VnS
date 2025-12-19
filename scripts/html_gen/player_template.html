@@ -46,13 +46,34 @@
   .track:hover{background:rgba(255,255,255,0.02)}
   .track .idx{width:28px;text-align:center;color:var(--muted);font-size:13px}
   .track .title{font-size:14px}
-  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,196,255,0.06));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
+  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.6), rgba(0,196,255,0.4));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
   footer{margin-top:10px;color:var(--muted);font-size:13px}
   @media (max-width:640px){
     .player-row{flex-direction:column;align-items:stretch}
     .video-wrap{height:64px;flex-basis:auto}
     .controls{order:2}
   }
+  footer a {
+    background: linear-gradient(90deg,#7c4dff70,#00c4ff70);
+    border: none;
+    color: #EEEEEE;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+    text-decoration: none;
+  }
+  footer a:hover,
+  footer a:focus {
+    color: #ffcc00;          /* highlight on hover/focus */
+    text-decoration: underline;
+  }
+
 </style>
 </head>
 <body>
