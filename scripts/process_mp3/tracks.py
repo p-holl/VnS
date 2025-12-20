@@ -78,6 +78,12 @@ class Track:
         time_str = parse_qs(self.parsed_url.query).get("t", [None])[0]
         return float(time_str) if time_str else None
 
+    @property
+    def end_time(self):
+        assert self.is_hosted_externally
+        time_str = parse_qs(self.parsed_url.query).get("e", [None])[0]
+        return float(time_str) if time_str else None
+
 
 def search_track(display_name: str, url: str, number: int, tracks: list[Track]):
     matches = [t for t in tracks if t.display_name == display_name]

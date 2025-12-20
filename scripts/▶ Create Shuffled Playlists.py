@@ -64,14 +64,12 @@ def create_shuffled_playlist(src_dir: Path, amend=True):
         track.number = i
         track.playlist_name = playlist_name
         if not track.is_hosted_externally:
-            if 'Erik' in track.title:
-                print()
             dst = output_dir / track.get_output_filename(i)
             hosted_src.append(track)
             hosted_dst.append(dst)
             track_data.append({"name": track.display_name, "url": dst.name, "start": 0., "end": None, "source": track.url})
         else:  # YouTube
-            track_data.append({"name": track.display_name, "url": track.clean_url, "start": track.start_time, "end": None})
+            track_data.append({"name": track.display_name, "url": track.clean_url, "start": track.start_time, "end": track.end_time})
     playlist_data['tracks'] = track_data
     playlist_file.parent.mkdir(exist_ok=True, parents=True)
     with playlist_file.open('w', encoding='utf-8') as f:
