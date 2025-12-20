@@ -1,0 +1,156 @@
+{
+  "majorVersion": 0,
+  "minorVersion": 1,
+  "tracks": [
+    {
+      "name": "The Son of Flynn \u2022 TRON: Legacy \u2022 Daft Punk",
+      "url": "https://youtu.be/mqgEYRtWMJU",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Tavern Loop Three \u2022 Across the Obelisk \u2022 Alexander Nakarada",
+      "url": "https://youtu.be/rkNx-qYKk4k",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Many Meetings \u2022 The Fellowship of the Ring \u2022 Howard Shore",
+      "url": "https://youtu.be/k3PqqcmWYas",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Sand Castle \u2022 Lego Builder's Journey \u2022 Henrik Lindstrand",
+      "url": "https://www.youtube.com/watch?v=h74tk_AV_3w",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Main Theme \u2022 Pirates of the Caribbean \u2022 Hans Zimmer",
+      "url": "https://youtu.be/rdB13lFexNk",
+      "start": 3.0,
+      "end": null
+    },
+    {
+      "name": "Forgetful Forest \u2022 The Vanishing of Ethan Carter \u2022 Mikolai Stroinski",
+      "url": "https://youtu.be/KmM2HTQxH70",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Prologue \u2022 Harry Potter \u2022 John Williams",
+      "url": "https://youtu.be/UuPb1J_RCJM",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Intro \u2022 Die Sendung mit der Maus \u2022 Hans Posegga, WDR",
+      "url": "https://youtu.be/iHLJJ3vAxD4",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Bad Down to the Molten Core \u2022 Hearthstone \u2022 Peter McConnell",
+      "url": "https://youtu.be/GJIgQMCwndA",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Mine Cart Chase \u2022 Hearthstone \u2022 Peter McConnell",
+      "url": "https://youtu.be/bcdRDPdJbKk",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "9999999 \u2022 Portal 2 \u2022 Mike Morasky",
+      "url": "https://youtu.be/wgVTmt6t3hg",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Prelude \u2022 Planet Earth \u2022 George Fenton",
+      "url": "https://youtu.be/J_OPws3mlyo",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Quirky Bones \u2022 Divinity: Original Sin 2 \u2022 Borislav Slavov",
+      "url": "https://youtu.be/gc7WWEygtbs",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Lonely Planet \u2022 The Vanishing of Ethan Carter \u2022 Cz\u0142owiek Drzewo",
+      "url": "https://www.youtube.com/watch?v=JQDKT32djwg",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Main Theme \u2022 1492: Conquest of Paradise \u2022 Vangelis",
+      "url": "https://youtu.be/7ufkMTshjz8?si=8y-N5iKQv8dY_J_R",
+      "start": 19.0,
+      "end": null
+    },
+    {
+      "name": "One Crew Over the Crewcoo's Morty \u2022 Rick and Morty \u2022 Ryan Elder",
+      "url": "https://youtu.be/PB8S3zbMnds",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Bard Dance \u2022 Baldur's Gate 3 \u2022 Borislav Slavov",
+      "url": "https://www.youtube.com/watch?v=wk7xOKXw5wA",
+      "start": 22.0,
+      "end": null
+    },
+    {
+      "name": "Zoltraak \u2022 Beyond Journey's End \u2022 Evan Call",
+      "url": "https://youtu.be/M7gm_r8hXoU",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "The Spirit Tree \u2022 Ori and the Blind Forest \u2022 Gareth Coker, Aeralie Brighton",
+      "url": "https://youtu.be/eAJZV61uf64",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Winter's Waltz \u2022 Frozen \u2022 Kristen Anderson-Lopez, Robert Lopez",
+      "url": "https://youtu.be/3SQouPtphY8",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "The Waters Cleansed \u2022 Ori and the Blind Forest \u2022 Gareth Coker, Tom Boyd",
+      "url": "https://youtu.be/ntLyJa7fnz0",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Ballroom Slink (One Night in Karazhan) \u2022 Hearthstone \u2022 Peter McConnell",
+      "url": "https://youtu.be/TqakNDLnypM",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Titles \u2022 Chariots Of Fire \u2022 Vangelis",
+      "url": "https://youtu.be/8a-HfNE3EIo",
+      "start": 40.0,
+      "end": null
+    },
+    {
+      "name": "The Real Folk Blues \u2022 Cowboy Bebop \u2022 Mai Yamane",
+      "url": "https://youtu.be/CjUVTEExfBg",
+      "start": 5.0,
+      "end": null
+    },
+    {
+      "name": "Up the Spirit Caverns Walls \u2022 Ori and the Blind Forest \u2022 Gareth Coker",
+      "url": "https://youtu.be/RJxCxyYCMnw",
+      "start": null,
+      "end": null
+    }
+  ]
+}
