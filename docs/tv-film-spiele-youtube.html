@@ -40,6 +40,14 @@
     color: #071227;
     font-weight: 600;
   }
+  button.jump{
+    background: linear-gradient(90deg,#3d0069,#2d93e0,#ffffff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+    width: 70px;
+    margin-left: 40px;
+  }
   .track-list{margin-top:14px;display:flex;gap:12px}
   .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
   .track{padding:10px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
@@ -95,6 +103,7 @@
             <button id="prevBtn">⏮</button>
             <button id="playBtn" class="primary">▶</button>
             <button id="nextBtn">⏭</button>
+            <button id="travelBtn" class="jump">🚀 ⏭</button>
             <div style="margin-left:auto;color:var(--muted);font-size:13px" id="timeLabel">—</div>
           </div>
           <div class="track-list">
@@ -113,7 +122,7 @@
 <script>
 const PLAYLIST = {
   "majorVersion": 0,
-  "minorVersion": 3,
+  "minorVersion": 5,
   "tracks": [
     {
       "name": "The Son of Flynn \u2022 TRON: Legacy \u2022 Daft Punk",
@@ -878,6 +887,42 @@ document.getElementById('prevBtn').onclick = () => {
 document.getElementById('nextBtn').onclick = () => {
   playTrack((currentIndex + 1) % tracks.length, true);
 };
+
+document.getElementById('travelBtn').onclick = () => {
+  // Pause current track
+  const track = tracks[currentIndex];
+  if (track.source === 'youtube' && ytPlayer){
+    ytPlayer.pauseVideo();
+  } else if (track.source === 'audio' && audioPlayer){
+    audioPlayer.pause();
+  }
+
+  // Create background audio instance
+  const bgAudio = new Audio('audio/SFX_Jump.mp3');
+  bgAudio.volume = 1.0;
+  bgAudio.loop = false;
+
+  // Remove reference once audio ends
+  bgAudio.addEventListener('ended', () => {
+    bgAudio.src = '';
+  });
+
+  // Start playback
+  bgAudio.play()
+    .then(() => {
+      setTimeout(() => {  // Schedule main track to start 10 seconds later
+        playTrack((currentIndex + 1) % tracks.length, true);
+      }, 16000);
+    })
+    .catch(err => {
+      console.error('Background audio failed to play:', err);
+      // Fallback to main track
+      playTrack((currentIndex + 1) % tracks.length, true);
+    });
+
+};
+
+
 
 document.getElementById('playBtn').onclick = togglePlayPause;
 
