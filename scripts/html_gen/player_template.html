@@ -46,7 +46,7 @@
     color: #071227;
     font-weight: 600;
     width: 70px;
-    margin-left: 40px;
+    margin-left: 20px;
   }
   .track-list{margin-top:14px;display:flex;gap:12px}
   .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
@@ -82,6 +82,112 @@
     text-decoration: underline;
   }
 
+  .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 500px;
+  }
+
+  .number-button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      height: 46px;
+      width: 46px
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+  }
+
+  .number-button:hover {
+      border-color: rgba(255,255,255,0.12);
+  }
+
+  .number-button.selected {
+      background: linear-gradient(90deg, var(--accent), #00c4ff);
+      border: none;
+      color: #071227;
+      font-weight: 600;
+  }
+
+  .checkmark-number-button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      height: 46px;
+      width: 46px
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex: 1;
+      transition: all 0.2s ease;
+  }
+
+  .checkmark-number-button.selected {
+      background: linear-gradient(90deg, var(--accent), #00c4ff);
+      border: none;
+      color: #071227;
+      font-weight: 600;
+  }
+
+  .cross-number-button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      height: 46px;
+      width: 46px
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex: 1;
+      transition: all 0.2s ease;
+  }
+
+  .cross-number-button.selected {
+      background: linear-gradient(90deg, var(--accent), #00c4ff);
+      border: none;
+      color: #071227;
+      font-weight: 600;
+  }
+
+  .number-input {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      text-align: center;
+      font-weight: 500;
+      transition: all 0.2s ease;
+  }
+
+  .number-input:hover {
+      border-color: rgba(255,255,255,0.5);
+  }
+
+  .number-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 128, 255, 0.1);
+  }
+
 </style>
 </head>
 <body>
@@ -93,17 +199,62 @@
       </div>
     </header>
 
+
+    <div>
+      Spielerzahl:
+      <input type="text" id="num-players" class="number-input" maxlength="2" pattern="[0-9]" inputmode="numeric">
+      <br><br>
+    </div>
+
     <div class="card">
       <div class="player-row">
-        <div class="video-wrap" id="video-wrap">
-          <div id="player-container"></div>
+        <div>
+
+          <div class="video-wrap" id="video-wrap">
+            <div id="player-container"></div>
+          </div>
+
+
+          Punkte:
+          <div class="button-row">
+            <button class="number-button" data-number="0">0</button>
+            <button class="number-button" data-number="1">1</button>
+            <button class="number-button" data-number="2">2</button>
+            <button class="number-button" data-number="3">3</button>
+            <button class="number-button" data-number="4">4</button>
+            <button class="number-button" data-number="5">5</button>
+            <button class="number-button" data-number="6">6</button>
+            <button class="number-button" data-number="7">7</button>
+            <button class="number-button" data-number="8">8</button>
+          </div>
+
+          Auf dem Ziel:
+          <div class="button-row">
+            <button class="checkmark-number-button" data-number="1">0 ✅</button>
+            <button class="checkmark-number-button" data-number="1">1 ✅</button>
+            <button class="checkmark-number-button" data-number="2">2 ✅</button>
+            <button class="checkmark-number-button" data-number="3">3 ✅</button>
+          </div>
+
+          <div class="button-row">
+            <button class="cross-number-button" data-number="1">0 ❌</button>
+            <button class="cross-number-button" data-number="1">1 ❌</button>
+            <button class="cross-number-button" data-number="2">2 ❌</button>
+            <button class="cross-number-button" data-number="3">3 ❌</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            Kartennummer:
+            <input type="text" id="card-id" class="number-input" maxlength="3" pattern="[0-9]" inputmode="numeric">
+            <button id="travelBtn" class="jump">🚀 ⏭</button>
+          </div>
+
         </div>
         <div class="controls">
           <div class="big-controls">
             <button id="prevBtn">⏮</button>
             <button id="playBtn" class="primary">▶</button>
             <button id="nextBtn">⏭</button>
-            <button id="travelBtn" class="jump">🚀 ⏭</button>
             <div style="margin-left:auto;color:var(--muted);font-size:13px" id="timeLabel">—</div>
           </div>
           <div class="track-list">
@@ -120,6 +271,33 @@
   </div>
 
 <script>
+
+  const buttons = document.querySelectorAll('.number-button');
+  buttons.forEach(button => {
+      button.addEventListener('click', () => {
+          buttons.forEach(btn => btn.classList.remove('selected'));
+          button.classList.add('selected');
+      });
+  });
+
+  const checkmarkButtons = document.querySelectorAll('.checkmark-number-button');
+  checkmarkButtons.forEach(button => {
+      button.addEventListener('click', () => {
+          checkmarkButtons.forEach(btn => btn.classList.remove('selected'));
+          button.classList.add('selected');
+      });
+  });
+
+  const crossButtons = document.querySelectorAll('.cross-number-button');
+  crossButtons.forEach(button => {
+      button.addEventListener('click', () => {
+          crossButtons.forEach(btn => btn.classList.remove('selected'));
+          button.classList.add('selected');
+      });
+  });
+
+
+
 const PLAYLIST = {playlist_data};
 
 // ============================================================================
