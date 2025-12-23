@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Vibe & Seek – Mix (werbefrei)</title>
+<title>Viberant – Mix (werbefrei)</title>
 <style>
   :root{
     --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
@@ -39,6 +39,14 @@
     border: none;
     color: #071227;
     font-weight: 600;
+  }
+  button.jump{
+    background: linear-gradient(90deg,#3d0069,#2d93e0,#ffffff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+    width: 70px;
+    margin-left: 40px;
   }
   .track-list{margin-top:14px;display:flex;gap:12px}
   .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
@@ -80,7 +88,7 @@
   <div class="container">
     <header>
       <div>
-        <h1>Vibe & Seek</h1>
+        <h1>Viberant</h1>
         <div class="subtitle">Mix (werbefrei)</div>
       </div>
     </header>
@@ -95,6 +103,7 @@
             <button id="prevBtn">⏮</button>
             <button id="playBtn" class="primary">▶</button>
             <button id="nextBtn">⏭</button>
+            <button id="travelBtn" class="jump">🚀 ⏭</button>
             <div style="margin-left:auto;color:var(--muted);font-size:13px" id="timeLabel">—</div>
           </div>
           <div class="track-list">
@@ -112,719 +121,558 @@
 
 <script>
 const PLAYLIST = {
-  "majorVersion": 0,
-  "minorVersion": 7,
+  "majorVersion": 2,
+  "minorVersion": 8,
   "tracks": [
     {
-      "name": "Bailando Contigo \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/001 vibe-seek-originals - bailando-contigo.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
       "name": "Nightlight \u2022 Nightlight \u2022 Johnathon M. Horner",
-      "url": "audio/mix-werbefrei/002 johnathon-m-horner - nightlight.mp3",
+      "url": "audio/mix-werbefrei/001 johnathon-m-horner - nightlight.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://freemusicarchive.org/music/beat-mekanik/single/nightlight/"
     },
     {
-      "name": "Antigravity \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/003 vibe-seek-originals - antigravity.mp3",
+      "name": "Tayata Om Bekanze Chant \u2022 John Lopker 2025 \u2022 John Lopker",
+      "url": "audio/mix-werbefrei/002 john-lopker - tayata-om-bekanze-chant.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Moonlit Reverie \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/004 vibe-seek-originals - moonlit-reverie.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Christmas In My Heart \u2022 Alex- Productions ( No Copyright Music )",
-      "url": "audio/mix-werbefrei/005 alex-productions-no-copyright-music - christmas-in-my-heart.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.audiolibrary.com.co/alex-productions/christmas-in-my-heart"
-    },
-    {
-      "name": "Whispers of the Koto \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/006 vibe-seek-originals - whispers-of-the-koto.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Cambodean Odessy \u2022 Global Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/007 kevin-macleod - cambodean-odessy.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Cambodian_Odyssey/"
-    },
-    {
-      "name": "Eclipse Over Eden \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/008 vibe-seek-originals - eclipse-over-eden.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "The Rule \u2022 Classical Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/009 kevin-macleod - the-rule.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/The_Rule/"
-    },
-    {
-      "name": "Beyond All Horizons \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/010 vibe-seek-originals - beyond-all-horizons.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "S\u00e9r\u00e9nade \u2022 Tomh. & claptu",
-      "url": "audio/mix-werbefrei/011 tomh-claptu - s-r-nade.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.audiolibrary.com.co/tomh-and-claptu/serenade-ft-dimitri-prokofiev"
-    },
-    {
-      "name": "Celestial Ascent \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/012 vibe-seek-originals - celestial-ascent.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Far Far Away \u2022 Far Far Away \u2022 Johnathon M. Horner",
-      "url": "audio/mix-werbefrei/013 johnathon-m-horner - far-far-away.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/far-far-away/"
-    },
-    {
-      "name": "Temptation March \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/014 audionautix - temptation-march.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Off to Osaka \u2022 Jazz Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/015 kevin-macleod - off-to-osaka.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Jazz_Sampler/Off_to_Osaka/"
-    },
-    {
-      "name": "Walk In The Park Full \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/016 audionautix - walk-in-the-park-full.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Sails to the Horizon \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/017 vibe-seek-originals - sails-to-the-horizon.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Entertainer \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/018 vibe-seek-originals - entertainer.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Beach Party \u2022 Global Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/019 kevin-macleod - beach-party.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Beach_Party/"
-    },
-    {
-      "name": "Radiant Sanctuary \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/020 vibe-seek-originals - radiant-sanctuary.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Cattails \u2022 Contemporary Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/021 kevin-macleod - cattails.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Contemporary_Sampler/Cattails/"
+      "source": "https://freemusicarchive.org/music/john-lopker/meditation-chants/tayata-om-bekanze-chant/"
     },
     {
       "name": "Cybernetic Dreams \u2022 Alex- Productions ( No Copyright Music )",
-      "url": "audio/mix-werbefrei/022 alex-productions-no-copyright-music - cybernetic-dreams.mp3",
+      "url": "audio/mix-werbefrei/003 alex-productions-no-copyright-music - cybernetic-dreams.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.audiolibrary.com.co/alex-productions/cybernetic-dreams"
     },
     {
-      "name": "Tuesday Night \u2022 Atmospheric \u2022 Amarent",
-      "url": "audio/mix-werbefrei/023 amarent - tuesday-night-original.mp3",
+      "name": "P. I. Tchaikovsky: Dance of the Sugar Plum Fairy \u2022 Classical Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/004 kevin-macleod - p-i-tchaikovsky-dance-of-the-sugar-plum-fairy.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/amarent/free-atmospheric-music/tuesday-night/"
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/"
     },
     {
-      "name": "Horizons of Destiny \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/024 vibe-seek-originals - horizons-of-destiny.mp3",
+      "name": "Dream Burst \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/005 v-s - dream-burst.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Diversity \u2022 A. Cooper",
-      "url": "audio/mix-werbefrei/025 a-cooper - diversity.mp3",
+      "name": "Alla Turca \u2022 Markus Staab",
+      "url": "audio/mix-werbefrei/006 markus-staab - alla-turca.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/a-cooper/the-anthony-cooper-abm-vii/diversity-1/"
-    },
-    {
-      "name": "Ouverture-Suite \u2022 Pro Musica Bohemica",
-      "url": "audio/mix-werbefrei/026 pro-musica-bohemica - ouverture-suite.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://musopen.org/music/45514"
-    },
-    {
-      "name": "Clear Skies \u2022 Snoozybeats",
-      "url": "audio/mix-werbefrei/027 snoozybeats - clear-skies.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.audiolibrary.com.co/snoozybeats/clear-skies"
-    },
-    {
-      "name": "J. S. Bach: Toccata and Fugue in D Minor \u2022 Classical Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/028 kevin-macleod - j-s-bach-toccata-and-fugue-in-d-minor.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Toccata_and_Fugue_in_D_Minor/"
-    },
-    {
-      "name": "Accord\u00e9ons et Promesses \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/029 vibe-seek-originals - accord-ons-et-promesses.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "The Lowlands \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/030 vibe-seek-originals - the-lowlands.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Rivers of Raga \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/031 vibe-seek-originals - rivers-of-raga.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Moonlight Sonata \u2022 Paul Pitman",
-      "url": "audio/mix-werbefrei/032 paul-pitman - moonlight-sonata.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://musopen.org/music/2547"
-    },
-    {
-      "name": "Nightlight Groove \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/033 vibe-seek-originals - nightlight-groove.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Wandering Horizons \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/034 vibe-seek-originals - wandering-horizons.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Parisian \u2022 Global Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/035 kevin-macleod - parisian.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Parisian/"
+      "source": "https://musopen.org/music/44015-rondo-alla-turca-from-sonata-kv-331/"
     },
     {
       "name": "Flashy \u2022 Flashy \u2022 Johnathon M. Horner",
-      "url": "audio/mix-werbefrei/036 johnathon-m-horner - flashy.mp3",
+      "url": "audio/mix-werbefrei/007 johnathon-m-horner - flashy.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://freemusicarchive.org/music/beat-mekanik/single/flashy/"
     },
     {
-      "name": "Echoes of the Village \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/037 vibe-seek-originals - echoes-of-the-village.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Stanley Sharke \u2022 Twin Musicom",
-      "url": "audio/mix-werbefrei/038 twin-musicom - stanley-sharke.mp3",
+      "name": "Marty Gots a Plan \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/008 kevin-macleod - marty-gots-a-plan.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
     },
     {
-      "name": "Main Battle \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/039 vibe-seek-originals - main-battle.mp3",
+      "name": "Jade River Dreams \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/009 v-s - jade-river-dreams.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Walk In The Park Full \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/010 audionautix - walk-in-the-park-full.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Celestial Ascent \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/011 v-s - celestial-ascent.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
       "name": "The Visitors \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/040 audionautix - the-visitors.mp3",
+      "url": "audio/mix-werbefrei/012 audionautix - the-visitors.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
     },
     {
-      "name": "P. I. Tchaikovsky: Dance of the Sugar Plum Fairy \u2022 Classical Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/041 kevin-macleod - p-i-tchaikovsky-dance-of-the-sugar-plum-fairy.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/"
-    },
-    {
-      "name": "Forgotten Toys \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/042 vibe-seek-originals - forgotten-toys.mp3",
+      "name": "Constellations Within \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/013 v-s - constellations-within.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Tennessee Hayride \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/043 audionautix - tennessee-hayride.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Christmas \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/044 vibe-seek-originals - christmas.mp3",
+      "name": "Antigravity \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/014 v-s - antigravity.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Tempting Fate \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/045 audionautix - tempting-fate.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Mermaid \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/046 kevin-macleod - mermaid.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Merriment Under Lantern Light \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/047 vibe-seek-originals - merriment-under-lantern-light.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Pink Soul \u2022 Johnathon M. Horner",
-      "url": "audio/mix-werbefrei/048 johnathon-m-horner - pink-soul.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/pink-soul/"
     },
     {
       "name": "Travel Light \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/049 audionautix - travel-light.mp3",
+      "url": "audio/mix-werbefrei/015 audionautix - travel-light.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
     },
     {
-      "name": "Constellations Within \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/050 vibe-seek-originals - constellations-within.mp3",
+      "name": "Eclipse Over Eden \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/016 v-s - eclipse-over-eden.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Shining Star \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/051 vibe-seek-originals - shining-star.mp3",
+      "name": "Twilight in the Fairy Court \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/017 v-s - twilight-in-the-fairy-court.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "The Angels Weep \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/052 audionautix - the-angels-weep.mp3",
+      "name": "Merriment Under Lantern Light \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/018 v-s - merriment-under-lantern-light.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Stanley Sharke \u2022 Twin Musicom",
+      "url": "audio/mix-werbefrei/019 twin-musicom - stanley-sharke.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
     },
     {
       "name": "Spring - The Four Seasons \u2022 The Modena Chamber Orchestra",
-      "url": "audio/mix-werbefrei/053 the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
+      "url": "audio/mix-werbefrei/020 the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://musopen.org/music/14910-the-four-seasons-op-8/"
     },
     {
-      "name": "Inhale \u2022 Inhale \u2022 Johnathon M. Horner",
-      "url": "audio/mix-werbefrei/054 johnathon-m-horner - inhale.mp3",
+      "name": "The Rule \u2022 Classical Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/021 kevin-macleod - the-rule.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/inhale/"
-    },
-    {
-      "name": "Alla Turca \u2022 Markus Staab",
-      "url": "audio/mix-werbefrei/055 markus-staab - alla-turca.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://musopen.org/music/44015-rondo-alla-turca-from-sonata-kv-331/"
-    },
-    {
-      "name": "Whatdafunk \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/056 audionautix - whatdafunk.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Spy \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/057 vibe-seek-originals - spy.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Jade River Dreams \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/058 vibe-seek-originals - jade-river-dreams.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Sous le Soleil de Paris \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/059 vibe-seek-originals - sous-le-soleil-de-paris.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Brass section \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/060 vibe-seek-originals - brass-section.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Tayata Om Bekanze Chant \u2022 John Lopker 2025 \u2022 John Lopker",
-      "url": "audio/mix-werbefrei/061 john-lopker - tayata-om-bekanze-chant.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/john-lopker/meditation-chants/tayata-om-bekanze-chant/"
-    },
-    {
-      "name": "Christmas Is Coming \u2022 Alex- Productions ( No Copyright Music )",
-      "url": "audio/mix-werbefrei/062 alex-productions-no-copyright-music - christmas-is-coming.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.audiolibrary.com.co/alex-productions/christmas-is-coming"
-    },
-    {
-      "name": "Journey to Rivendell \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/063 vibe-seek-originals - journey-to-rivendell.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Harley Davidson \u2022 Harley Davidson \u2022 Johnathon M. Horner",
-      "url": "audio/mix-werbefrei/064 johnathon-m-horner - harley-davidson.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/harley-davidson/"
-    },
-    {
-      "name": "Marty Gots a Plan \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/065 kevin-macleod - marty-gots-a-plan.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Dream Burst \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/066 vibe-seek-originals - dream-burst.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Ouverture-Suite \u2022 Pro Musica Bohemica",
-      "url": "audio/mix-werbefrei/067 pro-musica-bohemica - ouverture-suite-excerpt.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://musopen.org/music/45514"
-    },
-    {
-      "name": "The Coal Mine \u2022 Twin Musicom",
-      "url": "audio/mix-werbefrei/068 twin-musicom - the-coal-mine.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Erik Satie: Gymnopedie No 1 \u2022 Classical Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/069 kevin-macleod - erik-satie-gymnopedie-no-1.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/"
-    },
-    {
-      "name": "Honolulu \u2022 Scandinavianz",
-      "url": "audio/mix-werbefrei/070 scandinavianz - honolulu.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.audiolibrary.com.co/scandinavianz/honolulu"
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/The_Rule/"
     },
     {
       "name": "Alone In The Rain \u2022 Roa",
-      "url": "audio/mix-werbefrei/071 roa - alone-in-the-rain.mp3",
+      "url": "audio/mix-werbefrei/022 roa - alone-in-the-rain.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.audiolibrary.com.co/roa-music/alone-in-the-rain"
     },
     {
-      "name": "Jade Waters Flow \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/072 vibe-seek-originals - jade-waters-flow.mp3",
+      "name": "Ouverture-Suite \u2022 Pro Musica Bohemica",
+      "url": "audio/mix-werbefrei/023 pro-musica-bohemica - ouverture-suite-excerpt.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Echoes of the Village \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/024 v-s - echoes-of-the-village.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Temptation March \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/025 audionautix - temptation-march.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Accord\u00e9ons et Promesses \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/026 v-s - accord-ons-et-promesses.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Tempting Fate \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/027 audionautix - tempting-fate.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "The Lowlands \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/028 v-s - the-lowlands.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Sails to the Horizon \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/029 v-s - sails-to-the-horizon.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Tuesday Night \u2022 Atmospheric \u2022 Amarent",
+      "url": "audio/mix-werbefrei/030 amarent - tuesday-night-original.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/amarent/free-atmospheric-music/tuesday-night/"
+    },
+    {
+      "name": "S\u00e9r\u00e9nade \u2022 Tomh. & claptu",
+      "url": "audio/mix-werbefrei/031 tomh-claptu - s-r-nade.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.audiolibrary.com.co/tomh-and-claptu/serenade-ft-dimitri-prokofiev"
+    },
+    {
+      "name": "Nightlight Groove \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/032 v-s - nightlight-groove.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Parisian \u2022 Global Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/033 kevin-macleod - parisian.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Parisian/"
+    },
+    {
+      "name": "Honolulu \u2022 Scandinavianz",
+      "url": "audio/mix-werbefrei/034 scandinavianz - honolulu.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.audiolibrary.com.co/scandinavianz/honolulu"
+    },
+    {
+      "name": "Cattails \u2022 Contemporary Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/035 kevin-macleod - cattails.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Contemporary_Sampler/Cattails/"
+    },
+    {
+      "name": "Bailando Contigo \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/036 v-s - bailando-contigo.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Sunset \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/037 v-s - sunset.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Main Battle \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/038 v-s - main-battle.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "The Angels Weep \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/039 audionautix - the-angels-weep.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Pink Soul \u2022 Johnathon M. Horner",
+      "url": "audio/mix-werbefrei/040 johnathon-m-horner - pink-soul.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/pink-soul/"
+    },
+    {
+      "name": "Sous le Soleil de Paris \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/041 v-s - sous-le-soleil-de-paris.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Tennessee Hayride \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/042 audionautix - tennessee-hayride.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "J. S. Bach: Toccata and Fugue in D Minor \u2022 Classical Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/043 kevin-macleod - j-s-bach-toccata-and-fugue-in-d-minor.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Toccata_and_Fugue_in_D_Minor/"
+    },
+    {
+      "name": "Moonlit Reverie \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/044 v-s - moonlit-reverie.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
       "name": "Manic Polka \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/073 kevin-macleod - manic-polka.mp3",
+      "url": "audio/mix-werbefrei/045 kevin-macleod - manic-polka.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
     },
     {
-      "name": "Sunrise On Mars \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/074 audionautix - sunrise-on-mars.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Lullaby for a Dreamer \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/075 vibe-seek-originals - lullaby-for-a-dreamer.mp3",
+      "name": "Brass section \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/046 v-s - brass-section.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Crown of the Radiant Land \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/076 vibe-seek-originals - crown-of-the-radiant-land.mp3",
+      "name": "Radiant Sanctuary \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/047 v-s - radiant-sanctuary.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Lorn \u2022 GalaxyTones",
-      "url": "audio/mix-werbefrei/077 galaxytones - lorn.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.audiolibrary.com.co/galaxytones/lorn"
-    },
-    {
-      "name": "Triumphant Return \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/078 audionautix - triumphant-return.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "I Am a Man Who Will Fight for Your Honor \u2022 Chris Zabriskie",
-      "url": "audio/mix-werbefrei/079 chris-zabriskie - i-am-a-man-who-will-fight-for-your-honor.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Whispers of Bamboo \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/080 vibe-seek-originals - whispers-of-bamboo.mp3",
+      "name": "Shining Star \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/048 v-s - shining-star.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Prelude No. 23 \u2022 Chris Zabriskie",
-      "url": "audio/mix-werbefrei/081 chris-zabriskie - prelude-no-23.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Wands and Whimsy \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/082 vibe-seek-originals - wands-and-whimsy.mp3",
+      "name": "Rivers of Raga \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/049 v-s - rivers-of-raga.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "The Children's Room \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/083 audionautix - the-children-s-room.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Lotus Mist \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/084 vibe-seek-originals - lotus-mist.mp3",
+      "name": "Wandering Horizons \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/050 v-s - wandering-horizons.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Lonely Lake \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/085 vibe-seek-originals - lonely-lake.mp3",
+      "name": "Christmas \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/051 v-s - christmas.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Under Baobab Skies \u2022 V&S Originals \u2022 V&S",
-      "url": "audio/mix-werbefrei/086 v-s - under-baobab-skies.mp3",
+      "name": "Christmas Is Coming \u2022 Alex- Productions ( No Copyright Music )",
+      "url": "audio/mix-werbefrei/052 alex-productions-no-copyright-music - christmas-is-coming.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.audiolibrary.com.co/alex-productions/christmas-is-coming"
+    },
+    {
+      "name": "Erik Satie: Gymnopedie No 1 \u2022 Classical Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/053 kevin-macleod - erik-satie-gymnopedie-no-1.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/"
+    },
+    {
+      "name": "Journey to Rivendell \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/054 v-s - journey-to-rivendell.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "Words \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/087 audionautix - words.mp3",
+      "name": "By The River \u2022 Atch",
+      "url": "audio/mix-werbefrei/055 atch - by-the-river.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
+      "source": "https://www.audiolibrary.com.co/atch-and-hotham/by-the-river"
     },
     {
-      "name": "Outside \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/088 vibe-seek-originals - outside.mp3",
+      "name": "Far Far Away \u2022 Far Far Away \u2022 Johnathon M. Horner",
+      "url": "audio/mix-werbefrei/056 johnathon-m-horner - far-far-away.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/far-far-away/"
     },
     {
-      "name": "The Voyage \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/089 audionautix - the-voyage.mp3",
+      "name": "Christmas In My Heart \u2022 Alex- Productions ( No Copyright Music )",
+      "url": "audio/mix-werbefrei/057 alex-productions-no-copyright-music - christmas-in-my-heart.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
+      "source": "https://www.audiolibrary.com.co/alex-productions/christmas-in-my-heart"
     },
     {
-      "name": "Unfoldment, Revealment, Evolution, Exposition, Integration \u2022 Chris Zabriskie",
-      "url": "audio/mix-werbefrei/090 chris-zabriskie - unfoldment-revealment-evolution-exposition-integration.mp3",
+      "name": "Inhale \u2022 Inhale \u2022 Johnathon M. Horner",
+      "url": "audio/mix-werbefrei/058 johnathon-m-horner - inhale.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Silent Film Light \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/091 kevin-macleod - silent-film-light.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Through the Vanishing Haze \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/092 vibe-seek-originals - through-the-vanishing-haze.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "J. S. Bach: Cello Suite #1 in G \u2022 Classical Sampler \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/093 kevin-macleod - j-s-bach-cello-suite-1-in-g-on-dulcimer-prelude.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Cello_Suite_1_in_G_-_Prelude/"
-    },
-    {
-      "name": "Whispering Leaves \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/094 vibe-seek-originals - whispering-leaves.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "Mind Scrape \u2022 Kevin MacLeod",
-      "url": "audio/mix-werbefrei/095 kevin-macleod - mind-scrape.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://www.youtube.com/audiolibrary"
-    },
-    {
-      "name": "Enchanted Canopy \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/096 vibe-seek-originals - enchanted-canopy.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
-    },
-    {
-      "name": "ROCKY TOP \u2022 Audionautix: Acoustic \u2022 Jason Shaw",
-      "url": "audio/mix-werbefrei/097 jason-shaw - rocky-top.mp3",
-      "start": 0.0,
-      "end": null,
-      "source": "https://freemusicarchive.org/music/Jason_Shaw/Audionautix_Acoustic/ROCKY_TOP_traditional__1-44/"
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/inhale/"
     },
     {
       "name": "Transcend \u2022 Mix (werbefrei) \u2022 Audionautix",
-      "url": "audio/mix-werbefrei/098 audionautix - transcend.mp3",
+      "url": "audio/mix-werbefrei/059 audionautix - transcend.mp3",
       "start": 0.0,
       "end": null,
       "source": null
     },
     {
-      "name": "Flower \u2022 Flowers \u2022 Cedric Galke, Fachhochschule Dortmund",
-      "url": "audio/mix-werbefrei/099 cedric-galke-fachhochschule-dortmund - flower.mp3",
+      "name": "Diversity \u2022 A. Cooper",
+      "url": "audio/mix-werbefrei/060 a-cooper - diversity.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/cedric-galke/single/flowers-1/"
+      "source": "https://freemusicarchive.org/music/a-cooper/the-anthony-cooper-abm-vii/diversity-1/"
     },
     {
-      "name": "Infinite Drift \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/100 vibe-seek-originals - infinite-drift.mp3",
+      "name": "The Dancing Shore \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/061 v-s - the-dancing-shore.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
     },
     {
-      "name": "What Does Anybody Know About Anything \u2022 Chris Zabriskie",
-      "url": "audio/mix-werbefrei/101 chris-zabriskie - what-does-anybody-know-about-anything.mp3",
+      "name": "The Coal Mine \u2022 Twin Musicom",
+      "url": "audio/mix-werbefrei/062 twin-musicom - the-coal-mine.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
     },
     {
-      "name": "Equations in Light \u2022 Vibe & Seek Originals",
-      "url": "audio/mix-werbefrei/102 vibe-seek-originals - equations-in-light.mp3",
+      "name": "Moonlight Sonata \u2022 Paul Pitman",
+      "url": "audio/mix-werbefrei/063 paul-pitman - moonlight-sonata.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/2547"
+    },
+    {
+      "name": "Beach Party \u2022 Global Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/064 kevin-macleod - beach-party.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Beach_Party/"
+    },
+    {
+      "name": "Horizons of Destiny \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/065 v-s - horizons-of-destiny.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Spy \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/066 v-s - spy.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Pro Musica Bohemica",
+      "url": "audio/mix-werbefrei/067 pro-musica-bohemica - ouverture-suite.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Mermaid \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/068 kevin-macleod - mermaid.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Entertainer \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/069 v-s - entertainer.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Cambodean Odessy \u2022 Global Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/070 kevin-macleod - cambodean-odessy.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Cambodian_Odyssey/"
+    },
+    {
+      "name": "Clear Skies \u2022 Snoozybeats",
+      "url": "audio/mix-werbefrei/071 snoozybeats - clear-skies.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.audiolibrary.com.co/snoozybeats/clear-skies"
+    },
+    {
+      "name": "Sunrise On Mars \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/072 audionautix - sunrise-on-mars.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Whispers of the Koto \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/073 v-s - whispers-of-the-koto.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Whatdafunk \u2022 Audionautix",
+      "url": "audio/mix-werbefrei/074 audionautix - whatdafunk.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Off to Osaka \u2022 Jazz Sampler \u2022 Kevin MacLeod",
+      "url": "audio/mix-werbefrei/075 kevin-macleod - off-to-osaka.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Jazz_Sampler/Off_to_Osaka/"
+    },
+    {
+      "name": "Harley Davidson \u2022 Harley Davidson \u2022 Johnathon M. Horner",
+      "url": "audio/mix-werbefrei/076 johnathon-m-horner - harley-davidson.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/harley-davidson/"
+    },
+    {
+      "name": "Forgotten Toys \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/077 v-s - forgotten-toys.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Beyond All Horizons \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/078 v-s - beyond-all-horizons.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
+    },
+    {
+      "name": "Jade Waters Flow \u2022 V&S Originals \u2022 V&S",
+      "url": "audio/mix-werbefrei/079 v-s - jade-waters-flow.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://github.com/holl-/VnS/blob/main/Original_Music.md"
@@ -1292,6 +1140,42 @@ document.getElementById('prevBtn').onclick = () => {
 document.getElementById('nextBtn').onclick = () => {
   playTrack((currentIndex + 1) % tracks.length, true);
 };
+
+document.getElementById('travelBtn').onclick = () => {
+  // Pause current track
+  const track = tracks[currentIndex];
+  if (track.source === 'youtube' && ytPlayer){
+    ytPlayer.pauseVideo();
+  } else if (track.source === 'audio' && audioPlayer){
+    audioPlayer.pause();
+  }
+
+  // Create background audio instance
+  const bgAudio = new Audio('audio/SFX_Jump.mp3');
+  bgAudio.volume = 1.0;
+  bgAudio.loop = false;
+
+  // Remove reference once audio ends
+  bgAudio.addEventListener('ended', () => {
+    bgAudio.src = '';
+  });
+
+  // Start playback
+  bgAudio.play()
+    .then(() => {
+      setTimeout(() => {  // Schedule main track to start 10 seconds later
+        playTrack((currentIndex + 1) % tracks.length, true);
+      }, 16000);
+    })
+    .catch(err => {
+      console.error('Background audio failed to play:', err);
+      // Fallback to main track
+      playTrack((currentIndex + 1) % tracks.length, true);
+    });
+
+};
+
+
 
 document.getElementById('playBtn').onclick = togglePlayPause;
 

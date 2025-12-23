@@ -61,13 +61,13 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Klangwelten — Dekoder</title>
+    <title>Viberant — Playlists</title>
     <style>
     body{font-family:system-ui,Segoe UI,Roboto;padding:24px;background:#071227;color:#e6eef7}
     a{color:#7c4dff}
     </style>
     </head><body>
-    <h1>Klangwelten — Dekoder</h1>
+    <h1>Viberant — Playlists</h1>
     <ul>
     """
     for title, file_html, fname in index_entries:

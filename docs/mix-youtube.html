@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Vibe & Seek – Mix (YouTube)</title>
+<title>Viberant – Mix (YouTube)</title>
 <style>
   :root{
     --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
@@ -39,6 +39,14 @@
     border: none;
     color: #071227;
     font-weight: 600;
+  }
+  button.jump{
+    background: linear-gradient(90deg,#3d0069,#2d93e0,#ffffff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+    width: 70px;
+    margin-left: 40px;
   }
   .track-list{margin-top:14px;display:flex;gap:12px}
   .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
@@ -80,7 +88,7 @@
   <div class="container">
     <header>
       <div>
-        <h1>Vibe & Seek</h1>
+        <h1>Viberant</h1>
         <div class="subtitle">Mix (YouTube)</div>
       </div>
     </header>
@@ -95,6 +103,7 @@
             <button id="prevBtn">⏮</button>
             <button id="playBtn" class="primary">▶</button>
             <button id="nextBtn">⏭</button>
+            <button id="travelBtn" class="jump">🚀 ⏭</button>
             <div style="margin-left:auto;color:var(--muted);font-size:13px" id="timeLabel">—</div>
           </div>
           <div class="track-list">
@@ -113,12 +122,12 @@
 <script>
 const PLAYLIST = {
   "majorVersion": 0,
-  "minorVersion": 7,
+  "minorVersion": 2,
   "tracks": [
     {
-      "name": "Main Theme \u2022 1492: Conquest of Paradise \u2022 Vangelis",
-      "url": "https://youtu.be/7ufkMTshjz8?si=8y-N5iKQv8dY_J_R",
-      "start": 19.0,
+      "name": "Bard Dance \u2022 Baldur's Gate 3 \u2022 Borislav Slavov",
+      "url": "https://www.youtube.com/watch?v=wk7xOKXw5wA",
+      "start": 22.0,
       "end": null
     },
     {
@@ -128,9 +137,9 @@ const PLAYLIST = {
       "end": null
     },
     {
-      "name": "Bard Dance \u2022 Baldur's Gate 3 \u2022 Borislav Slavov",
-      "url": "https://www.youtube.com/watch?v=wk7xOKXw5wA",
-      "start": 22.0,
+      "name": "Main Theme \u2022 1492: Conquest of Paradise \u2022 Vangelis",
+      "url": "https://youtu.be/7ufkMTshjz8?si=8y-N5iKQv8dY_J_R",
+      "start": 19.0,
       "end": null
     }
   ]
@@ -596,6 +605,42 @@ document.getElementById('prevBtn').onclick = () => {
 document.getElementById('nextBtn').onclick = () => {
   playTrack((currentIndex + 1) % tracks.length, true);
 };
+
+document.getElementById('travelBtn').onclick = () => {
+  // Pause current track
+  const track = tracks[currentIndex];
+  if (track.source === 'youtube' && ytPlayer){
+    ytPlayer.pauseVideo();
+  } else if (track.source === 'audio' && audioPlayer){
+    audioPlayer.pause();
+  }
+
+  // Create background audio instance
+  const bgAudio = new Audio('audio/SFX_Jump.mp3');
+  bgAudio.volume = 1.0;
+  bgAudio.loop = false;
+
+  // Remove reference once audio ends
+  bgAudio.addEventListener('ended', () => {
+    bgAudio.src = '';
+  });
+
+  // Start playback
+  bgAudio.play()
+    .then(() => {
+      setTimeout(() => {  // Schedule main track to start 10 seconds later
+        playTrack((currentIndex + 1) % tracks.length, true);
+      }, 16000);
+    })
+    .catch(err => {
+      console.error('Background audio failed to play:', err);
+      // Fallback to main track
+      playTrack((currentIndex + 1) % tracks.length, true);
+    });
+
+};
+
+
 
 document.getElementById('playBtn').onclick = togglePlayPause;
 
