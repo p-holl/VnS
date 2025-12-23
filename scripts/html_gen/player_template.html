@@ -82,14 +82,75 @@
     text-decoration: underline;
   }
 
+
+  .banner-container{
+    position:relative;
+    display:block;
+    max-width:100%;
+    width:fit-content;
+  }
+  .banner-container img{
+    max-width:100%;
+    height:auto;
+    display:block;
+  }
+  .subtitle{
+    position:absolute;
+    bottom:16px;
+    left:16px;
+    background:rgba(0,0,0,0.7);
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    font-size:18px;
+    font-weight:600;
+    backdrop-filter:blur(8px);
+    display:flex;
+    gap: 10px;
+  }
+  .back-to-index{
+    position:absolute;
+    bottom:16px;
+    right:16px;
+    background:rgba(0,0,0,0.7);
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    font-size:18px;
+    font-weight:600;
+    backdrop-filter:blur(8px);
+    text-decoration: none;
+  }
+  .download-button{
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    display: inline-flex;
+  }
+  .download-icon {
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+
 </style>
 </head>
 <body>
-  <div class="container">
+  <div class="banner-container">
     <header>
-      <div>
-        <h1>Viberant</h1>
-        <div class="subtitle">{playlist_title}</div>
+      <div class="banner-container">
+        <img src="Banner.jpg" alt="Viberant">
+        <div class="subtitle">
+          {playlist_title}
+          {download_link}
+        </div>
+        <a href="index.html" class="back-to-index">Andere Playlists</a>
       </div>
     </header>
 
@@ -103,7 +164,7 @@
             <button id="prevBtn">⏮</button>
             <button id="playBtn" class="primary">▶</button>
             <button id="nextBtn">⏭</button>
-            <button id="travelBtn" class="jump">🚀 ⏭</button>
+<!--            <button id="travelBtn" class="jump">🚀 ⏭</button>-->
             <div style="margin-left:auto;color:var(--muted);font-size:13px" id="timeLabel">—</div>
           </div>
           <div class="track-list">
@@ -114,9 +175,8 @@
     </div>
 
     <footer>
-      <p><a href="index.html">Andere Playlists</a></p>
-      {download_link}
-      <p>Impressum: Philipp Holl – philipp@mholl.de</p></footer>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
   </div>
 
 <script>
@@ -583,39 +643,39 @@ document.getElementById('nextBtn').onclick = () => {
   playTrack((currentIndex + 1) % tracks.length, true);
 };
 
-document.getElementById('travelBtn').onclick = () => {
-  // Pause current track
-  const track = tracks[currentIndex];
-  if (track.source === 'youtube' && ytPlayer){
-    ytPlayer.pauseVideo();
-  } else if (track.source === 'audio' && audioPlayer){
-    audioPlayer.pause();
-  }
+<!--document.getElementById('travelBtn').onclick = () => {-->
+<!--  // Pause current track-->
+<!--  const track = tracks[currentIndex];-->
+<!--  if (track.source === 'youtube' && ytPlayer){-->
+<!--    ytPlayer.pauseVideo();-->
+<!--  } else if (track.source === 'audio' && audioPlayer){-->
+<!--    audioPlayer.pause();-->
+<!--  }-->
 
-  // Create background audio instance
-  const bgAudio = new Audio('audio/SFX_Jump.mp3');
-  bgAudio.volume = 1.0;
-  bgAudio.loop = false;
+<!--  // Create background audio instance-->
+<!--  const bgAudio = new Audio('audio/SFX_Jump.mp3');-->
+<!--  bgAudio.volume = 1.0;-->
+<!--  bgAudio.loop = false;-->
 
-  // Remove reference once audio ends
-  bgAudio.addEventListener('ended', () => {
-    bgAudio.src = '';
-  });
+<!--  // Remove reference once audio ends-->
+<!--  bgAudio.addEventListener('ended', () => {-->
+<!--    bgAudio.src = '';-->
+<!--  });-->
 
-  // Start playback
-  bgAudio.play()
-    .then(() => {
-      setTimeout(() => {  // Schedule main track to start 10 seconds later
-        playTrack((currentIndex + 1) % tracks.length, true);
-      }, 16000);
-    })
-    .catch(err => {
-      console.error('Background audio failed to play:', err);
-      // Fallback to main track
-      playTrack((currentIndex + 1) % tracks.length, true);
-    });
+<!--  // Start playback-->
+<!--  bgAudio.play()-->
+<!--    .then(() => {-->
+<!--      setTimeout(() => {  // Schedule main track to start 10 seconds later-->
+<!--        playTrack((currentIndex + 1) % tracks.length, true);-->
+<!--      }, 16000);-->
+<!--    })-->
+<!--    .catch(err => {-->
+<!--      console.error('Background audio failed to play:', err);-->
+<!--      // Fallback to main track-->
+<!--      playTrack((currentIndex + 1) % tracks.length, true);-->
+<!--    });-->
 
-};
+<!--};-->
 
 
 

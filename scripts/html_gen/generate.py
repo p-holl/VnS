@@ -30,7 +30,15 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
         html_text = html_text.replace("{playlist_title}", escape(playlist_name))
         html_text = html_text.replace("{playlist_data}", json.dumps(data, indent=2))
         if supports_download:
-            html_text = html_text.replace("{download_link}", f'<p><a href="{download_file}">Herunterladen</a></p>')
+            html_text = html_text.replace("{download_link}", f"""
+<a href="{download_file}" class="download-button" aria-label="Download">
+    <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="7 10 12 15 17 10"></polyline>
+      <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+</a>
+""")#f'<a href="{download_file}" class="download-href">Herunterladen</a>')
             with (Path(__file__).parent / "download_template.html").open('r', encoding='utf-8') as file:
                 download_html = file.read()
             download_html = download_html.replace("{playlist_title}", escape(playlist_name))
@@ -56,24 +64,12 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
         print("Wrote", filename, download_file)
 
     # ---- Build index.html ----
-    index_html = """<!doctype html>
-    <html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Viberant — Playlists</title>
-    <style>
-    body{font-family:system-ui,Segoe UI,Roboto;padding:24px;background:#071227;color:#e6eef7}
-    a{color:#7c4dff}
-    </style>
-    </head><body>
-    <h1>Viberant — Playlists</h1>
-    <ul>
-    """
+    with (Path(__file__).parent / "index_template.html").open('r', encoding='utf-8') as file:
+        index_html = file.read()
+    index_contents = ""
     for title, file_html, fname in index_entries:
-        index_html += f'<li><a href="{file_html}">{escape(title)}</a></li>\n'
-
-    index_html += "</ul></body></html>"
+        index_contents += f'<li><a href="{file_html}">{escape(title)}</a></li>\n'
+    index_html = index_html.replace("{playlists}", index_contents)
 
     (OUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
 
