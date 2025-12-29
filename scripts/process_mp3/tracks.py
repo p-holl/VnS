@@ -106,7 +106,7 @@ def track_from_file(path: Path) -> Track:
 
     title = get_text('TIT2')
     subtitle = get_text('TIT3')
-    comments = {frame.lang: ", ".join(frame.text) for frame in tags.getall("COMM")}
+    comments = sum([frame.text for frame in tags.getall("COMM")], [])
     performer = get_text('TPE1')  # "Contributing Artists"
     artist = get_text('TPE2') or performer  # "Album Artist" (e.g. composer)
     performer = performer or artist
@@ -115,15 +115,19 @@ def track_from_file(path: Path) -> Track:
     genre = get_text('TCON')
     # --- Construct Track ---
     tags = [t.strip() for t in path.stem.split(' ') if len(t.strip()) > 2 and t.strip().lower() not in {'the',}] + ([genre] if genre else [])
-    for comment in comments.values():
+    source = get_url_from_comments(comments)
+    return Track(source, title, subtitle, album, artist, performer, genre, tags, path)
+
+
+def get_url_from_comments(comments: list[str]):
+    for comment in comments:
         if '.org' in comment and not comment.startswith('http'):
             comment = 'https://' + comment
+        if comment.endswith('/watch'):
+            continue
         if comment.startswith('http'):
-            source = comment
-            break
-    else:
-        source = None
-    return Track(source, title, subtitle, album, artist, performer, genre, tags, path)
+            return comment
+    return None
 
 
 # if __name__ == '__main__':
