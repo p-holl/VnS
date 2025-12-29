@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Viberant – Hits (Instrumental, YouTube)</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+  body{background:linear-gradient(180deg,#071227 0%, #0b1726 100%);color:var(--text);display:flex;align-items:flex-start;justify-content:center;padding:28px;}
+  .container{width:100%;max-width:980px;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  h1{margin:0;font-size:20px;letter-spacing:0.2px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+  .player-row{display:flex;gap:14px;align-items:center}
+  .video-wrap{flex:0 0 500px;height:80px;max-width:100%}
+  .video-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;background:#000}
+  .controls{flex:1;display:flex;flex-direction:column;gap:10px}
+  .big-controls{display:flex;gap:10px;align-items:center}
+  button{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  }
+  button.primary{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+  }
+  button.jump{
+    background: linear-gradient(90deg,#3d0069,#2d93e0,#ffffff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+    width: 70px;
+    margin-left: 40px;
+  }
+  .track-list{margin-top:14px;display:flex;gap:12px}
+  .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
+  .track{padding:10px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
+  .track:hover{background:rgba(255,255,255,0.02)}
+  .track .idx{width:28px;text-align:center;color:var(--muted);font-size:13px}
+  .track .title{font-size:14px}
+  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.6), rgba(0,196,255,0.4));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
+  footer{margin-top:10px;color:var(--muted);font-size:13px}
+  @media (max-width:640px){
+    .player-row{flex-direction:column;align-items:stretch}
+    .video-wrap{height:64px;flex-basis:auto}
+    .controls{order:2}
+  }
+  footer a {
+    background: linear-gradient(90deg,#7c4dff70,#00c4ff70);
+    border: none;
+    color: #EEEEEE;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+    text-decoration: none;
+  }
+  footer a:hover,
+  footer a:focus {
+    color: #ffcc00;          /* highlight on hover/focus */
+    text-decoration: underline;
+  }
+
+
+  .banner-container{
+    position:relative;
+    display:block;
+    max-width:100%;
+    width:fit-content;
+  }
+  .banner-container img{
+    max-width:100%;
+    height:auto;
+    display:block;
+  }
+  .subtitle{
+    position:absolute;
+    bottom:16px;
+    left:16px;
+    background:rgba(0,0,0,0.7);
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:600;
+    backdrop-filter:blur(8px);
+    display:flex;
+    gap: 10px;
+  }
+  .back-to-index{
+    position:absolute;
+    top:16px;
+    right:16px;
+    background:rgba(0,0,0,0.7);
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:600;
+    backdrop-filter:blur(8px);
+    text-decoration: none;
+  }
+  .download-button{
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    display: inline-flex;
+  }
+  .download-icon {
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+
+</style>
+</head>
+<body>
+  <div class="banner-container">
+    <header>
+      <div class="banner-container">
+        <img src="Banner.jpg" alt="Viberant">
+        <div class="subtitle">
+          Hits (Instrumental, YouTube)
+          
+        </div>
+        <a href="index.html" class="back-to-index">Andere Playlists</a>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="player-row">
+        <div class="video-wrap" id="video-wrap">
+          <div id="player-container"></div>
+        </div>
+        <div class="controls">
+          <div class="big-controls">
+            <button id="prevBtn">⏮</button>
+            <button id="playBtn" class="primary">▶</button>
+            <button id="nextBtn">⏭</button>
+<!--            <button id="travelBtn" class="jump">🚀 ⏭</button>-->
+            <div style="margin-left:auto;color:var(--muted);font-size:13px" id="timeLabel">—</div>
+          </div>
+          <div class="track-list">
+            <div class="list" id="trackList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
+  </div>
+
+<script>
+const PLAYLIST = {
+  "majorVersion": 0,
+  "minorVersion": 0,
+  "tracks": [
+    {
+      "name": "Bohemian Rhapsody \u2022 Queen",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Hotel California \u2022 Eagles",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Stairway To Heaven \u2022 Led Zeppelin",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "What a Wonderful World \u2022 Louis Armstrong",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Dancing Queen \u2022 ABBA",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Billie Jean \u2022 Michael Jackson",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Hips Dont Lie Instrumental \u2022 Shakira",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Money, Money, Money \u2022 ABBA",
+      "url": "https://youtu.be/_TKCD5P2vVk",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Get Lucky \u2022 Daft Punk",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "My heart will go on \u2022 Celine Dion",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Imagine \u2022 John Lennon",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Despacito \u2022 Luis Fonsi",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Stayin' Alive \u2022 Bee Gees",
+      "url": "https://www.youtube.com/watch",
+      "start": null,
+      "end": null
+    }
+  ]
+};
+
+// ============================================================================
+// COOKIE MANAGEMENT
+// ============================================================================
+
+function setCookie(name, value, days = 365){
+  const date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/;SameSite=Lax";
+}
+
+function getCookie(name){
+  const nameEQ = name + "=";
+  const cookies = document.cookie.split(';');
+  for(let i = 0; i < cookies.length; i++){
+    let c = cookies[i].trim();
+    if (c.indexOf(nameEQ) === 0){
+      return decodeURIComponent(c.substring(nameEQ.length));
+    }
+  }
+  return null;
+}
+
+function savePlaybackState(){
+  const track = tracks[currentIndex];
+  if (!track) return;
+
+  const state = {
+    trackIndex: currentIndex,
+    trackName: track.name,
+    majorVersion: PLAYLIST.majorVersion || 0,
+    minorVersion: PLAYLIST.minorVersion || 0
+  };
+
+  setCookie('vibeSeekState', JSON.stringify(state));
+}
+
+function loadPlaybackState(){
+  const cookie = getCookie('vibeSeekState');
+  if (!cookie) return 0;
+
+  try {
+    const state = JSON.parse(cookie);
+
+    // Check if playlist version has changed significantly (major version bump)
+    if (state.majorVersion !== undefined &&
+        PLAYLIST.majorVersion !== undefined &&
+        state.majorVersion !== PLAYLIST.majorVersion){
+      // Major version changed, start from beginning
+      return 0;
+    }
+
+    // Try to find track by name first
+    const trackByName = tracks.findIndex(t => t.name === state.trackName);
+    if (trackByName !== -1){
+      return trackByName;
+    }
+
+    // Fall back to index if name not found
+    if (state.trackIndex >= 0 && state.trackIndex < tracks.length){
+      return state.trackIndex;
+    }
+
+    // Default to first track
+    return 0;
+  } catch(e){
+    return 0;
+  }
+}
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+function detectSource(url){
+  if (!url) return null;
+  if (url.match(/\.(mp3|ogg|wav)(\?|$)/i)) return 'audio';
+  if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
+  return null;
+}
+
+function idFromUrl(url){
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+    if (u.searchParams.get('v')) return u.searchParams.get('v');
+  } catch(e){}
+  return null;
+}
+
+function formatTime(s){
+  if (s == null) return '—';
+  s = Math.floor(s);
+  const m = Math.floor(s/60), sec = s%60;
+  return m+':' + (sec<10? '0'+sec:sec);
+}
+
+// ============================================================================
+// TRACK DATA SETUP
+// ============================================================================
+
+const tracks = (PLAYLIST.tracks || []).map((t, i) => {
+  const source = detectSource(t.url);
+  return {
+    index: i,
+    name: t.name || ('Track ' + (i+1)),
+    source,
+    url: t.url,
+    videoId: source === 'youtube' ? idFromUrl(t.url) : null,
+    start: t.start != null ? Number(t.start) : 0,
+    end: t.end != null ? Number(t.end) : null
+  };
+});
+
+// ============================================================================
+// UI SETUP
+// ============================================================================
+
+const trackListEl = document.getElementById('trackList');
+tracks.forEach(tr => {
+  const el = document.createElement('div');
+  el.className = 'track';
+  el.dataset.index = tr.index;
+  el.innerHTML = '<div class="idx">'+(tr.index+1)+'</div><div class="title">'+tr.name.replace(/[&<>]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</div>';
+  el.addEventListener('click', () => playTrack(tr.index, true));
+  trackListEl.appendChild(el);
+});
+
+// ============================================================================
+// PLAYER STATE
+// ============================================================================
+
+let ytPlayer = null;
+let audioPlayer = null;
+let currentIndex = 0;
+let loopTimer = null;
+let ytApiReady = false;
+let ytApiLoading = false;
+
+// ============================================================================
+// YOUTUBE API LOADING
+// ============================================================================
+
+function loadYouTubeAPI(){
+  if (ytApiLoading) return;
+  ytApiLoading = true;
+
+  const script = document.createElement('script');
+  script.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(script);
+}
+
+window.onYouTubeIframeAPIReady = function(){
+  ytApiReady = true;
+};
+
+// Load YouTube API if needed
+if (tracks.some(t => t.source === 'youtube')){
+  loadYouTubeAPI();
+}
+
+// ============================================================================
+// PLAYER MANAGEMENT
+// ============================================================================
+
+function createYouTubePlayer(videoId, startSeconds){
+  const container = document.getElementById('player-container');
+  container.innerHTML = '';
+
+  ytPlayer = new YT.Player('player-container', {
+    videoId: videoId,
+    width: 500,
+    height: 80,
+    playerVars: {
+      enablejsapi: 1,
+      modestbranding: 1,
+      rel: 0,
+      controls: 1,
+      iv_load_policy: 3,
+      start: Math.floor(startSeconds || 0)
+    },
+    events: {
+      onReady: (e) => {
+        resizePlayer();
+        e.target.seekTo(startSeconds || 0, true);
+      },
+      onStateChange: onYouTubeStateChange
+    }
+  });
+
+  window.addEventListener('resize', resizePlayer);
+}
+
+function createAudioPlayer(){
+  if (audioPlayer) return audioPlayer;
+
+  const container = document.getElementById('player-container');
+  container.innerHTML = '';
+
+  audioPlayer = document.createElement('audio');
+  audioPlayer.controls = true;
+  audioPlayer.style.width = '100%';
+  audioPlayer.style.height = '56px';
+  audioPlayer.preload = 'auto';
+  container.appendChild(audioPlayer);
+
+  audioPlayer.addEventListener('play', () => {
+    updatePlayButton(true);
+    startLoopWatcher();
+  });
+
+  audioPlayer.addEventListener('pause', () => {
+    updatePlayButton(false);
+    stopLoopWatcher();
+  });
+
+  audioPlayer.addEventListener('ended', () => {
+    // Loop back to start when track ends naturally
+    const track = tracks[currentIndex];
+    audioPlayer.currentTime = track.start || 0;
+    audioPlayer.play().catch(() => {});
+  });
+
+  return audioPlayer;
+}
+
+function destroyYouTubePlayer(){
+  if (ytPlayer && ytPlayer.destroy){
+    ytPlayer.destroy();
+    ytPlayer = null;
+  }
+}
+
+function destroyAudioPlayer(){
+  if (audioPlayer){
+    audioPlayer.pause();
+    audioPlayer.src = '';
+    audioPlayer = null;
+  }
+}
+
+function resizePlayer(){
+  if (!ytPlayer || !ytPlayer.getIframe) return;
+  const wrap = document.getElementById('video-wrap');
+  const width = Math.min(500, wrap.clientWidth);
+  const height = Math.max(56, Math.round(width * (80/500)));
+  const ifr = ytPlayer.getIframe();
+  ifr.width = width;
+  ifr.height = height;
+}
+
+// ============================================================================
+// PLAYBACK CONTROL
+// ============================================================================
+
+function playTrack(index, autoplay = false){
+  if (!tracks[index]) return;
+
+  currentIndex = index;
+  highlightActive();
+  stopLoopWatcher();
+  savePlaybackState();
+
+  const track = tracks[index];
+
+  if (track.source === 'youtube'){
+    playYouTubeTrack(track, autoplay);
+  } else if (track.source === 'audio'){
+    playAudioTrack(track, autoplay);
+  }
+}
+
+function playYouTubeTrack(track, autoplay){
+  // Destroy audio player if it exists
+  destroyAudioPlayer();
+
+  // Wait for YouTube API if not ready
+  if (!ytApiReady){
+    setTimeout(() => playYouTubeTrack(track, autoplay), 100);
+    return;
+  }
+
+  // Create or update YouTube player
+  if (!ytPlayer){
+    createYouTubePlayer(track.videoId, track.start);
+    if (autoplay){
+      setTimeout(() => {
+        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+      }, 300);
+    }
+  } else {
+    ytPlayer.loadVideoById({
+      videoId: track.videoId,
+      startSeconds: track.start || 0
+    });
+    if (autoplay){
+      setTimeout(() => {
+        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+      }, 100);
+    } else {
+      // Even without autoplay, seek to start position
+      setTimeout(() => {
+        if (ytPlayer && ytPlayer.seekTo) ytPlayer.seekTo(track.start || 0, true);
+      }, 100);
+    }
+  }
+}
+
+function playAudioTrack(track, autoplay){
+  // Destroy YouTube player if it exists
+  destroyYouTubePlayer();
+
+  // Create or update audio player
+  const audio = createAudioPlayer();
+  audio.src = track.url;
+  audio.currentTime = track.start || 0;
+
+  if (autoplay){
+    audio.play();
+  }
+}
+
+function togglePlayPause(){
+  const track = tracks[currentIndex];
+
+  if (track.source === 'youtube' && ytPlayer){
+    const state = ytPlayer.getPlayerState();
+    if (state === YT.PlayerState.PLAYING){
+      ytPlayer.pauseVideo();
+    } else {
+      // Ensure we're at the correct position before playing
+      const currentTime = ytPlayer.getCurrentTime();
+      if (currentTime < track.start || (track.end && currentTime >= track.end)){
+        ytPlayer.seekTo(track.start || 0, true);
+      }
+      ytPlayer.playVideo();
+    }
+  } else if (track.source === 'audio' && audioPlayer){
+    if (audioPlayer.paused){
+      // Ensure we're at the correct position before playing
+      if (audioPlayer.currentTime < track.start || (track.end && audioPlayer.currentTime >= track.end)){
+        audioPlayer.currentTime = track.start || 0;
+      }
+      audioPlayer.play();
+    } else {
+      audioPlayer.pause();
+    }
+  } else {
+    // Player doesn't exist yet, create it
+    playTrack(currentIndex, true);
+  }
+}
+
+function getCurrentTime(){
+  const track = tracks[currentIndex];
+  if (track.source === 'youtube' && ytPlayer){
+    return ytPlayer.getCurrentTime();
+  }
+  if (track.source === 'audio' && audioPlayer){
+    return audioPlayer.currentTime;
+  }
+  return 0;
+}
+
+function seekTo(seconds){
+  const track = tracks[currentIndex];
+  if (track.source === 'youtube' && ytPlayer){
+    ytPlayer.seekTo(seconds, true);
+  }
+  if (track.source === 'audio' && audioPlayer){
+    audioPlayer.currentTime = seconds;
+  }
+}
+
+// ============================================================================
+// LOOP WATCHER
+// ============================================================================
+
+function startLoopWatcher(){
+  stopLoopWatcher();
+  loopTimer = setInterval(() => {
+    const track = tracks[currentIndex];
+    const now = getCurrentTime();
+
+    // Loop back to start if we've reached the end
+    if (track.end != null && now >= track.end - 0.1){
+      seekTo(track.start || 0);
+
+      // For audio, resume playing after seek
+      if (track.source === 'audio' && audioPlayer && !audioPlayer.paused){
+        audioPlayer.play().catch(() => {});
+      }
+    }
+
+    // If no end time is set, loop the entire track (for audio)
+    if (track.end == null && track.source === 'audio' && audioPlayer){
+      if (audioPlayer.ended){
+        audioPlayer.currentTime = track.start || 0;
+        audioPlayer.play().catch(() => {});
+      }
+    }
+
+    updateTimeLabel(now, track.end);
+  }, 200);
+}
+
+function stopLoopWatcher(){
+  if (loopTimer){
+    clearInterval(loopTimer);
+    loopTimer = null;
+  }
+}
+
+// ============================================================================
+// UI UPDATES
+// ============================================================================
+
+function highlightActive(){
+  document.querySelectorAll('.track').forEach(el => {
+    el.classList.toggle('active', Number(el.dataset.index) === currentIndex);
+  });
+}
+
+function updatePlayButton(isPlaying){
+  document.getElementById('playBtn').textContent = isPlaying ? '⏸' : '▶';
+}
+
+function updateTimeLabel(currentTime, endTime){
+  const label = document.getElementById('timeLabel');
+  label.textContent = formatTime(currentTime) + (endTime ? (' / ' + formatTime(endTime)) : '');
+}
+
+function onYouTubeStateChange(event){
+  if (event.data === YT.PlayerState.PLAYING){
+    updatePlayButton(true);
+    startLoopWatcher();
+  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED){
+    updatePlayButton(false);
+    stopLoopWatcher();
+
+    // Loop back to start when video ends
+    if (event.data === YT.PlayerState.ENDED){
+      const track = tracks[currentIndex];
+      ytPlayer.seekTo(track.start || 0, true);
+      ytPlayer.playVideo();
+    }
+  }
+}
+
+// ============================================================================
+// BUTTON HANDLERS
+// ============================================================================
+
+document.getElementById('prevBtn').onclick = () => {
+  playTrack((currentIndex - 1 + tracks.length) % tracks.length, true);
+};
+
+document.getElementById('nextBtn').onclick = () => {
+  playTrack((currentIndex + 1) % tracks.length, true);
+};
+
+<!--document.getElementById('travelBtn').onclick = () => {-->
+<!--  // Pause current track-->
+<!--  const track = tracks[currentIndex];-->
+<!--  if (track.source === 'youtube' && ytPlayer){-->
+<!--    ytPlayer.pauseVideo();-->
+<!--  } else if (track.source === 'audio' && audioPlayer){-->
+<!--    audioPlayer.pause();-->
+<!--  }-->
+
+<!--  // Create background audio instance-->
+<!--  const bgAudio = new Audio('audio/SFX_Jump.mp3');-->
+<!--  bgAudio.volume = 1.0;-->
+<!--  bgAudio.loop = false;-->
+
+<!--  // Remove reference once audio ends-->
+<!--  bgAudio.addEventListener('ended', () => {-->
+<!--    bgAudio.src = '';-->
+<!--  });-->
+
+<!--  // Start playback-->
+<!--  bgAudio.play()-->
+<!--    .then(() => {-->
+<!--      setTimeout(() => {  // Schedule main track to start 10 seconds later-->
+<!--        playTrack((currentIndex + 1) % tracks.length, true);-->
+<!--      }, 16000);-->
+<!--    })-->
+<!--    .catch(err => {-->
+<!--      console.error('Background audio failed to play:', err);-->
+<!--      // Fallback to main track-->
+<!--      playTrack((currentIndex + 1) % tracks.length, true);-->
+<!--    });-->
+
+<!--};-->
+
+
+
+document.getElementById('playBtn').onclick = togglePlayPause;
+
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
+
+// Load saved track position
+const savedIndex = loadPlaybackState();
+
+// Load first track (or saved track) without autoplay
+if (tracks.length > 0){
+  playTrack(savedIndex, false);
+}
+</script>
+</body>
+</html>
