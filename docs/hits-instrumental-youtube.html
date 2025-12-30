@@ -82,6 +82,19 @@
     text-decoration: underline;
   }
 
+  .track-info{
+    color: #AAAAAA;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .source-link{
+    color: #AAAAAA;
+    font-size: 18px;
+    text-decoration: none;
+  }
 
   .banner-container{
     position:relative;
@@ -158,6 +171,7 @@
       <div class="player-row">
         <div class="video-wrap" id="video-wrap">
           <div id="player-container"></div>
+          <div id="trackInfo" class="track-info">No track selected.</div>
         </div>
         <div class="controls">
           <div class="big-controls">
@@ -188,175 +202,204 @@ const PLAYLIST = {
       "name": "Shape Of You \u2022 Ed Sheeran",
       "url": "https://www.youtube.com/watch?v=cqA7j7KuqqU",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Shape Of You \u2022 Ed Sheeran"
     },
     {
       "name": "Imagine \u2022 John Lennon",
       "url": "https://www.youtube.com/watch?v=KcQL0lW9s_Y",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Imagine \u2022 John Lennon"
     },
     {
       "name": "Griechischer Wein \u2022 Udo J\u00fcrgens",
       "url": "https://www.youtube.com/watch?v=9jOx7dzBUws",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Griechischer Wein \u2022 Udo J\u00fcrgens"
     },
     {
       "name": "Stayin' Alive \u2022 Bee Gees",
       "url": "https://www.youtube.com/watch?v=bFfAVaUtPHI",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Stayin' Alive \u2022 Bee Gees"
     },
     {
       "name": "Stairway To Heaven \u2022 Led Zeppelin",
       "url": "https://www.youtube.com/watch?v=0ufPHxc4udc",
       "start": 10.0,
-      "end": null
+      "end": null,
+      "full": "Stairway To Heaven \u2022 Led Zeppelin"
     },
     {
       "name": "\u00dcber sieben Br\u00fccken \u2022 Karat",
       "url": "https://www.youtube.com/watch?v=eoBKp95x2DA",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "\u00dcber sieben Br\u00fccken \u2022 Karat"
     },
     {
       "name": "Get Lucky \u2022 Daft Punk",
       "url": "https://www.youtube.com/watch?v=_eVswBvDyRs",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Get Lucky \u2022 Daft Punk"
     },
     {
       "name": "My heart will go on \u2022 Celine Dion",
       "url": "https://www.youtube.com/watch?v=E40kJ7Qjsvg",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "My heart will go on \u2022 Celine Dion"
     },
     {
       "name": "Atemlos durch die Nacht \u2022 Helene Fischer",
       "url": "https://www.youtube.com/watch?v=dhd6ytgpS1Q",
       "start": 7.0,
-      "end": null
+      "end": null,
+      "full": "Atemlos durch die Nacht \u2022 Helene Fischer"
     },
     {
       "name": "Respect \u2022 Aretha Franklin",
       "url": "https://www.youtube.com/watch?v=nf4DoKMqQJ4",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Respect \u2022 Aretha Franklin"
     },
     {
       "name": "Bohemian Rhapsody \u2022 Queen",
       "url": "https://www.youtube.com/watch?v=heRJir40_Ig",
       "start": 35.0,
-      "end": null
+      "end": null,
+      "full": "Bohemian Rhapsody \u2022 Queen"
     },
     {
       "name": "Dieser Weg \u2022 Xavier Naidoo",
       "url": "https://www.youtube.com/watch?v=oaVOeYPLRjY",
       "start": 36.0,
-      "end": null
+      "end": null,
+      "full": "Dieser Weg \u2022 Xavier Naidoo"
     },
     {
       "name": "Blinding Lights \u2022 The Weeknd",
       "url": "https://www.youtube.com/watch?v=XajaJYraODs",
       "start": 12.0,
-      "end": null
+      "end": null,
+      "full": "Blinding Lights \u2022 The Weeknd"
     },
     {
       "name": "Let it Be \u2022 Beatles",
       "url": "https://www.youtube.com/watch?v=XKiK7Wc4I3U",
       "start": 7.0,
-      "end": null
+      "end": null,
+      "full": "Let it Be \u2022 Beatles"
     },
     {
       "name": "Hips Dont Lie \u2022 Shakira",
       "url": "https://www.youtube.com/watch?v=BWqT70xBMiA",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Hips Dont Lie \u2022 Shakira"
     },
     {
       "name": "Smells Like Teen Spirit \u2022 Nirvana",
       "url": "https://www.youtube.com/watch?v=TLveqktfeiw",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Smells Like Teen Spirit \u2022 Nirvana"
     },
     {
       "name": "99 Luftballons \u2022 Nena",
       "url": "https://www.youtube.com/watch?v=JEGc1idwhME",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "99 Luftballons \u2022 Nena"
     },
     {
       "name": "Despacito \u2022 Luis Fonsi",
       "url": "https://www.youtube.com/watch?v=FT7sNRvs7GM",
       "start": 8.0,
-      "end": null
+      "end": null,
+      "full": "Despacito \u2022 Luis Fonsi"
     },
     {
       "name": "Money, Money, Money \u2022 ABBA",
       "url": "https://youtu.be/_TKCD5P2vVk",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Money, Money, Money \u2022 ABBA"
     },
     {
       "name": "I Will Always Love You \u2022 Whitney Houston",
       "url": "https://www.youtube.com/watch?v=jHw_gZKxUBI",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "I Will Always Love You \u2022 Whitney Houston"
     },
     {
       "name": "Du hast \u2022 Rammstein",
       "url": "https://www.youtube.com/watch?v=SH4fangc3tc",
       "start": 12.0,
-      "end": null
+      "end": null,
+      "full": "Du hast \u2022 Rammstein"
     },
     {
       "name": "Soda Pop \u2022 Saja Boys",
       "url": "https://www.youtube.com/watch?v=zJiNfJDVeno",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Soda Pop \u2022 Saja Boys"
     },
     {
       "name": "Hotel California \u2022 Eagles",
       "url": "https://www.youtube.com/watch?v=AR-y2D7p95U",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Hotel California \u2022 Eagles"
     },
     {
       "name": "Komet \u2022 Udo Lindenberg",
       "url": "https://www.youtube.com/watch?v=LGPkQxI5hA0",
       "start": 43.0,
-      "end": null
+      "end": null,
+      "full": "Komet \u2022 Udo Lindenberg"
     },
     {
       "name": "Billie Jean \u2022 Michael Jackson",
       "url": "https://www.youtube.com/watch?v=73Jw7SmZsFY",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Billie Jean \u2022 Michael Jackson"
     },
     {
       "name": "What a Wonderful World \u2022 Louis Armstrong",
       "url": "https://www.youtube.com/watch?v=b9MdRi26s2s",
       "start": 6.0,
-      "end": null
+      "end": null,
+      "full": "What a Wonderful World \u2022 Louis Armstrong"
     },
     {
       "name": "Yesterday \u2022 Beatles",
       "url": "https://www.youtube.com/watch?v=OaLhwlqOJgk",
       "start": 31.0,
-      "end": null
+      "end": null,
+      "full": "Yesterday \u2022 Beatles"
     },
     {
       "name": "Dancing Queen \u2022 ABBA",
       "url": "https://www.youtube.com/watch?v=hVyzBs7eo9c",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "Dancing Queen \u2022 ABBA"
     },
     {
       "name": "\u00dcber den Wolken \u2022 Reinhard Mey",
       "url": "https://www.youtube.com/watch?v=vuy2t9tFZKs",
       "start": null,
-      "end": null
+      "end": null,
+      "full": "\u00dcber den Wolken \u2022 Reinhard Mey"
     }
   ]
 };
@@ -467,6 +510,7 @@ const tracks = (PLAYLIST.tracks || []).map((t, i) => {
   return {
     index: i,
     name: t.name || ('Track ' + (i+1)),
+    full: `${t.full || (t.name || ('Track ' + (i+1)))}  <a target="_blank" class="source-link" href="${t.source || t.url}">🗗</a>`,
     source,
     url: t.url,
     videoId: source === 'youtube' ? idFromUrl(t.url) : null,
@@ -625,6 +669,8 @@ function playTrack(index, autoplay = false){
   savePlaybackState();
 
   const track = tracks[index];
+
+  document.getElementById('trackInfo').innerHTML = track.full;
 
   if (track.source === 'youtube'){
     playYouTubeTrack(track, autoplay);

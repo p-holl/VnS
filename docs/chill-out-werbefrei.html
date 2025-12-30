@@ -82,6 +82,19 @@
     text-decoration: underline;
   }
 
+  .track-info{
+    color: #AAAAAA;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .source-link{
+    color: #AAAAAA;
+    font-size: 18px;
+    text-decoration: none;
+  }
 
   .banner-container{
     position:relative;
@@ -166,6 +179,7 @@
       <div class="player-row">
         <div class="video-wrap" id="video-wrap">
           <div id="player-container"></div>
+          <div id="trackInfo" class="track-info">No track selected.</div>
         </div>
         <div class="controls">
           <div class="big-controls">
@@ -197,245 +211,280 @@ const PLAYLIST = {
       "url": "audio/chill-out-werbefrei/001 qlowdy - midnight.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/qlowdy/midnight"
+      "source": "https://www.audiolibrary.com.co/qlowdy/midnight",
+      "full": "Midnight \u2022 Qlowdy"
     },
     {
       "name": "By The River \u2022 Atch",
       "url": "audio/chill-out-werbefrei/002 atch - by-the-river.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/atch-and-hotham/by-the-river"
+      "source": "https://www.audiolibrary.com.co/atch-and-hotham/by-the-river",
+      "full": "By The River \u2022 Atch"
     },
     {
       "name": "Shiny Day \u2022 Roa",
       "url": "audio/chill-out-werbefrei/003 roa - shiny-day.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/roa-music/shiny-day"
+      "source": "https://www.audiolibrary.com.co/roa-music/shiny-day",
+      "full": "Shiny Day \u2022 Roa"
     },
     {
       "name": "Stream \u2022 KV",
       "url": "audio/chill-out-werbefrei/004 kv - stream.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/kv/stream"
+      "source": "https://www.audiolibrary.com.co/kv/stream",
+      "full": "Stream \u2022 KV"
     },
     {
       "name": "Endless \u2022 chillity",
       "url": "audio/chill-out-werbefrei/005 chillity - endless.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/chillity/endless"
+      "source": "https://www.audiolibrary.com.co/chillity/endless",
+      "full": "Endless \u2022 chillity"
     },
     {
       "name": "Divinity \u2022 ASHUTOSH",
       "url": "audio/chill-out-werbefrei/006 ashutosh - divinity.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/ashutosh/divinity"
+      "source": "https://www.audiolibrary.com.co/ashutosh/divinity",
+      "full": "Divinity \u2022 ASHUTOSH"
     },
     {
       "name": "S\u00e9r\u00e9nade \u2022 Tomh. & claptu",
       "url": "audio/chill-out-werbefrei/007 tomh-claptu - s-r-nade.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/tomh-and-claptu/serenade-ft-dimitri-prokofiev"
+      "source": "https://www.audiolibrary.com.co/tomh-and-claptu/serenade-ft-dimitri-prokofiev",
+      "full": "S\u00e9r\u00e9nade \u2022 Tomh. & claptu"
     },
     {
       "name": "Hustle \u2022 Kevin MacLeod",
       "url": "audio/chill-out-werbefrei/008 kevin-macleod - hustle.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Blues_Sampler/Hustle/"
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Blues_Sampler/Hustle/",
+      "full": "Hustle \u2022 Kevin MacLeod"
     },
     {
       "name": "Games \u2022 Pold",
       "url": "audio/chill-out-werbefrei/009 pold - games.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/pold/games"
+      "source": "https://www.audiolibrary.com.co/pold/games",
+      "full": "Games \u2022 Pold"
     },
     {
       "name": "Happier \u2022 Sakura Girl",
       "url": "audio/chill-out-werbefrei/010 sakura-girl - happier.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/sakura-girl/happier"
+      "source": "https://www.audiolibrary.com.co/sakura-girl/happier",
+      "full": "Happier \u2022 Sakura Girl"
     },
     {
       "name": "Origami \u2022 Scott Buckley",
       "url": "audio/chill-out-werbefrei/011 scott-buckley - origami.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/scott-buckley/origami"
+      "source": "https://www.audiolibrary.com.co/scott-buckley/origami",
+      "full": "Origami \u2022 Scott Buckley"
     },
     {
       "name": "Heroic \u2022 Alex- Productions",
       "url": "audio/chill-out-werbefrei/012 alex-productions - heroic.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/alex-productions/heroic"
+      "source": "https://www.audiolibrary.com.co/alex-productions/heroic",
+      "full": "Heroic \u2022 Alex- Productions"
     },
     {
       "name": "Alone In The Rain \u2022 Roa",
       "url": "audio/chill-out-werbefrei/013 roa - alone-in-the-rain.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/roa-music/alone-in-the-rain"
+      "source": "https://www.audiolibrary.com.co/roa-music/alone-in-the-rain",
+      "full": "Alone In The Rain \u2022 Roa"
     },
     {
       "name": "Urban \u2022 KV",
       "url": "audio/chill-out-werbefrei/014 kv - urban.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/kv/urban"
+      "source": "https://www.audiolibrary.com.co/kv/urban",
+      "full": "Urban \u2022 KV"
     },
     {
       "name": "Cherry \u2022 next-route",
       "url": "audio/chill-out-werbefrei/015 next-route - cherry.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/next-route/cherry"
+      "source": "https://www.audiolibrary.com.co/next-route/cherry",
+      "full": "Cherry \u2022 next-route"
     },
     {
       "name": "Cybernetic Dreams \u2022 Alex- Productions",
       "url": "audio/chill-out-werbefrei/016 alex-productions - cybernetic-dreams.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/alex-productions/cybernetic-dreams"
+      "source": "https://www.audiolibrary.com.co/alex-productions/cybernetic-dreams",
+      "full": "Cybernetic Dreams \u2022 Alex- Productions"
     },
     {
       "name": "Solitude \u2022 Filo Starquez",
       "url": "audio/chill-out-werbefrei/017 filo-starquez - solitude.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/filo-starquez/solitude"
+      "source": "https://www.audiolibrary.com.co/filo-starquez/solitude",
+      "full": "Solitude \u2022 Filo Starquez"
     },
     {
       "name": "Honolulu \u2022 Scandinavianz",
       "url": "audio/chill-out-werbefrei/018 scandinavianz - honolulu.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/scandinavianz/honolulu"
+      "source": "https://www.audiolibrary.com.co/scandinavianz/honolulu",
+      "full": "Honolulu \u2022 Scandinavianz"
     },
     {
       "name": "Virus \u2022 Alex- Productions",
       "url": "audio/chill-out-werbefrei/019 alex-productions - virus.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/alex-productions/virus"
+      "source": "https://www.audiolibrary.com.co/alex-productions/virus",
+      "full": "Virus \u2022 Alex- Productions"
     },
     {
       "name": "Afterglow \u2022 Tokyo Music Walker",
       "url": "audio/chill-out-werbefrei/020 tokyo-music-walker - afterglow.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/tokyo-music-walker/afterglow"
+      "source": "https://www.audiolibrary.com.co/tokyo-music-walker/afterglow",
+      "full": "Afterglow \u2022 Tokyo Music Walker"
     },
     {
       "name": "Memories \u2022 Begench Begenjov",
       "url": "audio/chill-out-werbefrei/021 begench-begenjov - memories.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/begench-begenjov/memories"
+      "source": "https://www.audiolibrary.com.co/begench-begenjov/memories",
+      "full": "Memories \u2022 Begench Begenjov"
     },
     {
       "name": "Watershed Moment \u2022 Ferco",
       "url": "audio/chill-out-werbefrei/022 ferco - watershed-moment.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/ferco/watershed-moment"
+      "source": "https://www.audiolibrary.com.co/ferco/watershed-moment",
+      "full": "Watershed Moment \u2022 Ferco"
     },
     {
       "name": "Feelings \u2022 Qlowdy",
       "url": "audio/chill-out-werbefrei/023 qlowdy - feelings.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/qlowdy/feelings"
+      "source": "https://www.audiolibrary.com.co/qlowdy/feelings",
+      "full": "Feelings \u2022 Qlowdy"
     },
     {
       "name": "Eglair \u2022 Alex- Productions",
       "url": "audio/chill-out-werbefrei/024 alex-productions - eglair.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/alex-productions/eglair"
+      "source": "https://www.audiolibrary.com.co/alex-productions/eglair",
+      "full": "Eglair \u2022 Alex- Productions"
     },
     {
       "name": "Orange \u2022 Roa",
       "url": "audio/chill-out-werbefrei/025 roa - orange.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/roa-music/orange"
+      "source": "https://www.audiolibrary.com.co/roa-music/orange",
+      "full": "Orange \u2022 Roa"
     },
     {
       "name": "Inhale \u2022 Johnathon M. Horner",
       "url": "audio/chill-out-werbefrei/026 johnathon-m-horner - inhale.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/inhale/"
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/inhale/",
+      "full": "Inhale \u2022 Johnathon M. Horner"
     },
     {
       "name": "Awake \u2022 KV",
       "url": "audio/chill-out-werbefrei/027 kv - awake.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/kv/awake"
+      "source": "https://www.audiolibrary.com.co/kv/awake",
+      "full": "Awake \u2022 KV"
     },
     {
       "name": "All Night \u2022 Roa",
       "url": "audio/chill-out-werbefrei/028 roa - all-night.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/roa-music/all-night"
+      "source": "https://www.audiolibrary.com.co/roa-music/all-night",
+      "full": "All Night \u2022 Roa"
     },
     {
       "name": "Flashy \u2022 Johnathon M. Horner",
       "url": "audio/chill-out-werbefrei/029 johnathon-m-horner - flashy.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/flashy/"
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/flashy/",
+      "full": "Flashy \u2022 Johnathon M. Horner"
     },
     {
       "name": "Division \u2022 KV",
       "url": "audio/chill-out-werbefrei/030 kv - division.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/kv/division"
+      "source": "https://www.audiolibrary.com.co/kv/division",
+      "full": "Division \u2022 KV"
     },
     {
       "name": "Unboxing \u2022 Sakura Girl",
       "url": "audio/chill-out-werbefrei/031 sakura-girl - unboxing.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/sakura-girl/unboxing"
+      "source": "https://www.audiolibrary.com.co/sakura-girl/unboxing",
+      "full": "Unboxing \u2022 Sakura Girl"
     },
     {
       "name": "Keep Going \u2022 Onycs",
       "url": "audio/chill-out-werbefrei/032 onycs - keep-going.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/onycs/keep-going"
+      "source": "https://www.audiolibrary.com.co/onycs/keep-going",
+      "full": "Keep Going \u2022 Onycs"
     },
     {
       "name": "Nightlight \u2022 Johnathon M. Horner",
       "url": "audio/chill-out-werbefrei/033 johnathon-m-horner - nightlight.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/beat-mekanik/single/nightlight/"
+      "source": "https://freemusicarchive.org/music/beat-mekanik/single/nightlight/",
+      "full": "Nightlight \u2022 Johnathon M. Horner"
     },
     {
       "name": "Amoris \u2022 GalaxyTones",
       "url": "audio/chill-out-werbefrei/034 galaxytones - amoris.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/galaxytones/amoris"
+      "source": "https://www.audiolibrary.com.co/galaxytones/amoris",
+      "full": "Amoris \u2022 GalaxyTones"
     },
     {
       "name": "Comfy Days \u2022 Qlowdy",
       "url": "audio/chill-out-werbefrei/035 qlowdy - comfy-days.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://www.audiolibrary.com.co/qlowdy/comfy-days"
+      "source": "https://www.audiolibrary.com.co/qlowdy/comfy-days",
+      "full": "Comfy Days \u2022 Qlowdy"
     }
   ]
 };
@@ -546,6 +595,7 @@ const tracks = (PLAYLIST.tracks || []).map((t, i) => {
   return {
     index: i,
     name: t.name || ('Track ' + (i+1)),
+    full: `${t.full || (t.name || ('Track ' + (i+1)))}  <a target="_blank" class="source-link" href="${t.source || t.url}">🗗</a>`,
     source,
     url: t.url,
     videoId: source === 'youtube' ? idFromUrl(t.url) : null,
@@ -704,6 +754,8 @@ function playTrack(index, autoplay = false){
   savePlaybackState();
 
   const track = tracks[index];
+
+  document.getElementById('trackInfo').innerHTML = track.full;
 
   if (track.source === 'youtube'){
     playYouTubeTrack(track, autoplay);
