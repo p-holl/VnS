@@ -20,6 +20,10 @@
   .video-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;background:#000}
   .controls{flex:1;display:flex;flex-direction:column;gap:10px}
   .big-controls{display:flex;gap:10px;align-items:center}
+  .player-container{
+    display: inline-block;
+    min-width: 50%;
+  }
   button{
       background: transparent;
       border: 1px solid rgba(255,255,255,0.06);
@@ -87,7 +91,9 @@
     font-size: 14px;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding-top: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
     display: inline-flex;
   }
   .source-link{
@@ -169,8 +175,10 @@
 
     <div class="card">
       <div class="player-row">
-        <div class="video-wrap" id="video-wrap">
-          <div id="player-container"></div>
+        <div class="player-container">
+          <div class="video-wrap" id="video-wrap">
+            <div id="player-container"></div>
+          </div>
           <div id="trackInfo" class="track-info">No track selected.</div>
         </div>
         <div class="controls">
