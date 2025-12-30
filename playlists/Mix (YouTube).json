@@ -1,23 +1,113 @@
 {
-  "majorVersion": 0,
-  "minorVersion": 2,
+  "majorVersion": 1,
+  "minorVersion": 0,
   "tracks": [
     {
-      "name": "Bard Dance \u2022 Baldur's Gate 3 \u2022 Borislav Slavov",
-      "url": "https://www.youtube.com/watch?v=wk7xOKXw5wA",
-      "start": 22.0,
+      "name": "Newborn \u2022 Roie Shpigler",
+      "url": "https://youtu.be/o4yPIXFUmnc",
+      "start": 6.0,
       "end": null
     },
     {
-      "name": "Sand Castle \u2022 Lego Builder's Journey \u2022 Henrik Lindstrand",
-      "url": "https://www.youtube.com/watch?v=h74tk_AV_3w",
+      "name": "Dance of the Golden Snake \u2022 Nie Er",
+      "url": "https://youtu.be/0HhVkOik2pU",
+      "start": 27.0,
+      "end": null
+    },
+    {
+      "name": "Rakkamma \u2022 Ilaiyaraaja",
+      "url": "https://youtu.be/-ytwTa44pbY",
+      "start": 3.0,
+      "end": null
+    },
+    {
+      "name": "Moon Men \u2022 Jake Chudnow",
+      "url": "https://youtu.be/TN25ghkfgQA",
       "start": null,
       "end": null
     },
     {
-      "name": "Main Theme \u2022 1492: Conquest of Paradise \u2022 Vangelis",
-      "url": "https://youtu.be/7ufkMTshjz8?si=8y-N5iKQv8dY_J_R",
-      "start": 19.0,
+      "name": "Quaternions \u2022 Vincent Rubinetti",
+      "url": "https://youtu.be/Kg1BqeNN5gA",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Swerve Space \u2022 Lama House",
+      "url": "https://youtu.be/YmT-Uw083Z8",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "\u121d\u122d\u1325 \u12a2\u1275\u12ee\u1335\u12eb\u12ca \u12ad\u120b\u1232\u12ab\u120d \u2022 Various",
+      "url": "https://youtu.be/DLO3B-oSwFQ",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Adiemus \u2022 Karl Jenkins",
+      "url": "https://youtu.be/C_wZ9ZBeRAo",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Children \u2022 Robert Miles",
+      "url": "https://youtu.be/CC5ca6Hsb2Q",
+      "start": 28.0,
+      "end": null
+    },
+    {
+      "name": "Soul Bossa Nova \u2022 Quincy Jones",
+      "url": "https://youtu.be/y-ndMMYhmi0&t=18",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Raga Yaman \u2022 Manish Vyas, Bikramjit Singh",
+      "url": "https://youtu.be/9SewGyRKgDY",
+      "start": 828.0,
+      "end": null
+    },
+    {
+      "name": "Dance Of The Yao People \u2022 Liu Tieshan, Mao Yuan, Wang Aikang",
+      "url": "https://youtu.be/ePNd8nwm89w",
+      "start": 15.0,
+      "end": null
+    },
+    {
+      "name": "Song From A Secret Garden \u2022 Secret Garden",
+      "url": "https://youtu.be/-sWnEWpS_fA",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Any Other Name \u2022 Thomas Newman",
+      "url": "https://youtu.be/WIjWaulrLjs",
+      "start": 26.0,
+      "end": null
+    },
+    {
+      "name": "Falling Through the Hourglass \u2022 Sid Acharya",
+      "url": "https://youtu.be/i4yRbeiu6M0",
+      "start": 26.0,
+      "end": null
+    },
+    {
+      "name": "Ameno \u2022 ERA",
+      "url": "https://youtu.be/6xUnSVTh8fI",
+      "start": 49.0,
+      "end": null
+    },
+    {
+      "name": "Blue Camel \u2022 Rabih Abou-Khalil",
+      "url": "https://youtu.be/lriXwr5wfnc",
+      "start": 25.0,
+      "end": null
+    },
+    {
+      "name": "Zeta \u2022 Vincent Rubinetti",
+      "url": "https://youtu.be/nYVig7BfuEA",
+      "start": null,
       "end": null
     }
   ]
