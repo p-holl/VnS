@@ -1,37 +1,19 @@
 import json
-import random
 from pathlib import Path
 
 from html_gen.generate import generate_playlist_html
+from order_opt.simulated_annealing import simulated_annealing, greedy_shuffle
 from process_mp3.compress import compress_mp3_vbr_parallel
 from process_mp3.tracks import track_from_file, Track, search_track, slugify
 
 
-def score_similarity(tags_a, tags_b):
-    """Return number of shared tags (lower = better separation)."""
-    return len(tags_a & tags_b)
-
-
-def greedy_shuffle(tracks: list[Track]) -> list[Track]:
-    """
-    Create an ordering where items with similar tags end up far apart.
-    Greedy: start with any item, repeatedly pick the least-similar next item.
-    """
-    remaining = tracks[:]
-    random.shuffle(remaining)
-    ordering = [remaining.pop()]  # start with random file
-    while remaining:
-        last_tags = set(ordering[-1].tags)
-        # Pick file with minimum shared tags with last file
-        next_file = min(remaining, key=lambda f: score_similarity(last_tags, set(f.tags)))
-        ordering.append(next_file)
-        remaining.remove(next_file)
-    return ordering
-
-
-def create_shuffled_playlist(src_dir: Path, amend=True):
+def create_shuffled_playlist(src_dir: Path, amend: bool, create_preview: bool):
     playlist_name = src_dir.name
     output_dir = Path(__file__).parent.parent / 'docs' / 'audio' / slugify(playlist_name)
+    preview_dir = Path(__file__).parent.parent / 'preview-audio' / slugify(playlist_name)
+    if create_preview:
+        for file in preview_dir.iterdir():
+            file.unlink(missing_ok=True)
     playlist_file = Path(__file__).parent.parent / 'playlists' / (playlist_name + ".json")
     if playlist_file.is_file():
         with playlist_file.open('r', encoding='utf-8') as f:
@@ -55,7 +37,8 @@ def create_shuffled_playlist(src_dir: Path, amend=True):
                 print(f"Track removed: {existing['name']}")
     remaining = set(all_tracks) - set(ordered)
     if remaining:
-        ordered = ordered + greedy_shuffle(list(remaining))
+        ordered, loss = simulated_annealing(ordered + greedy_shuffle(list(remaining)), fix_first=len(ordered))
+        print("Ordering loss per element:", loss / len(ordered))
     # --- Shuffle & write ---
     track_data = []
     hosted_src: list[Track] = []
@@ -70,6 +53,10 @@ def create_shuffled_playlist(src_dir: Path, amend=True):
             track_data.append({"name": track.display_name, "url": dst.name, "start": 0., "end": None, "source": track.url})
         else:  # YouTube
             track_data.append({"name": track.display_name, "url": track.clean_url, "start": track.start_time, "end": track.end_time})
+            if create_preview:
+                preview = preview_dir / track.get_output_filename(i)
+                hosted_src.append(track)
+                hosted_dst.append(preview)
     playlist_data['tracks'] = track_data
     playlist_file.parent.mkdir(exist_ok=True, parents=True)
     with playlist_file.open('w', encoding='utf-8') as f:
@@ -83,6 +70,6 @@ if __name__ == "__main__":
     for playlist_dir in (ROOT / 'source_playlists').iterdir():
         if not playlist_dir.name.startswith('_'):
             print(f"Creating playlist from '{playlist_dir.name}'")
-            file, name, hosted_tracks, hosted_paths = create_shuffled_playlist(playlist_dir, amend=True)
+            file, name, hosted_tracks, hosted_paths = create_shuffled_playlist(playlist_dir, amend=True, create_preview=True)
             compress_mp3_vbr_parallel(hosted_tracks, hosted_paths, overwrite=False)
     generate_playlist_html(ROOT / 'playlists', ROOT / 'docs')
