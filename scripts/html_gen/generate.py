@@ -13,6 +13,9 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
     for f in playlist_files:
         with open(f, "r", encoding="utf-8") as fp:
             data = json.load(fp)
+        for track in data.get("tracks", []):
+            if 'full' not in track:
+                track['full'] = track['name']
         playlist_name = data.get("name", f.stem)
         audio_out_dir = OUT_DIR / "audio" / slugify(playlist_name)
         audio_out_dir.mkdir(parents=True, exist_ok=True)

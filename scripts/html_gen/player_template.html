@@ -82,6 +82,19 @@
     text-decoration: underline;
   }
 
+  .track-info{
+    color: #AAAAAA;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .source-link{
+    color: #AAAAAA;
+    font-size: 18px;
+    text-decoration: none;
+  }
 
   .banner-container{
     position:relative;
@@ -158,6 +171,7 @@
       <div class="player-row">
         <div class="video-wrap" id="video-wrap">
           <div id="player-container"></div>
+          <div id="trackInfo" class="track-info">No track selected.</div>
         </div>
         <div class="controls">
           <div class="big-controls">
@@ -288,6 +302,7 @@ const tracks = (PLAYLIST.tracks || []).map((t, i) => {
   return {
     index: i,
     name: t.name || ('Track ' + (i+1)),
+    full: `${t.full || (t.name || ('Track ' + (i+1)))}  <a target="_blank" class="source-link" href="${t.source || t.url}">🗗</a>`,
     source,
     url: t.url,
     videoId: source === 'youtube' ? idFromUrl(t.url) : null,
@@ -446,6 +461,8 @@ function playTrack(index, autoplay = false){
   savePlaybackState();
 
   const track = tracks[index];
+
+  document.getElementById('trackInfo').innerHTML = track.full;
 
   if (track.source === 'youtube'){
     playYouTubeTrack(track, autoplay);
