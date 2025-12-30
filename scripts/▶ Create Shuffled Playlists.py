@@ -34,7 +34,7 @@ def create_shuffled_playlist(src_dir: Path, amend: bool, create_preview: bool):
     ordered = []
     if amend:
         for i, existing in enumerate(playlist_data['tracks'], 1):
-            matching_track = search_track(existing['name'], existing['url'], i, all_tracks)
+            matching_track = search_track(existing['full'], existing['url'], i, all_tracks)
             if matching_track:
                 ordered.append(matching_track)
             else:

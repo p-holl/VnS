@@ -52,7 +52,7 @@ class Track:
         artist = self.artist.strip()
         if ',' in artist:
             artist = artist[:artist.index(',')]
-        if ' ' in artist:
+        if artist.count(' ') >= 2:
             artist = artist.split(' ')[-1]
         return f"{title} • {self.album}" if self.album else f"{title} • {artist}"
 
