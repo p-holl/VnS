@@ -82,6 +82,19 @@
     text-decoration: underline;
   }
 
+  .track-info{
+    color: #AAAAAA;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .source-link{
+    color: #AAAAAA;
+    font-size: 18px;
+    text-decoration: none;
+  }
 
   .banner-container{
     position:relative;
@@ -166,6 +179,7 @@
       <div class="player-row">
         <div class="video-wrap" id="video-wrap">
           <div id="player-container"></div>
+          <div id="trackInfo" class="track-info">No track selected.</div>
         </div>
         <div class="controls">
           <div class="big-controls">
@@ -190,7 +204,7 @@
 <script>
 const PLAYLIST = {
   "majorVersion": 0,
-  "minorVersion": 2,
+  "minorVersion": 3,
   "tracks": [
     {
       "name": "Carmen Suite No. 2 \u2022 Bizet",
@@ -201,17 +215,33 @@ const PLAYLIST = {
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
+      "name": "Cello Suite #1 in G \u2022 Bach",
+      "full": "Cello Suite #1 in G \u2022 J. S. Bach, Kevin MacLeod",
+      "url": "audio/klassische-musik-werbefrei/002 j-s-bach-kevin-macleod - cello-suite-1-in-g-on-dulcimer-prelude.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Cello_Suite_1_in_G_-_Prelude/"
+    },
+    {
       "name": "Ouverture-Suite \u2022 Zelenka",
       "full": "Ouverture-Suite (excerpt) \u2022 Zelenka, Pro Musica Bohemica",
-      "url": "audio/klassische-musik-werbefrei/002 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+      "url": "audio/klassische-musik-werbefrei/003 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://musopen.org/music/45514"
     },
     {
+      "name": "Dance of the Sugar Plum Fairy \u2022 MacLeod",
+      "full": "Dance of the Sugar Plum Fairy \u2022 Kevin MacLeod",
+      "url": "audio/klassische-musik-werbefrei/004 kevin-macleod - dance-of-the-sugar-plum-fairy.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/"
+    },
+    {
       "name": "Hall of the Mountain King \u2022 Grieg",
       "full": "Hall of the Mountain King \u2022 Edvard Grieg, Kevin MacLeod",
-      "url": "audio/klassische-musik-werbefrei/003 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3",
+      "url": "audio/klassische-musik-werbefrei/005 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://www.youtube.com/audiolibrary"
@@ -219,18 +249,34 @@ const PLAYLIST = {
     {
       "name": "Spring \u2022 Vivaldi",
       "full": "Spring, The Four Seasons (Op. 8, RV 269 'Spring') \u2022 Antonio Vivaldi, The Modena Chamber Orchestra",
-      "url": "audio/klassische-musik-werbefrei/004 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
+      "url": "audio/klassische-musik-werbefrei/006 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://musopen.org/music/14910-the-four-seasons-op-8/"
     },
     {
+      "name": "Gymnopedie No 1 \u2022 MacLeod",
+      "full": "Gymnopedie No 1 \u2022 Kevin MacLeod",
+      "url": "audio/klassische-musik-werbefrei/007 kevin-macleod - gymnopedie-no-1.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/"
+    },
+    {
       "name": "Ouverture-Suite \u2022 Zelenka",
       "full": "Ouverture-Suite (Ouverture-Suite in F major, ZWV 188) \u2022 Zelenka, Pro Musica Bohemica",
-      "url": "audio/klassische-musik-werbefrei/005 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+      "url": "audio/klassische-musik-werbefrei/008 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Toccata and Fugue in D Minor \u2022 Bach",
+      "full": "Toccata and Fugue in D Minor \u2022 J. S. Bach, Kevin MacLeod",
+      "url": "audio/klassische-musik-werbefrei/009 j-s-bach-kevin-macleod - toccata-and-fugue-in-d-minor.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Toccata_and_Fugue_in_D_Minor/"
     }
   ]
 };
@@ -341,6 +387,7 @@ const tracks = (PLAYLIST.tracks || []).map((t, i) => {
   return {
     index: i,
     name: t.name || ('Track ' + (i+1)),
+    full: `${t.full || (t.name || ('Track ' + (i+1)))}  <a target="_blank" class="source-link" href="${t.source || t.url}">🗗</a>`,
     source,
     url: t.url,
     videoId: source === 'youtube' ? idFromUrl(t.url) : null,
@@ -499,6 +546,8 @@ function playTrack(index, autoplay = false){
   savePlaybackState();
 
   const track = tracks[index];
+
+  document.getElementById('trackInfo').innerHTML = track.full;
 
   if (track.source === 'youtube'){
     playYouTubeTrack(track, autoplay);
