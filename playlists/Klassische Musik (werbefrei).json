@@ -1,0 +1,46 @@
+{
+  "majorVersion": 0,
+  "minorVersion": 2,
+  "tracks": [
+    {
+      "name": "Carmen Suite No. 2 \u2022 Bizet",
+      "full": "Carmen Suite No. 2 \u2022 Bizet",
+      "url": "001 bizet - carmen-suite-no-2.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Zelenka",
+      "full": "Ouverture-Suite (excerpt) \u2022 Zelenka, Pro Musica Bohemica",
+      "url": "002 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Hall of the Mountain King \u2022 Grieg",
+      "full": "Hall of the Mountain King \u2022 Edvard Grieg, Kevin MacLeod",
+      "url": "003 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "Spring \u2022 Vivaldi",
+      "full": "Spring, The Four Seasons (Op. 8, RV 269 'Spring') \u2022 Antonio Vivaldi, The Modena Chamber Orchestra",
+      "url": "004 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/14910-the-four-seasons-op-8/"
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Zelenka",
+      "full": "Ouverture-Suite (Ouverture-Suite in F major, ZWV 188) \u2022 Zelenka, Pro Musica Bohemica",
+      "url": "005 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    }
+  ]
+}

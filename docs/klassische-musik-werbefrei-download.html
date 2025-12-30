@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Download – Viberant – Klassische Musik (werbefrei)</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+  body{background:linear-gradient(180deg,#071227 0%, #0b1726 100%);color:var(--text);display:flex;align-items:flex-start;justify-content:center;padding:28px;}
+  .container{width:100%;max-width:980px;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  h1{margin:0;font-size:20px;letter-spacing:0.2px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+  .player-row{display:flex;gap:14px;align-items:center}
+  .video-wrap{flex:0 0 500px;height:80px;max-width:100%}
+  .video-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;background:#000}
+  .controls{flex:1;display:flex;flex-direction:column;gap:10px}
+  .big-controls{display:flex;gap:10px;align-items:center}
+  button{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  }
+  button.primary{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+  }
+  .download-button{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .track-list{margin-top:14px;display:flex;gap:12px}
+  .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
+  .track{padding:10px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
+  .track:hover{background:rgba(255,255,255,0.02)}
+  .track .idx{width:28px;text-align:center;color:var(--muted);font-size:13px}
+  .track .title{font-size:14px}
+  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,196,255,0.06));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
+  footer{margin-top:10px;color:var(--muted);font-size:13px}
+  @media (max-width:640px){
+    .player-row{flex-direction:column;align-items:stretch}
+    .video-wrap{height:64px;flex-basis:auto}
+    .controls{order:2}
+  }
+  .filename {
+    flex: 1;
+    color: #FFFFFF;
+    font-weight: 100;
+   }
+  .download-icon {
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+  .original-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 11px;
+    padding: 6px 8px;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  footer a.nav-button {
+    background: linear-gradient(90deg,#7c4dff70,#00c4ff70);
+    border: none;
+    color: #EEEEEE;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+    text-decoration: none;
+  }
+  footer a.nav-button:hover,
+  footer a.nav-button:focus {
+    color: #ffcc00;          /* highlight on hover/focus */
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Viberant</h1>
+        <div class="subtitle">Klassische Musik (werbefrei) herunterladen</div>
+      </div>
+    </header>
+
+    <div>
+      <button id="download" class="primary">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </button>
+      <span class="filename">Alle herunterladen (ZIP)</span>
+
+      <!-- Progress bar (hidden by default) -->
+      <div id="progress-container" style="display: none; margin-top: 16px;">
+        <div style="background: #e0e0e0; border-radius: 8px; overflow: hidden; height: 24px;">
+          <div id="progress-bar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;"></div>
+        </div>
+        <div id="progress-text" style="margin-top: 8px; text-align: center; font-size: 14px; color: #666;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <ol>
+        <li>
+    <a href="audio/klassische-musik-werbefrei/001 bizet - carmen-suite-no-2.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Carmen Suite No. 2 • Bizet</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/klassische-musik-werbefrei/002 zelenka-pro-musica-bohemica - ouverture-suite.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Ouverture-Suite • Zelenka</span>
+    <a href="https://musopen.org/music/45514" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/klassische-musik-werbefrei/003 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hall of the Mountain King • Grieg</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/klassische-musik-werbefrei/004 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Spring • Vivaldi</span>
+    <a href="https://musopen.org/music/14910-the-four-seasons-op-8/" class="original-link" target="_blank">🗗</a>
+</li>
+<li>
+    <a href="audio/klassische-musik-werbefrei/005 zelenka-pro-musica-bohemica - ouverture-suite.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Ouverture-Suite • Zelenka</span>
+    <a href="https://musopen.org/music/45514" class="original-link" target="_blank">🗗</a>
+</li>
+      </ol>
+    </div>
+
+    <footer>
+      <p><a class="nav-button" href="klassische-musik-werbefrei.html">Zurück zur Playlist</a></p>
+      <p><a class="nav-button" href="index.html">Andere Playlists</a></p>
+      <p>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"><img src="https://licensebuttons.net/l/zero/1.0/88x31.png"></a>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/licenses/by/4.0"><img src="https://licensebuttons.net/l/by/4.0/88x31.png"></a>
+        – Lizenzen und Details zu den Stücken können auf der Ursprungsseite (🗗) nachgeschlagen werden. Ist kein Ursprung angegeben, ist das Stück Public Domain (CC0).</p>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+
+const filesToDownload = [
+  {
+    "url": "audio/klassische-musik-werbefrei/001 bizet - carmen-suite-no-2.mp3",
+    "outputName": "001 carmen-suite-no-2-bizet.mp3"
+  },
+  {
+    "url": "audio/klassische-musik-werbefrei/002 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+    "outputName": "002 ouverture-suite-zelenka.mp3"
+  },
+  {
+    "url": "audio/klassische-musik-werbefrei/003 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3",
+    "outputName": "003 hall-of-the-mountain-king-grieg.mp3"
+  },
+  {
+    "url": "audio/klassische-musik-werbefrei/004 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
+    "outputName": "004 spring-vivaldi.mp3"
+  },
+  {
+    "url": "audio/klassische-musik-werbefrei/005 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+    "outputName": "005 ouverture-suite-zelenka.mp3"
+  }
+];
+
+document.getElementById("download").onclick = async () => {
+  const btn = document.getElementById("download");
+  const progressContainer = document.getElementById("progress-container");
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+
+  // Disable button and show progress
+  btn.disabled = true;
+  progressContainer.style.display = "block";
+
+  try {
+    const zip = new JSZip();
+    const total = filesToDownload.length;
+
+    for (let i = 0; i < total; i++) {
+      const file = filesToDownload[i];
+
+      // Update progress
+      const percent = Math.round(((i + 1) / total) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+      progressText.textContent = `Downloading ${i + 1} of ${total}: ${file.outputName}`;
+
+      const response = await fetch(file.url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch no. ${i}: ${file.url}`);
+      }
+      const content = await response.blob();
+      zip.file(file.outputName, content);
+    }
+
+    // Show zipping progress
+    progressText.textContent = "Creating ZIP file...";
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "klassische-musik-werbefrei.zip");
+
+    // Success message
+    progressText.textContent = "Download complete!";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      btn.disabled = false;
+    }, 2000);
+
+  } catch (error) {
+    progressText.textContent = "Error: " + error.message;
+    progressText.style.color = "red";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      progressText.style.color = "#666";
+      btn.disabled = false;
+    }, 3000);
+  }
+};
+
+</script>
+</body>
+</html>
