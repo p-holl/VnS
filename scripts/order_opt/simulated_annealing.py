@@ -70,6 +70,8 @@ def simulated_annealing(tracks: list[Track],
     weights = compute_weight_matrix(tracks)
     current = list(range(len(tracks)))
     current_loss = compute_total_loss(weights, current)
+    if len(tracks) - fix_first <= 1:
+        return tracks, current_loss
 
     best = current.copy()
     best_loss = current_loss

@@ -10,8 +10,12 @@ from process_mp3.tracks import track_from_file, Track, search_track, slugify
 def create_shuffled_playlist(src_dir: Path, amend: bool, create_preview: bool):
     playlist_name = src_dir.name
     output_dir = Path(__file__).parent.parent / 'docs' / 'audio' / slugify(playlist_name)
+    if output_dir.is_dir():
+        for file in output_dir.iterdir():
+            if file.name.endswith('.mp3'):
+                file.unlink(missing_ok=True)
     preview_dir = Path(__file__).parent.parent / 'preview-audio' / slugify(playlist_name)
-    if create_preview:
+    if create_preview and preview_dir.is_dir():
         for file in preview_dir.iterdir():
             file.unlink(missing_ok=True)
     playlist_file = Path(__file__).parent.parent / 'playlists' / (playlist_name + ".json")
@@ -50,9 +54,9 @@ def create_shuffled_playlist(src_dir: Path, amend: bool, create_preview: bool):
             dst = output_dir / track.get_output_filename(i)
             hosted_src.append(track)
             hosted_dst.append(dst)
-            track_data.append({"name": track.display_name, "url": dst.name, "start": 0., "end": None, "source": track.url})
+            track_data.append({"name": track.display_name, "full": track.long_name, "url": dst.name, "start": 0., "end": None, "source": track.url})
         else:  # YouTube
-            track_data.append({"name": track.display_name, "url": track.clean_url, "start": track.start_time, "end": track.end_time})
+            track_data.append({"name": track.display_name, "full": track.long_name, "url": track.clean_url, "start": track.start_time, "end": track.end_time})
             if create_preview:
                 preview = preview_dir / track.get_output_filename(i)
                 hosted_src.append(track)

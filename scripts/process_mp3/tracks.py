@@ -47,6 +47,17 @@ class Track:
 
     @property
     def display_name(self):
+        """Short name"""
+        title = self.title.split('(', 1)[0].split(',', 1)[0].strip()
+        artist = self.artist.strip()
+        if ',' in artist:
+            artist = artist[:artist.index(',')]
+        if ' ' in artist:
+            artist = artist.split(' ')[-1]
+        return f"{title} • {self.album}" if self.album else f"{title} • {artist}"
+
+    @property
+    def long_name(self):
         title = self.title.split('(', 1)[0].strip()
         if self.subtitle:
             title += f" ({self.subtitle})"
@@ -85,8 +96,8 @@ class Track:
         return float(time_str) if time_str else None
 
 
-def search_track(display_name: str, url: str, number: int, tracks: list[Track]):
-    matches = [t for t in tracks if t.display_name == display_name]
+def search_track(long_name: str, url: str, number: int, tracks: list[Track]):
+    matches = [t for t in tracks if t.long_name == long_name]
     if not matches:
          return None
     elif len(matches) == 1:
@@ -106,6 +117,9 @@ def track_from_file(path: Path) -> Track:
 
     title = get_text('TIT2')
     subtitle = get_text('TIT3')
+    if not subtitle and ',' in title:
+        subtitle = title[title.index(',')+1:].strip()
+        title = title[:title.index(',')]
     comments = sum([frame.text for frame in tags.getall("COMM")], [])
     performer = get_text('TPE1')  # "Contributing Artists"
     artist = get_text('TPE2') or performer  # "Album Artist" (e.g. composer)
