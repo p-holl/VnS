@@ -108,7 +108,7 @@ def search_track(long_name: str, url: str, number: int, tracks: list[Track]):
         return matches[0] if matches else None
 
 
-def track_from_file(path: Path) -> Track:
+def track_from_file(path: Path, playlist_name: str = None) -> Track:
     tags = ID3(path)
 
     def get_text(frame_id, default=""):
@@ -125,12 +125,14 @@ def track_from_file(path: Path) -> Track:
     artist = get_text('TPE2') or performer  # "Album Artist" (e.g. composer)
     performer = performer or artist
     album = get_text('TALB')
-    # track_number = get_text('TRCK')
     genre = get_text('TCON')
     # --- Construct Track ---
-    tags = [t.strip() for t in path.stem.split(' ') if len(t.strip()) > 2 and t.strip().lower() not in {'the',}] + ([genre] if genre else [])
+    number = None  # get_text('TRCK')
+    tags = [t.strip().lower() for t in path.stem.split(' ') if len(t.strip()) > 2 and t.strip().lower() not in {'the',}] + ([genre] if genre else [])
+    if path.stem[0].isdigit():
+        number = int(path.stem.split(" ", 1)[0])
     source = get_url_from_comments(comments)
-    return Track(source, title, subtitle, album, artist, performer, genre, tags, path)
+    return Track(source, title, subtitle, album, artist, performer, genre, tags, path, number, playlist_name)
 
 
 def get_url_from_comments(comments: list[str]):

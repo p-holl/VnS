@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from html_gen.generate import generate_playlist_html
-from order_opt.simulated_annealing import simulated_annealing, greedy_shuffle
+from order_opt.simulated_annealing import simulated_annealing, greedy_fill
 from process_mp3.compress import compress_mp3_vbr_parallel
 from process_mp3.tracks import track_from_file, Track, search_track, slugify
 
@@ -30,26 +30,28 @@ def create_shuffled_playlist(src_dir: Path, amend: bool, create_preview: bool):
     else:
         playlist_data = {'majorVersion': 0, 'minorVersion': 0, 'tracks': []}
     # --- Discover tracks & shuffle ---
-    all_tracks = [track_from_file(file) for file in src_dir.iterdir() if file.name.endswith('.mp3')]
-    ordered = []
+    all_tracks = [track_from_file(file, playlist_name) for file in src_dir.iterdir() if file.name.endswith('.mp3')]
     if amend:
         for i, existing in enumerate(playlist_data['tracks'], 1):
             matching_track = search_track(existing['full'], existing['url'], i, all_tracks)
             if matching_track:
-                ordered.append(matching_track)
+                matching_track.number = i + 1
             else:
                 print(f"Track removed: {existing['name']}")
-    remaining = set(all_tracks) - set(ordered)
-    if remaining:
-        ordered, loss = simulated_annealing(ordered + greedy_shuffle(list(remaining)), fix_first=len(ordered))
-        print("Ordering loss per element:", loss / len(ordered))
+    ordered = [None] * len(all_tracks)
+    for track in all_tracks:
+        if track.number is not None:
+            ordered[track.number - 1] = track
+    remaining = [t for t in all_tracks if t.number is None]
+    ordered = greedy_fill(ordered, remaining)
+    ordered, loss = simulated_annealing(ordered)
+    print("Ordering loss per element:", loss / len(ordered))
     # --- Shuffle & write ---
     track_data = []
     hosted_src: list[Track] = []
     hosted_dst: list[Path] = []
     for i, track in enumerate(ordered, 1):
         track.number = i
-        track.playlist_name = playlist_name
         if not track.is_hosted_externally:
             dst = output_dir / track.get_output_filename(i)
             hosted_src.append(track)
@@ -74,6 +76,6 @@ if __name__ == "__main__":
     for playlist_dir in (ROOT / 'source_playlists').iterdir():
         if not playlist_dir.name.startswith('_'):
             print(f"Creating playlist from '{playlist_dir.name}'")
-            file, name, hosted_tracks, hosted_paths = create_shuffled_playlist(playlist_dir, amend=True, create_preview=True)
+            file, name, hosted_tracks, hosted_paths = create_shuffled_playlist(playlist_dir, amend=False, create_preview=True)
             compress_mp3_vbr_parallel(hosted_tracks, hosted_paths, overwrite=False)
     generate_playlist_html(ROOT / 'playlists', ROOT / 'docs')
