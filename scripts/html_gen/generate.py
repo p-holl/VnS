@@ -67,16 +67,16 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
         print("Wrote", filename, download_file)
 
     # ---- Build index.html ----
-    with (Path(__file__).parent / "index_template.html").open('r', encoding='utf-8') as file:
-        index_html = file.read()
-    index_contents = ""
-    for title, file_html, fname in index_entries:
-        index_contents += f'<li><a href="{file_html}">{escape(title)}</a></li>\n'
-    index_html = index_html.replace("{playlists}", index_contents)
-
-    (OUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
-
-    print("Wrote", OUT_DIR / "index.html")
+    # with (Path(__file__).parent / "index_template.html").open('r', encoding='utf-8') as file:
+    #     index_html = file.read()
+    # index_contents = ""
+    # for title, file_html, fname in index_entries:
+    #     index_contents += f'<li><a href="{file_html}">{escape(title)}</a></li>\n'
+    # index_html = index_html.replace("{playlists}", index_contents)
+    #
+    # (OUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
+    #
+    # print("Wrote", OUT_DIR / "index.html")
 
 
 if __name__ == '__main__':
