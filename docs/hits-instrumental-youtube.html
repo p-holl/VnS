@@ -100,6 +100,10 @@
     color: #AAAAAA;
     font-size: 18px;
     text-decoration: none;
+    padding: 0px 4px;
+    border: 1px solid #AAAAAA;
+    border-radius: 6px;
+    transition: all 0.2s;
   }
 
   .banner-container{
@@ -518,7 +522,7 @@ const tracks = (PLAYLIST.tracks || []).map((t, i) => {
   return {
     index: i,
     name: t.name || ('Track ' + (i+1)),
-    full: `${t.full || (t.name || ('Track ' + (i+1)))}  <a target="_blank" class="source-link" href="${t.source || t.url}">🗗</a>`,
+    full: `${t.full || (t.name || ('Track ' + (i+1)))}  <a target="_blank" class="source-link" href="${t.source || t.url}">↗</a>`,
     source,
     url: t.url,
     videoId: source === 'youtube' ? idFromUrl(t.url) : null,

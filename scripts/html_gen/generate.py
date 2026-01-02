@@ -55,7 +55,7 @@ def generate_playlist_html(PLAYLISTS_DIR, OUT_DIR):
             for mp3 in mp3_tracks:
                 mp3_li = li_html.replace("{name}", mp3['name']).replace("{download_link}", mp3['url'])
                 if mp3['source'] is not None:
-                    mp3_li = mp3_li.replace("{original_href}", f'<a href="{mp3["source"]}" class="original-link" target="_blank">🗗</a>')
+                    mp3_li = mp3_li.replace("{original_href}", f'<a href="{mp3["source"]}" class="original-link" target="_blank">↗</a>')
                 else:
                     mp3_li = mp3_li.replace("{original_href}", "")
                 items.append(mp3_li)
