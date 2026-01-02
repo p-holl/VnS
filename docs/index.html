@@ -12,6 +12,14 @@
       --accent:#7c4dff;
       --text:#e6eef7;
     }
+<!--    body{-->
+<!--        background:linear-gradient(180deg,#071227 0%, #0b1726 100%);-->
+<!--        color:var(&#45;&#45;text);-->
+<!--        display:flex;-->
+<!--        flex-direction:column;-->
+<!--        align-items:flex-start;-->
+<!--        justify-content:center;-->
+<!--        padding:28px;}-->
     body{
       font-family:system-ui,Segoe UI,Roboto;
       padding:24px;
@@ -22,6 +30,24 @@
       flex-direction:column;
       align-items:center;
       padding:28px;
+    }
+    .card{
+        background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        border-radius:12px;
+        padding:14px;
+        box-shadow:0 6px 20px rgba(2,6,23,0.6)
+        width: 100%;
+    }
+    .row{
+        display:flex;
+        gap:14px;
+        align-items:top
+        width: 100%;
+    }
+    .header{
+        color: #909090;
+        padding-bottom: 12px;
+        padding-left: 8px;
     }
     img{
       max-width:100%;
@@ -65,15 +91,25 @@
     </style>
     </head><body>
     <img src="Banner.jpg" alt="Viberant">
-    <ul>
-<li><a href="tv-film-spiele-youtube.html">TV, Film &amp; Spiele (YouTube)</a></li>
-<li><a href="mix-youtube.html">Mix (YouTube)</a></li>
-<li><a href="hits-instrumental-youtube.html">Hits (Instrumental, YouTube)</a></li>
-<li><a href="impressionen-werbefrei.html">Impressionen (werbefrei)</a></li>
-<li><a href="chill-out-werbefrei.html">Chill out (werbefrei)</a></li>
-<li><a href="klassische-musik-werbefrei.html">Klassische Musik (werbefrei)</a></li>
-
-    </ul>
+    <div class="card">
+        <div class="row">
+            <div>
+                <div class="header">YouTube</div>
+                <ul>
+                    <li><a href="tv-film-spiele-youtube.html">TV, Film &amp; Spiele</a></li>
+                    <li><a href="mix-youtube.html">Mix</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="header">Werbefrei</div>
+                <ul>
+                    <li><a href="chill-out-werbefrei.html">Chill out</a></li>
+                    <li><a href="impressionen-werbefrei.html">Impressionen</a></li>
+                    <li><a href="klassische-musik-werbefrei.html">Klassisch</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <footer>
       <p>Impressum: Philipp Holl – philipp@mholl.de</p>
