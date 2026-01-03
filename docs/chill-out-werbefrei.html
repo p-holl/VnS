@@ -962,43 +962,37 @@ document.getElementById('prevBtn').onclick = () => {
 };
 
 document.getElementById('nextBtn').onclick = () => {
-  playTrack((currentIndex + 1) % tracks.length, true);
+  // Pause current track
+  const track = tracks[currentIndex];
+  if (track.source === 'youtube' && ytPlayer){
+    ytPlayer.pauseVideo();
+  } else if (track.source === 'audio' && audioPlayer){
+    audioPlayer.pause();
+  }
+
+  // Create background audio instance
+  const bgAudio = new Audio('audio/SFX_Next.mp3');
+  bgAudio.volume = 1.0;
+  bgAudio.loop = false;
+
+  // Remove reference once audio ends
+  bgAudio.addEventListener('ended', () => {
+    bgAudio.src = '';
+  });
+
+  // Start playback
+  bgAudio.play()
+    .then(() => {
+      setTimeout(() => {  // Schedule main track to start
+        playTrack((currentIndex + 1) % tracks.length, true);
+      }, 5500);
+    })
+    .catch(err => {
+      console.error('Background audio failed to play:', err);
+      // Fallback to main track
+      playTrack((currentIndex + 1) % tracks.length, true);
+    });
 };
-
-<!--document.getElementById('travelBtn').onclick = () => {-->
-<!--  // Pause current track-->
-<!--  const track = tracks[currentIndex];-->
-<!--  if (track.source === 'youtube' && ytPlayer){-->
-<!--    ytPlayer.pauseVideo();-->
-<!--  } else if (track.source === 'audio' && audioPlayer){-->
-<!--    audioPlayer.pause();-->
-<!--  }-->
-
-<!--  // Create background audio instance-->
-<!--  const bgAudio = new Audio('audio/SFX_Jump.mp3');-->
-<!--  bgAudio.volume = 1.0;-->
-<!--  bgAudio.loop = false;-->
-
-<!--  // Remove reference once audio ends-->
-<!--  bgAudio.addEventListener('ended', () => {-->
-<!--    bgAudio.src = '';-->
-<!--  });-->
-
-<!--  // Start playback-->
-<!--  bgAudio.play()-->
-<!--    .then(() => {-->
-<!--      setTimeout(() => {  // Schedule main track to start 10 seconds later-->
-<!--        playTrack((currentIndex + 1) % tracks.length, true);-->
-<!--      }, 16000);-->
-<!--    })-->
-<!--    .catch(err => {-->
-<!--      console.error('Background audio failed to play:', err);-->
-<!--      // Fallback to main track-->
-<!--      playTrack((currentIndex + 1) % tracks.length, true);-->
-<!--    });-->
-
-<!--};-->
-
 
 
 document.getElementById('playBtn').onclick = togglePlayPause;
