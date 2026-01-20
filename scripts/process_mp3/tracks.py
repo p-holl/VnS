@@ -32,8 +32,8 @@ class Track:
         tags.add(TIT2(encoding=3, text=self.title))
         tags.add(TIT3(encoding=3, text=self.subtitle))
         tags.add(TPE1(encoding=3, text=", ".join(list({self.artist, self.performer}))))
-        tags.add(TPE2(encoding=3, text="Vibe & Seek"))
-        tags.add(TALB(encoding=3, text=playlist_name))
+        tags.add(TPE2(encoding=3, text="KlangFarben"))  # Album artist
+        tags.add(TALB(encoding=3, text=playlist_name.split('(', 1)[0].strip()))
         if self.genre:
             tags.add(TCON(encoding=3, text=self.genre))
         if number is not None:
