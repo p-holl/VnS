@@ -19,8 +19,8 @@ class Track:
     title: str
     subtitle: str
     album: str
+    album_artist: str
     artist: str
-    performer: str
     genre: str
     tags: list[str]
     file_path: Path = None
@@ -31,7 +31,7 @@ class Track:
         tags = ID3()
         tags.add(TIT2(encoding=3, text=self.title))
         tags.add(TIT3(encoding=3, text=self.subtitle))
-        tags.add(TPE1(encoding=3, text=", ".join(list({self.artist, self.performer}))))
+        tags.add(TPE1(encoding=3, text=", ".join(list({self.album_artist, self.artist}))))
         tags.add(TPE2(encoding=3, text="KlangFarben"))  # Album artist
         tags.add(TALB(encoding=3, text=playlist_name.split('(', 1)[0].strip()))
         if self.genre:
@@ -43,7 +43,7 @@ class Track:
         tags.save(file)
 
     def cache_dict(self):
-        return {'url': self.url, 'title': self.title, 'subtitle': self.subtitle, 'album': self.album, 'artist': self.artist, 'performer': self.performer, 'genre': self.genre, 'tags': self.tags}
+        return {'url': self.url, 'title': self.title, 'subtitle': self.subtitle, 'album': self.album, 'album_artist': self.album_artist, 'artist': self.artist, 'genre': self.genre, 'tags': self.tags}
 
     @property
     def display_name(self):
@@ -121,9 +121,9 @@ def track_from_file(path: Path, playlist_name: str = None) -> Track:
         subtitle = title[title.index(',')+1:].strip()
         title = title[:title.index(',')]
     comments = sum([frame.text for frame in tags.getall("COMM")], [])
-    performer = get_text('TPE1')  # "Contributing Artists"
-    artist = get_text('TPE2') or performer  # "Album Artist" (e.g. composer)
-    performer = performer or artist
+    artist = get_text('TPE1')  # "Contributing Artists"
+    album_artist = get_text('TPE2') or artist  # "Album Artist" (e.g. composer)
+    artist = artist or album_artist
     album = get_text('TALB')
     genre = get_text('TCON')
     # --- Construct Track ---
@@ -132,7 +132,7 @@ def track_from_file(path: Path, playlist_name: str = None) -> Track:
     if path.stem[0].isdigit():
         number = int(path.stem.split(" ", 1)[0])
     source = get_url_from_comments(comments)
-    return Track(source, title, subtitle, album, artist, performer, genre, tags, path, number, playlist_name)
+    return Track(source, title, subtitle, album, album_artist, artist, genre, tags, path, number, playlist_name)
 
 
 def get_url_from_comments(comments: list[str]):
