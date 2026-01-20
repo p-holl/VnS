@@ -2,8 +2,7 @@ import random
 import numpy as np
 from scipy.sparse import coo_matrix
 
-from process_mp3.tracks import Track
-
+from process_mp3.tracks import Track, check_no_duplicates
 
 LOSS_BY_TAG = {}
 
@@ -23,6 +22,8 @@ def greedy_fill(ordering: list[Track | None], remaining: list[Track]) -> list[Tr
     Create an ordering where items with similar tags end up far apart.
     Greedy: start with any item, repeatedly pick the least-similar next item.
     """
+    check_no_duplicates(ordering)
+    check_no_duplicates(remaining)
     remaining = list(remaining)
     random.shuffle(remaining)
     for i, t in enumerate(ordering):
@@ -33,6 +34,7 @@ def greedy_fill(ordering: list[Track | None], remaining: list[Track]) -> list[Tr
             ordering[i] = best
             remaining.remove(best)
     assert not remaining
+    check_no_duplicates(ordering)
     return ordering
 
 
@@ -58,7 +60,7 @@ def compute_total_loss(weights: coo_matrix, ordering: list[int]) -> float:
     return losses.sum()
 
 
-def simulated_annealing(tracks: list[Track], initial_temp: float = 1000.0, cooling_rate: float = 0.995, iterations_per_temp: int = 100, min_temp: float = 1e-3):
+def simulated_annealing(tracks: list[Track], initial_temp: float = 100.0, cooling_rate: float = 0.995, iterations_per_temp: int = 100, min_temp: float = 1e-3):
     """ Use simulated annealing of non-fixed (number=None) tracks to find optimal ordering. """
     weights = compute_weight_matrix(tracks)
     current = list(range(len(tracks)))
@@ -70,7 +72,7 @@ def simulated_annealing(tracks: list[Track], initial_temp: float = 1000.0, cooli
     best_loss = current_loss
     temp = initial_temp
     while temp > min_temp:
-        print(best_loss / len(tracks))
+        print(temp, best_loss / len(tracks))
         for _ in range(iterations_per_temp):
             # Generate neighbor by swapping two random elements
             new = current.copy()

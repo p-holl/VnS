@@ -103,9 +103,9 @@ def search_track(long_name: str, url: str, number: int, tracks: list[Track]):
     elif len(matches) == 1:
         return matches[0]
     else:  # multiple matches
-        matches = [t for t in matches if t.get_output_filename(number) == url]
-        assert len(matches) <= 1
-        return matches[0] if matches else None
+        matches2 = [t for t in matches if t.get_output_filename(number) == url]
+        assert len(matches2) <= 1
+        return matches2[0] if matches2 else None
 
 
 def track_from_file(path: Path, playlist_name: str = None) -> Track:
@@ -144,6 +144,14 @@ def get_url_from_comments(comments: list[str]):
         if comment.startswith('http'):
             return comment
     return None
+
+
+def check_no_duplicates(tracks: list[Track]):
+    for i, t1 in enumerate(tracks):
+        for t2 in tracks[i+1:]:
+            if t1 is not None and t2 is not None:
+                if t1.long_name == t2.long_name:
+                    raise AssertionError(f"Duplicate songs with name {t1.long_name}")
 
 
 # if __name__ == '__main__':
