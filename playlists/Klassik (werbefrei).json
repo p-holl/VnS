@@ -1,0 +1,374 @@
+{
+  "majorVersion": 2,
+  "minorVersion": 3,
+  "tracks": [
+    {
+      "name": "Carmen Suite No. 2 \u2022 Bizet",
+      "full": "Carmen Suite No. 2 \u2022 Bizet",
+      "url": "001 bizet - carmen-suite-no-2.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Piano Concert \u2022 Rachmaninov",
+      "full": "Piano Concert \u2022 Rachmaninov",
+      "url": "002 rachmaninov - piano-concert.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Violin Concerto No. 1 \u2022 Bruch",
+      "full": "Violin Concerto No. 1 (in G Minor Op. 26, Adagio) \u2022 Bruch",
+      "url": "003 bruch - violin-concerto-no-1.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Huingarian Dance No. 1 \u2022 Brahms",
+      "full": "Huingarian Dance No. 1 \u2022 Brahms",
+      "url": "004 brahms - huingarian-dance-no-1.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "String Quintet \u2022 Boccherini",
+      "full": "String Quintet (in E Major, Op. 11, No. 5, Minuet) \u2022 Boccherini",
+      "url": "005 boccherini - string-quintet.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Dance of the Sugar Plum Fairy \u2022 Kevin MacLeod",
+      "full": "Dance of the Sugar Plum Fairy \u2022 Kevin MacLeod",
+      "url": "006 kevin-macleod - dance-of-the-sugar-plum-fairy.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/"
+    },
+    {
+      "name": "Sleeping Beauty \u2022 Tchaikovsky",
+      "full": "Sleeping Beauty \u2022 Tchaikovsky",
+      "url": "007 tchaikovsky - sleeping-beauty.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Piano Concerto No. 5 \u2022 Various\u3000Artists",
+      "full": "Piano Concerto No. 5 (in Eb Major, Op. 71, Allegro) \u2022 Various\u3000Artists",
+      "url": "008 various-artists - piano-concerto-no-5.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Sabre Dance \u2022 Khachaturian",
+      "full": "Sabre Dance \u2022 Khachaturian",
+      "url": "009 khachaturian - sabre-dance.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Hall of the Mountain King \u2022 Edvard Grieg",
+      "full": "Hall of the Mountain King \u2022 Edvard Grieg, Kevin MacLeod",
+      "url": "010 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://www.youtube.com/audiolibrary"
+    },
+    {
+      "name": "String Serenade \u2022 Dvorak",
+      "full": "String Serenade (in E Major, Op 22, Moderato) \u2022 Dvorak",
+      "url": "011 dvorak - string-serenade.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Clarinet Concerto in A Major \u2022 Mozart",
+      "full": "Clarinet Concerto in A Major (K622 Adagio) \u2022 Mozart",
+      "url": "012 mozart - clarinet-concerto-in-a-major.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Moonlight Sonata \u2022 Paul Pitman",
+      "full": "Moonlight Sonata \u2022 Paul Pitman",
+      "url": "013 paul-pitman - moonlight-sonata.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/2547"
+    },
+    {
+      "name": "Symphony No. 101 \u2022 Haydn",
+      "full": "Symphony No. 101 (in D Major, Andante) \u2022 Haydn",
+      "url": "014 haydn - symphony-no-101.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Midsummer Night's Dream Op. 21 \u2022 Mendelssohn",
+      "full": "Midsummer Night's Dream Op. 21 (Wedding March) \u2022 Mendelssohn",
+      "url": "015 mendelssohn - midsummer-night-s-dream-op-21.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Gymnopedie No 1 \u2022 Kevin MacLeod",
+      "full": "Gymnopedie No 1 \u2022 Kevin MacLeod",
+      "url": "016 kevin-macleod - gymnopedie-no-1.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/"
+    },
+    {
+      "name": "Hungarian Dance No. 5 \u2022 Brahms",
+      "full": "Hungarian Dance No. 5 \u2022 Brahms",
+      "url": "017 brahms - hungarian-dance-no-5.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Adabio for Strings \u2022 Barber",
+      "full": "Adabio for Strings (Op. 11) \u2022 Barber",
+      "url": "018 barber - adabio-for-strings.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "The Nutcracker \u2022 Various",
+      "full": "The Nutcracker (Op. 71a, Chinese Dance) \u2022 Various",
+      "url": "019 various - the-nutcracker.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Hungarian Fantasy for Piano and Orchestra \u2022 Liszt",
+      "full": "Hungarian Fantasy for Piano and Orchestra \u2022 Liszt",
+      "url": "020 liszt - hungarian-fantasy-for-piano-and-orchestra.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Orchestral Suite No. 2 \u2022 Various",
+      "full": "Orchestral Suite No. 2 (in B Minor, BWV1067, Badinerie) \u2022 Various",
+      "url": "021 various - orchestral-suite-no-2.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Zelenka",
+      "full": "Ouverture-Suite (excerpt) \u2022 Zelenka, Pro Musica Bohemica",
+      "url": "022 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Waltz No. 6 in Db Major \u2022 Various",
+      "full": "Waltz No. 6 in Db Major (Op. 64, No. 1) \u2022 Various",
+      "url": "023 various - waltz-no-6-in-db-major.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Bolero \u2022 Ravel",
+      "full": "Bolero \u2022 Ravel",
+      "url": "024 ravel - bolero.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Cello Suite #1 in G \u2022 Bach",
+      "full": "Cello Suite #1 in G \u2022 J. S. Bach, Kevin MacLeod",
+      "url": "025 j-s-bach-kevin-macleod - cello-suite-1-in-g-on-dulcimer-prelude.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Cello_Suite_1_in_G_-_Prelude/"
+    },
+    {
+      "name": "Overture The Marriage of Figaro \u2022 Mozart",
+      "full": "Overture The Marriage of Figaro \u2022 Mozart",
+      "url": "026 mozart - overture-the-marriage-of-figaro.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "1812 Overture \u2022 Tchaikovsky",
+      "full": "1812 Overture \u2022 Tchaikovsky",
+      "url": "027 tchaikovsky - 1812-overture.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "F\u00fcr Elise \u2022 Beethoven",
+      "full": "F\u00fcr Elise \u2022 Beethoven",
+      "url": "028 beethoven - f-r-elise.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/"
+    },
+    {
+      "name": "Spring \u2022 Antonio Vivaldi",
+      "full": "Spring, The Four Seasons (Op. 8, RV 269 'Spring') \u2022 Antonio Vivaldi, The Modena Chamber Orchestra",
+      "url": "029 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/14910-the-four-seasons-op-8/"
+    },
+    {
+      "name": "Carmen Suite No. 2 Dance Boheme \u2022 Bizet",
+      "full": "Carmen Suite No. 2 Dance Boheme \u2022 Bizet",
+      "url": "030 bizet - carmen-suite-no-2-dance-boheme.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Double Violin Concerto in D Minor \u2022 Bach",
+      "full": "Double Violin Concerto in D Minor (BWV1043, Vivace) \u2022 Bach",
+      "url": "031 bach - double-violin-concerto-in-d-minor.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Fight of the Bumble Bee \u2022 Rimsky-Korsakove",
+      "full": "Fight of the Bumble Bee \u2022 Rimsky-Korsakove",
+      "url": "032 rimsky-korsakove - fight-of-the-bumble-bee.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Etude in E Major \u2022 Chopin",
+      "full": "Etude in E Major (Op. 10, No. 3) \u2022 Chopin",
+      "url": "033 chopin - etude-in-e-major.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Eine Kleine Nachtmusik \u2022 Mozart",
+      "full": "Eine Kleine Nachtmusik (K525, Allegro) \u2022 Mozart",
+      "url": "034 mozart - eine-kleine-nachtmusik.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Swan Lake \u2022 Tchaikovsky",
+      "full": "Swan Lake (Scene) \u2022 Tchaikovsky",
+      "url": "035 tchaikovsky - swan-lake.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Toccata and Fugue in D Minor \u2022 Bach",
+      "full": "Toccata and Fugue in D Minor \u2022 J. S. Bach, Kevin MacLeod",
+      "url": "036 j-s-bach-kevin-macleod - toccata-and-fugue-in-d-minor.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Toccata_and_Fugue_in_D_Minor/"
+    },
+    {
+      "name": "Ouverture-Suite \u2022 Zelenka",
+      "full": "Ouverture-Suite (Ouverture-Suite in F major, ZWV 188) \u2022 Zelenka, Pro Musica Bohemica",
+      "url": "037 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://musopen.org/music/45514"
+    },
+    {
+      "name": "Scenes from childhood \u2022 Schumann",
+      "full": "Scenes from childhood (Op. 15) \u2022 Schumann",
+      "url": "038 schumann - scenes-from-childhood.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Pictures at an Exhibition \u2022 Mussorgsky",
+      "full": "Pictures at an Exhibition \u2022 Mussorgsky",
+      "url": "039 mussorgsky - pictures-at-an-exhibition.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Canon in D Major \u2022 Pachelbel",
+      "full": "Canon in D Major \u2022 Pachelbel",
+      "url": "040 pachelbel - canon-in-d-major.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Piano Concerto No. 2 in C Minor \u2022 Rachmaninov",
+      "full": "Piano Concerto No. 2 in C Minor \u2022 Rachmaninov",
+      "url": "041 rachmaninov - piano-concerto-no-2-in-c-minor.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Overture William Tell \u2022 Rossini",
+      "full": "Overture William Tell \u2022 Rossini",
+      "url": "042 rossini - overture-william-tell.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Symphony No. 9 \u2022 Dvorak",
+      "full": "Symphony No. 9 (in E Minor, Op 95 Scherzo, Molto vivace) \u2022 Dvorak",
+      "url": "043 dvorak - symphony-no-9.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Romeo and Juliet \u2022 Prokofiev",
+      "full": "Romeo and Juliet \u2022 Prokofiev",
+      "url": "044 prokofiev - romeo-and-juliet.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Rondo a la Turc \u2022 Mozart",
+      "full": "Rondo a la Turc (K331, No. 3) \u2022 Mozart",
+      "url": "045 mozart - rondo-a-la-turc.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    },
+    {
+      "name": "Swan Lake \u2022 Tchaikovsky",
+      "full": "Swan Lake \u2022 Tchaikovsky",
+      "url": "046 tchaikovsky - swan-lake.mp3",
+      "start": 0.0,
+      "end": null,
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+    }
+  ]
+}
