@@ -1,0 +1,1946 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Download – Viberant – Impressionen</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+  body{background:linear-gradient(180deg,#071227 0%, #0b1726 100%);color:var(--text);display:flex;align-items:flex-start;justify-content:center;padding:28px;}
+  .container{width:100%;max-width:980px;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  h1{margin:0;font-size:20px;letter-spacing:0.2px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+  .player-row{display:flex;gap:14px;align-items:center}
+  .video-wrap{flex:0 0 500px;height:80px;max-width:100%}
+  .video-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;background:#000}
+  .controls{flex:1;display:flex;flex-direction:column;gap:10px}
+  .big-controls{display:flex;gap:10px;align-items:center}
+  button{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  }
+  button.primary{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+  }
+  .download-button{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .track-list{margin-top:14px;display:flex;gap:12px}
+  .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
+  .track{padding:10px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
+  .track:hover{background:rgba(255,255,255,0.02)}
+  .track .idx{width:28px;text-align:center;color:var(--muted);font-size:13px}
+  .track .title{font-size:14px}
+  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,196,255,0.06));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
+  footer{margin-top:10px;color:var(--muted);font-size:13px}
+  @media (max-width:640px){
+    .player-row{flex-direction:column;align-items:stretch}
+    .video-wrap{height:64px;flex-basis:auto}
+    .controls{order:2}
+  }
+  .filename {
+    flex: 1;
+    color: #FFFFFF;
+    font-weight: 100;
+   }
+  .download-icon {
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+  .original-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 11px;
+    padding: 0px 4px;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  footer a.nav-button {
+    background: linear-gradient(90deg,#7c4dff70,#00c4ff70);
+    border: none;
+    color: #EEEEEE;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+    text-decoration: none;
+  }
+  footer a.nav-button:hover,
+  footer a.nav-button:focus {
+    color: #ffcc00;          /* highlight on hover/focus */
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Viberant</h1>
+        <div class="subtitle">Impressionen herunterladen</div>
+      </div>
+    </header>
+
+    <div>
+      <button id="download" class="primary">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </button>
+      <span class="filename">Alle herunterladen (ZIP)</span>
+
+      <!-- Progress bar (hidden by default) -->
+      <div id="progress-container" style="display: none; margin-top: 16px;">
+        <div style="background: #e0e0e0; border-radius: 8px; overflow: hidden; height: 24px;">
+          <div id="progress-bar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;"></div>
+        </div>
+        <div id="progress-text" style="margin-top: 8px; text-align: center; font-size: 14px; color: #666;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <ol>
+        <li>
+    <a href="audio/impressionen/001 audionautix - walk-in-the-park-full.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Walk In The Park Full • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/002 amarent - tuesday-night.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Tuesday Night • Amarent</span>
+    <a href="https://freemusicarchive.org/music/amarent/free-atmospheric-music/tuesday-night/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/003 kevin-macleod - the-rule.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">The Rule • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/The_Rule/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/004 john-lopker - tayata-om-bekanze-chant.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Tayata Om Bekanze Chant • John Lopker</span>
+    <a href="https://freemusicarchive.org/music/john-lopker/meditation-chants/tayata-om-bekanze-chant/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/005 kevin-macleod - monkeys-spinning-monkeys.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Monkeys Spinning Monkeys • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400011&Search=Search" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/006 klangfarben - smoke-in-the-backroom.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Smoke In The Backroom • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/007 klangfarben - fuego-del-coraz-n.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Fuego del Corazón • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/008 audionautix - sunrise-on-mars.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sunrise On Mars • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/009 kevin-macleod - local-elevator-elevator.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Local Elevator - Elevator • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300012" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/010 jason-shaw - rocky-top.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">ROCKY TOP • Jason Shaw</span>
+    <a href="https://freemusicarchive.org/music/Jason_Shaw/Audionautix_Acoustic/ROCKY_TOP_traditional__1-44/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/011 klangfarben - velvet-staircase.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Velvet Staircase • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/012 galaxytones - lorn.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Lorn • GalaxyTones</span>
+    <a href="https://www.audiolibrary.com.co/galaxytones/lorn" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/013 kevin-macleod - cattails.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cattails • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Contemporary_Sampler/Cattails/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/014 kevin-macleod - hitman.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hitman • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300013" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/015 klangfarben - crystal-steps-beneath-the-glacier.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Crystal Steps Beneath the Glacier • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/016 klangfarben - super-saturday-squad.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Super Saturday Squad • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/017 klangfarben - first-place.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">First Place • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/018 klangfarben - infinite-solutions.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Infinite Solutions • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/019 klangfarben - synthetic-getaway.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Synthetic Getaway • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/020 klangfarben - enchanted-canopy.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Enchanted Canopy • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/021 klangfarben - beyond-all-horizons.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Beyond All Horizons • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/022 kevin-macleod - moonlight-hall.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Moonlight Hall • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200095" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/023 klangfarben - anthem-of-the-silver-crown.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Anthem of the Silver Crown • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/024 klangfarben - lost-in-the-mist.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Lost in the Mist • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/025 kevin-macleod - cambodean-odessy.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cambodean Odessy • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Cambodian_Odyssey/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/026 johnathon-m-horner - inhale.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Inhale • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/inhale/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/027 audionautix - the-visitors.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">The Visitors • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/028 klangfarben - run-of-the-winter-sky.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Run of the Winter Sky • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/029 kevin-macleod - cool-vibes.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cool Vibes • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100863" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/030 kevin-macleod - fluffing-a-duck.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Fluffing a Duck • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100768" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/031 klangfarben - exotica.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Exotica • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/032 twin-musicom - hip-hop-christmas.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hip Hop Christmas • Twin Musicom</span>
+    <a href="https://www.audiolibrary.com.co/twin-musicom/hip-hop-christmas" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/033 klangfarben - morning-of-the-quest.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Morning Of The Quest • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/034 chris-zabriskie - prelude-no-23.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Prelude No. 23 • Chris Zabriskie</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/035 twin-musicom - the-coal-mine.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">The Coal Mine • Twin Musicom</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/036 klangfarben - whispers-of-the-koto.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Whispers of the Koto • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/037 klangfarben - tidal-static.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Tidal Static • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/038 kevin-macleod - crinoline-dreams.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Crinoline Dreams • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1700073" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/039 klangfarben - pillars-of-light.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Pillars of Light • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/040 kevin-macleod - manic-polka.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Manic Polka • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100168" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/041 klangfarben - foam-and-fiddle-fireside.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Foam and Fiddle Fireside • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/042 kevin-macleod - arcadia.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Arcadia • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100326" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/043 johnathon-m-horner - harley-davidson.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Harley Davidson • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/harley-davidson/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/044 klangfarben - eclipse-over-eden.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Eclipse Over Eden • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/045 klangfarben - gravities-collide.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Gravities Collide • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/046 alex-productions - christmas-in-my-heart.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Christmas In My Heart • Alex-Productions</span>
+    <a href="https://www.audiolibrary.com.co/alex-productions/christmas-in-my-heart" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/047 klangfarben - .mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">山風入夢 • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/048 klangfarben - static-in-my-laces.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Static in My Laces • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/049 klangfarben - forgotten-toys.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Forgotten Toys • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/050 kevin-macleod - beach-party.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Beach Party • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100613&Search=Search" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/051 klangfarben - starfire-descent.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Starfire Descent • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/052 kevin-macleod - industrial-music-box.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Industrial Music Box • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100812" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/053 klangfarben - sunrise-in-the-garden.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sunrise in the Garden • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/054 kevin-macleod - off-to-osaka.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Off to Osaka • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Jazz_Sampler/Off_to_Osaka/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/055 klangfarben - chrome-cathedral.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Chrome Cathedral • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/056 klangfarben - accord-ons-et-promesses.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Accordéons et Promesses • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/057 klangfarben - still-water.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Still Water • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/058 klangfarben - drunk-on-the-devil-s-gold.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Drunk On The Devil’s Gold • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/059 klangfarben - basement-cypher.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Basement Cypher • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/060 audionautix - tempting-fate.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Tempting Fate • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/061 chris-zabriskie - unfoldment.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Unfoldment • Chris Zabriskie</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/062 klangfarben - brass-section.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Brass section • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/063 klangfarben - shining-star.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Shining Star • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/064 klangfarben - grey-umbrellas.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Grey Umbrellas • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/065 kevin-macleod - investigations.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Investigations • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100646" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/066 klangfarben - tropical-nocturne.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Tropical Nocturne • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/067 klangfarben - midnight-corridor.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Midnight Corridor • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/068 johnathon-m-horner - pink-soul.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Pink Soul • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/pink-soul/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/069 klangfarben - colossus-in-slow-motion.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Colossus in Slow Motion • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/070 kevin-macleod - carefree.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Carefree • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400037" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/071 klangfarben - soft-static-in-my-head.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Soft Static in My Head • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/072 klangfarben - quiet-turning.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Quiet Turning • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/073 audionautix - words.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Words • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/074 klangfarben - plastic-sunset-mall.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Plastic Sunset Mall • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/075 klangfarben - crimson-tides-arise.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Crimson Tides Arise • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/076 klangfarben - clockwork-stars.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Clockwork Stars • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/077 kevin-macleod - parisian.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Parisian • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Parisian/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/078 kevin-macleod - amazing-plan.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Amazing Plan • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100737" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/079 chris-zabriskie - i-am-a-man-who-will-fight-for-your-honor.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">I Am a Man Who Will Fight for Your Honor • Chris Zabriskie</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/080 klangfarben - crown-of-morning-voices.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Crown of Morning Voices • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/081 klangfarben - subway-cathedral.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Subway Cathedral • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/082 klangfarben - ash-in-the-orchard.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Ash in the Orchard • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/083 klangfarben - night-shift-circuit.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Night Shift Circuit • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/084 klangfarben - under-baobab-skies.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Under Baobab Skies • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/085 kevin-macleod - sneaky-snitch.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sneaky Snitch • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100772" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/086 audionautix - tennessee-hayride.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Tennessee Hayride • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/087 klangfarben - shadows-in-the-hall.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Shadows in the Hall • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/088 klangfarben - sky-wide-open.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sky Wide Open • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/089 kevin-macleod - mermaid.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Mermaid • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100671" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/090 klangfarben - sunny-pathways.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sunny Pathways • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/091 klangfarben - dead-wires-in-my-heart.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Dead Wires In My Heart • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/092 klangfarben - dust-on-my-notebook.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Dust On My Notebook • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/093 klangfarben - outside.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Outside • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/094 klangfarben - entertainer.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Entertainer • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/095 klangfarben - echo-in-the-alley.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Echo in the Alley • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/096 kevin-macleod - frost-waltz.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Frost Waltz • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100516" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/097 chris-zabriskie - what-does-anybody-know-about-anything.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">What Does Anybody Know About Anything • Chris Zabriskie</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/098 kevin-macleod - cipher.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cipher • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100844" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/099 klangfarben - rivers-of-raga.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Rivers of Raga • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/100 kevin-macleod - merry-go.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Merry Go • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100731" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/101 klangfarben - echoes-in-the-hidden-chamber.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Echoes In The Hidden Chamber • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/102 audionautix - travel-light.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Travel Light • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/103 klangfarben - antigravity.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Antigravity • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/104 klangfarben - steps-in-the-snow.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Steps in the Snow • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/105 klangfarben - wandering-horizons.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Wandering Horizons • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/106 klangfarben - silver-spires-in-sunmist.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Silver Spires in Sunmist • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/107 kevin-macleod - scheming-weasel-faster.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Scheming Weasel faster • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=faster" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/108 klangfarben - night-shift-infiltration.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Night Shift Infiltration • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/109 johnathon-m-horner - far-far-away.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Far Far Away • Horner</span>
+    <a href="https://freemusicarchive.org/music/beat-mekanik/single/far-far-away/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/110 kevin-macleod - mind-scrape.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Mind Scrape • Kevin MacLeod</span>
+    <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100616" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/111 klangfarben - hallways-of-hidden-stars.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hallways of Hidden Stars • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/112 klangfarben - bubblegum-skyline.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Bubblegum Skyline • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/113 audionautix - temptation-march.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Temptation March • Audionautix</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/114 snoozybeats - clear-skies.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Clear Skies • Snoozybeats</span>
+    <a href="https://www.audiolibrary.com.co/snoozybeats/clear-skies" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/impressionen/115 klangfarben - soft-light-between-us.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Soft Light Between Us • KlangFarben</span>
+    <a href="https://github.com/holl-/VnS/blob/main/Original_Music.md" class="original-link" target="_blank">↗</a>
+</li>
+      </ol>
+    </div>
+
+    <footer>
+      <p><a class="nav-button" href="impressionen.html">Zurück zur Playlist</a></p>
+      <p><a class="nav-button" href="index.html">Andere Playlists</a></p>
+      <p>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"><img src="https://licensebuttons.net/l/zero/1.0/88x31.png"></a>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/licenses/by/4.0"><img src="https://licensebuttons.net/l/by/4.0/88x31.png"></a>
+        – Lizenzen und Details zu den Stücken können auf der Ursprungsseite (🗗) nachgeschlagen werden. Ist kein Ursprung angegeben, ist das Stück Public Domain (CC0).</p>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+
+const filesToDownload = [
+  {
+    "url": "audio/impressionen/001 audionautix - walk-in-the-park-full.mp3",
+    "outputName": "001 walk-in-the-park-full-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/002 amarent - tuesday-night.mp3",
+    "outputName": "002 tuesday-night-amarent.mp3"
+  },
+  {
+    "url": "audio/impressionen/003 kevin-macleod - the-rule.mp3",
+    "outputName": "003 the-rule-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/004 john-lopker - tayata-om-bekanze-chant.mp3",
+    "outputName": "004 tayata-om-bekanze-chant-john-lopker.mp3"
+  },
+  {
+    "url": "audio/impressionen/005 kevin-macleod - monkeys-spinning-monkeys.mp3",
+    "outputName": "005 monkeys-spinning-monkeys-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/006 klangfarben - smoke-in-the-backroom.mp3",
+    "outputName": "006 smoke-in-the-backroom-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/007 klangfarben - fuego-del-coraz-n.mp3",
+    "outputName": "007 fuego-del-coraz-n-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/008 audionautix - sunrise-on-mars.mp3",
+    "outputName": "008 sunrise-on-mars-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/009 kevin-macleod - local-elevator-elevator.mp3",
+    "outputName": "009 local-elevator-elevator-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/010 jason-shaw - rocky-top.mp3",
+    "outputName": "010 rocky-top-jason-shaw.mp3"
+  },
+  {
+    "url": "audio/impressionen/011 klangfarben - velvet-staircase.mp3",
+    "outputName": "011 velvet-staircase-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/012 galaxytones - lorn.mp3",
+    "outputName": "012 lorn-galaxytones.mp3"
+  },
+  {
+    "url": "audio/impressionen/013 kevin-macleod - cattails.mp3",
+    "outputName": "013 cattails-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/014 kevin-macleod - hitman.mp3",
+    "outputName": "014 hitman-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/015 klangfarben - crystal-steps-beneath-the-glacier.mp3",
+    "outputName": "015 crystal-steps-beneath-the-glacier-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/016 klangfarben - super-saturday-squad.mp3",
+    "outputName": "016 super-saturday-squad-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/017 klangfarben - first-place.mp3",
+    "outputName": "017 first-place-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/018 klangfarben - infinite-solutions.mp3",
+    "outputName": "018 infinite-solutions-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/019 klangfarben - synthetic-getaway.mp3",
+    "outputName": "019 synthetic-getaway-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/020 klangfarben - enchanted-canopy.mp3",
+    "outputName": "020 enchanted-canopy-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/021 klangfarben - beyond-all-horizons.mp3",
+    "outputName": "021 beyond-all-horizons-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/022 kevin-macleod - moonlight-hall.mp3",
+    "outputName": "022 moonlight-hall-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/023 klangfarben - anthem-of-the-silver-crown.mp3",
+    "outputName": "023 anthem-of-the-silver-crown-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/024 klangfarben - lost-in-the-mist.mp3",
+    "outputName": "024 lost-in-the-mist-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/025 kevin-macleod - cambodean-odessy.mp3",
+    "outputName": "025 cambodean-odessy-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/026 johnathon-m-horner - inhale.mp3",
+    "outputName": "026 inhale-horner.mp3"
+  },
+  {
+    "url": "audio/impressionen/027 audionautix - the-visitors.mp3",
+    "outputName": "027 the-visitors-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/028 klangfarben - run-of-the-winter-sky.mp3",
+    "outputName": "028 run-of-the-winter-sky-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/029 kevin-macleod - cool-vibes.mp3",
+    "outputName": "029 cool-vibes-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/030 kevin-macleod - fluffing-a-duck.mp3",
+    "outputName": "030 fluffing-a-duck-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/031 klangfarben - exotica.mp3",
+    "outputName": "031 exotica-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/032 twin-musicom - hip-hop-christmas.mp3",
+    "outputName": "032 hip-hop-christmas-twin-musicom.mp3"
+  },
+  {
+    "url": "audio/impressionen/033 klangfarben - morning-of-the-quest.mp3",
+    "outputName": "033 morning-of-the-quest-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/034 chris-zabriskie - prelude-no-23.mp3",
+    "outputName": "034 prelude-no-23-chris-zabriskie.mp3"
+  },
+  {
+    "url": "audio/impressionen/035 twin-musicom - the-coal-mine.mp3",
+    "outputName": "035 the-coal-mine-twin-musicom.mp3"
+  },
+  {
+    "url": "audio/impressionen/036 klangfarben - whispers-of-the-koto.mp3",
+    "outputName": "036 whispers-of-the-koto-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/037 klangfarben - tidal-static.mp3",
+    "outputName": "037 tidal-static-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/038 kevin-macleod - crinoline-dreams.mp3",
+    "outputName": "038 crinoline-dreams-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/039 klangfarben - pillars-of-light.mp3",
+    "outputName": "039 pillars-of-light-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/040 kevin-macleod - manic-polka.mp3",
+    "outputName": "040 manic-polka-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/041 klangfarben - foam-and-fiddle-fireside.mp3",
+    "outputName": "041 foam-and-fiddle-fireside-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/042 kevin-macleod - arcadia.mp3",
+    "outputName": "042 arcadia-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/043 johnathon-m-horner - harley-davidson.mp3",
+    "outputName": "043 harley-davidson-horner.mp3"
+  },
+  {
+    "url": "audio/impressionen/044 klangfarben - eclipse-over-eden.mp3",
+    "outputName": "044 eclipse-over-eden-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/045 klangfarben - gravities-collide.mp3",
+    "outputName": "045 gravities-collide-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/046 alex-productions - christmas-in-my-heart.mp3",
+    "outputName": "046 christmas-in-my-heart-alex-productions.mp3"
+  },
+  {
+    "url": "audio/impressionen/047 klangfarben - .mp3",
+    "outputName": "047 klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/048 klangfarben - static-in-my-laces.mp3",
+    "outputName": "048 static-in-my-laces-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/049 klangfarben - forgotten-toys.mp3",
+    "outputName": "049 forgotten-toys-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/050 kevin-macleod - beach-party.mp3",
+    "outputName": "050 beach-party-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/051 klangfarben - starfire-descent.mp3",
+    "outputName": "051 starfire-descent-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/052 kevin-macleod - industrial-music-box.mp3",
+    "outputName": "052 industrial-music-box-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/053 klangfarben - sunrise-in-the-garden.mp3",
+    "outputName": "053 sunrise-in-the-garden-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/054 kevin-macleod - off-to-osaka.mp3",
+    "outputName": "054 off-to-osaka-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/055 klangfarben - chrome-cathedral.mp3",
+    "outputName": "055 chrome-cathedral-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/056 klangfarben - accord-ons-et-promesses.mp3",
+    "outputName": "056 accord-ons-et-promesses-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/057 klangfarben - still-water.mp3",
+    "outputName": "057 still-water-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/058 klangfarben - drunk-on-the-devil-s-gold.mp3",
+    "outputName": "058 drunk-on-the-devil-s-gold-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/059 klangfarben - basement-cypher.mp3",
+    "outputName": "059 basement-cypher-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/060 audionautix - tempting-fate.mp3",
+    "outputName": "060 tempting-fate-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/061 chris-zabriskie - unfoldment.mp3",
+    "outputName": "061 unfoldment-chris-zabriskie.mp3"
+  },
+  {
+    "url": "audio/impressionen/062 klangfarben - brass-section.mp3",
+    "outputName": "062 brass-section-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/063 klangfarben - shining-star.mp3",
+    "outputName": "063 shining-star-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/064 klangfarben - grey-umbrellas.mp3",
+    "outputName": "064 grey-umbrellas-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/065 kevin-macleod - investigations.mp3",
+    "outputName": "065 investigations-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/066 klangfarben - tropical-nocturne.mp3",
+    "outputName": "066 tropical-nocturne-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/067 klangfarben - midnight-corridor.mp3",
+    "outputName": "067 midnight-corridor-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/068 johnathon-m-horner - pink-soul.mp3",
+    "outputName": "068 pink-soul-horner.mp3"
+  },
+  {
+    "url": "audio/impressionen/069 klangfarben - colossus-in-slow-motion.mp3",
+    "outputName": "069 colossus-in-slow-motion-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/070 kevin-macleod - carefree.mp3",
+    "outputName": "070 carefree-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/071 klangfarben - soft-static-in-my-head.mp3",
+    "outputName": "071 soft-static-in-my-head-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/072 klangfarben - quiet-turning.mp3",
+    "outputName": "072 quiet-turning-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/073 audionautix - words.mp3",
+    "outputName": "073 words-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/074 klangfarben - plastic-sunset-mall.mp3",
+    "outputName": "074 plastic-sunset-mall-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/075 klangfarben - crimson-tides-arise.mp3",
+    "outputName": "075 crimson-tides-arise-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/076 klangfarben - clockwork-stars.mp3",
+    "outputName": "076 clockwork-stars-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/077 kevin-macleod - parisian.mp3",
+    "outputName": "077 parisian-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/078 kevin-macleod - amazing-plan.mp3",
+    "outputName": "078 amazing-plan-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/079 chris-zabriskie - i-am-a-man-who-will-fight-for-your-honor.mp3",
+    "outputName": "079 i-am-a-man-who-will-fight-for-your-honor-chris-zabriskie.mp3"
+  },
+  {
+    "url": "audio/impressionen/080 klangfarben - crown-of-morning-voices.mp3",
+    "outputName": "080 crown-of-morning-voices-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/081 klangfarben - subway-cathedral.mp3",
+    "outputName": "081 subway-cathedral-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/082 klangfarben - ash-in-the-orchard.mp3",
+    "outputName": "082 ash-in-the-orchard-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/083 klangfarben - night-shift-circuit.mp3",
+    "outputName": "083 night-shift-circuit-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/084 klangfarben - under-baobab-skies.mp3",
+    "outputName": "084 under-baobab-skies-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/085 kevin-macleod - sneaky-snitch.mp3",
+    "outputName": "085 sneaky-snitch-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/086 audionautix - tennessee-hayride.mp3",
+    "outputName": "086 tennessee-hayride-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/087 klangfarben - shadows-in-the-hall.mp3",
+    "outputName": "087 shadows-in-the-hall-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/088 klangfarben - sky-wide-open.mp3",
+    "outputName": "088 sky-wide-open-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/089 kevin-macleod - mermaid.mp3",
+    "outputName": "089 mermaid-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/090 klangfarben - sunny-pathways.mp3",
+    "outputName": "090 sunny-pathways-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/091 klangfarben - dead-wires-in-my-heart.mp3",
+    "outputName": "091 dead-wires-in-my-heart-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/092 klangfarben - dust-on-my-notebook.mp3",
+    "outputName": "092 dust-on-my-notebook-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/093 klangfarben - outside.mp3",
+    "outputName": "093 outside-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/094 klangfarben - entertainer.mp3",
+    "outputName": "094 entertainer-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/095 klangfarben - echo-in-the-alley.mp3",
+    "outputName": "095 echo-in-the-alley-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/096 kevin-macleod - frost-waltz.mp3",
+    "outputName": "096 frost-waltz-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/097 chris-zabriskie - what-does-anybody-know-about-anything.mp3",
+    "outputName": "097 what-does-anybody-know-about-anything-chris-zabriskie.mp3"
+  },
+  {
+    "url": "audio/impressionen/098 kevin-macleod - cipher.mp3",
+    "outputName": "098 cipher-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/099 klangfarben - rivers-of-raga.mp3",
+    "outputName": "099 rivers-of-raga-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/100 kevin-macleod - merry-go.mp3",
+    "outputName": "100 merry-go-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/101 klangfarben - echoes-in-the-hidden-chamber.mp3",
+    "outputName": "101 echoes-in-the-hidden-chamber-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/102 audionautix - travel-light.mp3",
+    "outputName": "102 travel-light-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/103 klangfarben - antigravity.mp3",
+    "outputName": "103 antigravity-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/104 klangfarben - steps-in-the-snow.mp3",
+    "outputName": "104 steps-in-the-snow-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/105 klangfarben - wandering-horizons.mp3",
+    "outputName": "105 wandering-horizons-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/106 klangfarben - silver-spires-in-sunmist.mp3",
+    "outputName": "106 silver-spires-in-sunmist-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/107 kevin-macleod - scheming-weasel-faster.mp3",
+    "outputName": "107 scheming-weasel-faster-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/108 klangfarben - night-shift-infiltration.mp3",
+    "outputName": "108 night-shift-infiltration-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/109 johnathon-m-horner - far-far-away.mp3",
+    "outputName": "109 far-far-away-horner.mp3"
+  },
+  {
+    "url": "audio/impressionen/110 kevin-macleod - mind-scrape.mp3",
+    "outputName": "110 mind-scrape-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/impressionen/111 klangfarben - hallways-of-hidden-stars.mp3",
+    "outputName": "111 hallways-of-hidden-stars-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/112 klangfarben - bubblegum-skyline.mp3",
+    "outputName": "112 bubblegum-skyline-klangfarben.mp3"
+  },
+  {
+    "url": "audio/impressionen/113 audionautix - temptation-march.mp3",
+    "outputName": "113 temptation-march-audionautix.mp3"
+  },
+  {
+    "url": "audio/impressionen/114 snoozybeats - clear-skies.mp3",
+    "outputName": "114 clear-skies-snoozybeats.mp3"
+  },
+  {
+    "url": "audio/impressionen/115 klangfarben - soft-light-between-us.mp3",
+    "outputName": "115 soft-light-between-us-klangfarben.mp3"
+  }
+];
+
+document.getElementById("download").onclick = async () => {
+  const btn = document.getElementById("download");
+  const progressContainer = document.getElementById("progress-container");
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+
+  // Disable button and show progress
+  btn.disabled = true;
+  progressContainer.style.display = "block";
+
+  try {
+    const zip = new JSZip();
+    const total = filesToDownload.length;
+
+    for (let i = 0; i < total; i++) {
+      const file = filesToDownload[i];
+
+      // Update progress
+      const percent = Math.round(((i + 1) / total) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+      progressText.textContent = `Downloading ${i + 1} of ${total}: ${file.outputName}`;
+
+      const response = await fetch(file.url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch no. ${i}: ${file.url}`);
+      }
+      const content = await response.blob();
+      zip.file(file.outputName, content);
+    }
+
+    // Show zipping progress
+    progressText.textContent = "Creating ZIP file...";
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "impressionen.zip");
+
+    // Success message
+    progressText.textContent = "Download complete!";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      btn.disabled = false;
+    }, 2000);
+
+  } catch (error) {
+    progressText.textContent = "Error: " + error.message;
+    progressText.style.color = "red";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      progressText.style.color = "#666";
+      btn.disabled = false;
+    }, 3000);
+  }
+};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Download – Viberant – Klassik</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c4dff; --text:#e6eef7;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+  body{background:linear-gradient(180deg,#071227 0%, #0b1726 100%);color:var(--text);display:flex;align-items:flex-start;justify-content:center;padding:28px;}
+  .container{width:100%;max-width:980px;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  h1{margin:0;font-size:20px;letter-spacing:0.2px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+  .player-row{display:flex;gap:14px;align-items:center}
+  .video-wrap{flex:0 0 500px;height:80px;max-width:100%}
+  .video-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;background:#000}
+  .controls{flex:1;display:flex;flex-direction:column;gap:10px}
+  .big-controls{display:flex;gap:10px;align-items:center}
+  button{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  }
+  button.primary{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    font-weight: 600;
+  }
+  .download-button{
+    background: linear-gradient(90deg,var(--accent),#00c4ff);
+    border: none;
+    color: #071227;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+  }
+  .track-list{margin-top:14px;display:flex;gap:12px}
+  .list{background:rgba(255,255,255,0.02);border-radius:10px;padding:10px;flex:1;max-height:360px;overflow:auto}
+  .track{padding:10px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
+  .track:hover{background:rgba(255,255,255,0.02)}
+  .track .idx{width:28px;text-align:center;color:var(--muted);font-size:13px}
+  .track .title{font-size:14px}
+  .track.active{background:linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,196,255,0.06));box-shadow:0 4px 14px rgba(12,8,32,0.6)}
+  footer{margin-top:10px;color:var(--muted);font-size:13px}
+  @media (max-width:640px){
+    .player-row{flex-direction:column;align-items:stretch}
+    .video-wrap{height:64px;flex-basis:auto}
+    .controls{order:2}
+  }
+  .filename {
+    flex: 1;
+    color: #FFFFFF;
+    font-weight: 100;
+   }
+  .download-icon {
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+  .original-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 11px;
+    padding: 0px 4px;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  footer a.nav-button {
+    background: linear-gradient(90deg,#7c4dff70,#00c4ff70);
+    border: none;
+    color: #EEEEEE;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    display: inline-flex;
+    text-decoration: none;
+  }
+  footer a.nav-button:hover,
+  footer a.nav-button:focus {
+    color: #ffcc00;          /* highlight on hover/focus */
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Viberant</h1>
+        <div class="subtitle">Klassik herunterladen</div>
+      </div>
+    </header>
+
+    <div>
+      <button id="download" class="primary">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </button>
+      <span class="filename">Alle herunterladen (ZIP)</span>
+
+      <!-- Progress bar (hidden by default) -->
+      <div id="progress-container" style="display: none; margin-top: 16px;">
+        <div style="background: #e0e0e0; border-radius: 8px; overflow: hidden; height: 24px;">
+          <div id="progress-bar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;"></div>
+        </div>
+        <div id="progress-text" style="margin-top: 8px; text-align: center; font-size: 14px; color: #666;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <ol>
+        <li>
+    <a href="audio/klassik/001 bizet - carmen-suite-no-2.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Carmen Suite No. 2 • Bizet</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/002 rachmaninov - piano-concert.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Piano Concert • Rachmaninov</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/003 bruch - violin-concerto-no-1.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Violin Concerto No. 1 • Bruch</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/004 brahms - huingarian-dance-no-1.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Huingarian Dance No. 1 • Brahms</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/005 boccherini - string-quintet.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">String Quintet • Boccherini</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/006 kevin-macleod - dance-of-the-sugar-plum-fairy.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Dance of the Sugar Plum Fairy • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/007 tchaikovsky - sleeping-beauty.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sleeping Beauty • Tchaikovsky</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/008 various-artists - piano-concerto-no-5.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Piano Concerto No. 5 • Various　Artists</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/009 khachaturian - sabre-dance.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Sabre Dance • Khachaturian</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/010 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hall of the Mountain King • Edvard Grieg</span>
+    <a href="https://www.youtube.com/audiolibrary" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/011 dvorak - string-serenade.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">String Serenade • Dvorak</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/012 mozart - clarinet-concerto-in-a-major.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Clarinet Concerto in A Major • Mozart</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/013 paul-pitman - moonlight-sonata.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Moonlight Sonata • Paul Pitman</span>
+    <a href="https://musopen.org/music/2547" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/014 haydn - symphony-no-101.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Symphony No. 101 • Haydn</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/015 mendelssohn - midsummer-night-s-dream-op-21.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Midsummer Night's Dream Op. 21 • Mendelssohn</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/016 kevin-macleod - gymnopedie-no-1.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Gymnopedie No 1 • Kevin MacLeod</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/017 brahms - hungarian-dance-no-5.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hungarian Dance No. 5 • Brahms</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/018 barber - adabio-for-strings.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Adabio for Strings • Barber</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/019 various - the-nutcracker.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">The Nutcracker • Various</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/020 liszt - hungarian-fantasy-for-piano-and-orchestra.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Hungarian Fantasy for Piano and Orchestra • Liszt</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/021 various - orchestral-suite-no-2.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Orchestral Suite No. 2 • Various</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/022 zelenka-pro-musica-bohemica - ouverture-suite.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Ouverture-Suite • Zelenka</span>
+    <a href="https://musopen.org/music/45514" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/023 various - waltz-no-6-in-db-major.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Waltz No. 6 in Db Major • Various</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/024 ravel - bolero.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Bolero • Ravel</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/025 j-s-bach-kevin-macleod - cello-suite-1-in-g-on-dulcimer-prelude.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Cello Suite #1 in G • Bach</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Cello_Suite_1_in_G_-_Prelude/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/026 mozart - overture-the-marriage-of-figaro.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Overture The Marriage of Figaro • Mozart</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/027 tchaikovsky - 1812-overture.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">1812 Overture • Tchaikovsky</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/028 beethoven - f-r-elise.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Für Elise • Beethoven</span>
+    <a href="https://archive.org/details/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/029 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Spring • Antonio Vivaldi</span>
+    <a href="https://musopen.org/music/14910-the-four-seasons-op-8/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/030 bizet - carmen-suite-no-2-dance-boheme.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Carmen Suite No. 2 Dance Boheme • Bizet</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/031 bach - double-violin-concerto-in-d-minor.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Double Violin Concerto in D Minor • Bach</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/032 rimsky-korsakove - fight-of-the-bumble-bee.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Fight of the Bumble Bee • Rimsky-Korsakove</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/033 chopin - etude-in-e-major.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Etude in E Major • Chopin</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/034 mozart - eine-kleine-nachtmusik.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Eine Kleine Nachtmusik • Mozart</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/035 tchaikovsky - swan-lake.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Swan Lake • Tchaikovsky</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/036 j-s-bach-kevin-macleod - toccata-and-fugue-in-d-minor.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Toccata and Fugue in D Minor • Bach</span>
+    <a href="https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Toccata_and_Fugue_in_D_Minor/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/037 zelenka-pro-musica-bohemica - ouverture-suite.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Ouverture-Suite • Zelenka</span>
+    <a href="https://musopen.org/music/45514" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/038 schumann - scenes-from-childhood.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Scenes from childhood • Schumann</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/039 mussorgsky - pictures-at-an-exhibition.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Pictures at an Exhibition • Mussorgsky</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/040 pachelbel - canon-in-d-major.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Canon in D Major • Pachelbel</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/041 rachmaninov - piano-concerto-no-2-in-c-minor.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Piano Concerto No. 2 in C Minor • Rachmaninov</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/042 rossini - overture-william-tell.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Overture William Tell • Rossini</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/043 dvorak - symphony-no-9.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Symphony No. 9 • Dvorak</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/044 prokofiev - romeo-and-juliet.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Romeo and Juliet • Prokofiev</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/045 mozart - rondo-a-la-turc.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Rondo a la Turc • Mozart</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+<li>
+    <a href="audio/klassik/046 tchaikovsky - swan-lake.mp3" download class="download-button" aria-label="Download">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+    <span class="filename">Swan Lake • Tchaikovsky</span>
+    <a href="https://archive.org/details/classical-music-mix-by-various-artists/" class="original-link" target="_blank">↗</a>
+</li>
+      </ol>
+    </div>
+
+    <footer>
+      <p><a class="nav-button" href="klassik.html">Zurück zur Playlist</a></p>
+      <p><a class="nav-button" href="index.html">Andere Playlists</a></p>
+      <p>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"><img src="https://licensebuttons.net/l/zero/1.0/88x31.png"></a>
+        <a rel="license" class="mb-2 inline-flex w-full" target="_blank" href="https://creativecommons.org/licenses/by/4.0"><img src="https://licensebuttons.net/l/by/4.0/88x31.png"></a>
+        – Lizenzen und Details zu den Stücken können auf der Ursprungsseite (🗗) nachgeschlagen werden. Ist kein Ursprung angegeben, ist das Stück Public Domain (CC0).</p>
+      <p>Impressum: Philipp Holl – philipp@mholl.de</p>
+    </footer>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+
+const filesToDownload = [
+  {
+    "url": "audio/klassik/001 bizet - carmen-suite-no-2.mp3",
+    "outputName": "001 carmen-suite-no-2-bizet.mp3"
+  },
+  {
+    "url": "audio/klassik/002 rachmaninov - piano-concert.mp3",
+    "outputName": "002 piano-concert-rachmaninov.mp3"
+  },
+  {
+    "url": "audio/klassik/003 bruch - violin-concerto-no-1.mp3",
+    "outputName": "003 violin-concerto-no-1-bruch.mp3"
+  },
+  {
+    "url": "audio/klassik/004 brahms - huingarian-dance-no-1.mp3",
+    "outputName": "004 huingarian-dance-no-1-brahms.mp3"
+  },
+  {
+    "url": "audio/klassik/005 boccherini - string-quintet.mp3",
+    "outputName": "005 string-quintet-boccherini.mp3"
+  },
+  {
+    "url": "audio/klassik/006 kevin-macleod - dance-of-the-sugar-plum-fairy.mp3",
+    "outputName": "006 dance-of-the-sugar-plum-fairy-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/klassik/007 tchaikovsky - sleeping-beauty.mp3",
+    "outputName": "007 sleeping-beauty-tchaikovsky.mp3"
+  },
+  {
+    "url": "audio/klassik/008 various-artists - piano-concerto-no-5.mp3",
+    "outputName": "008 piano-concerto-no-5-various-artists.mp3"
+  },
+  {
+    "url": "audio/klassik/009 khachaturian - sabre-dance.mp3",
+    "outputName": "009 sabre-dance-khachaturian.mp3"
+  },
+  {
+    "url": "audio/klassik/010 edvard-grieg-kevin-macleod - hall-of-the-mountain-king.mp3",
+    "outputName": "010 hall-of-the-mountain-king-edvard-grieg.mp3"
+  },
+  {
+    "url": "audio/klassik/011 dvorak - string-serenade.mp3",
+    "outputName": "011 string-serenade-dvorak.mp3"
+  },
+  {
+    "url": "audio/klassik/012 mozart - clarinet-concerto-in-a-major.mp3",
+    "outputName": "012 clarinet-concerto-in-a-major-mozart.mp3"
+  },
+  {
+    "url": "audio/klassik/013 paul-pitman - moonlight-sonata.mp3",
+    "outputName": "013 moonlight-sonata-paul-pitman.mp3"
+  },
+  {
+    "url": "audio/klassik/014 haydn - symphony-no-101.mp3",
+    "outputName": "014 symphony-no-101-haydn.mp3"
+  },
+  {
+    "url": "audio/klassik/015 mendelssohn - midsummer-night-s-dream-op-21.mp3",
+    "outputName": "015 midsummer-night-s-dream-op-21-mendelssohn.mp3"
+  },
+  {
+    "url": "audio/klassik/016 kevin-macleod - gymnopedie-no-1.mp3",
+    "outputName": "016 gymnopedie-no-1-kevin-macleod.mp3"
+  },
+  {
+    "url": "audio/klassik/017 brahms - hungarian-dance-no-5.mp3",
+    "outputName": "017 hungarian-dance-no-5-brahms.mp3"
+  },
+  {
+    "url": "audio/klassik/018 barber - adabio-for-strings.mp3",
+    "outputName": "018 adabio-for-strings-barber.mp3"
+  },
+  {
+    "url": "audio/klassik/019 various - the-nutcracker.mp3",
+    "outputName": "019 the-nutcracker-various.mp3"
+  },
+  {
+    "url": "audio/klassik/020 liszt - hungarian-fantasy-for-piano-and-orchestra.mp3",
+    "outputName": "020 hungarian-fantasy-for-piano-and-orchestra-liszt.mp3"
+  },
+  {
+    "url": "audio/klassik/021 various - orchestral-suite-no-2.mp3",
+    "outputName": "021 orchestral-suite-no-2-various.mp3"
+  },
+  {
+    "url": "audio/klassik/022 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+    "outputName": "022 ouverture-suite-zelenka.mp3"
+  },
+  {
+    "url": "audio/klassik/023 various - waltz-no-6-in-db-major.mp3",
+    "outputName": "023 waltz-no-6-in-db-major-various.mp3"
+  },
+  {
+    "url": "audio/klassik/024 ravel - bolero.mp3",
+    "outputName": "024 bolero-ravel.mp3"
+  },
+  {
+    "url": "audio/klassik/025 j-s-bach-kevin-macleod - cello-suite-1-in-g-on-dulcimer-prelude.mp3",
+    "outputName": "025 cello-suite-1-in-g-bach.mp3"
+  },
+  {
+    "url": "audio/klassik/026 mozart - overture-the-marriage-of-figaro.mp3",
+    "outputName": "026 overture-the-marriage-of-figaro-mozart.mp3"
+  },
+  {
+    "url": "audio/klassik/027 tchaikovsky - 1812-overture.mp3",
+    "outputName": "027 1812-overture-tchaikovsky.mp3"
+  },
+  {
+    "url": "audio/klassik/028 beethoven - f-r-elise.mp3",
+    "outputName": "028 f-r-elise-beethoven.mp3"
+  },
+  {
+    "url": "audio/klassik/029 antonio-vivaldi-the-modena-chamber-orchestra - spring-the-four-seasons.mp3",
+    "outputName": "029 spring-antonio-vivaldi.mp3"
+  },
+  {
+    "url": "audio/klassik/030 bizet - carmen-suite-no-2-dance-boheme.mp3",
+    "outputName": "030 carmen-suite-no-2-dance-boheme-bizet.mp3"
+  },
+  {
+    "url": "audio/klassik/031 bach - double-violin-concerto-in-d-minor.mp3",
+    "outputName": "031 double-violin-concerto-in-d-minor-bach.mp3"
+  },
+  {
+    "url": "audio/klassik/032 rimsky-korsakove - fight-of-the-bumble-bee.mp3",
+    "outputName": "032 fight-of-the-bumble-bee-rimsky-korsakove.mp3"
+  },
+  {
+    "url": "audio/klassik/033 chopin - etude-in-e-major.mp3",
+    "outputName": "033 etude-in-e-major-chopin.mp3"
+  },
+  {
+    "url": "audio/klassik/034 mozart - eine-kleine-nachtmusik.mp3",
+    "outputName": "034 eine-kleine-nachtmusik-mozart.mp3"
+  },
+  {
+    "url": "audio/klassik/035 tchaikovsky - swan-lake.mp3",
+    "outputName": "035 swan-lake-tchaikovsky.mp3"
+  },
+  {
+    "url": "audio/klassik/036 j-s-bach-kevin-macleod - toccata-and-fugue-in-d-minor.mp3",
+    "outputName": "036 toccata-and-fugue-in-d-minor-bach.mp3"
+  },
+  {
+    "url": "audio/klassik/037 zelenka-pro-musica-bohemica - ouverture-suite.mp3",
+    "outputName": "037 ouverture-suite-zelenka.mp3"
+  },
+  {
+    "url": "audio/klassik/038 schumann - scenes-from-childhood.mp3",
+    "outputName": "038 scenes-from-childhood-schumann.mp3"
+  },
+  {
+    "url": "audio/klassik/039 mussorgsky - pictures-at-an-exhibition.mp3",
+    "outputName": "039 pictures-at-an-exhibition-mussorgsky.mp3"
+  },
+  {
+    "url": "audio/klassik/040 pachelbel - canon-in-d-major.mp3",
+    "outputName": "040 canon-in-d-major-pachelbel.mp3"
+  },
+  {
+    "url": "audio/klassik/041 rachmaninov - piano-concerto-no-2-in-c-minor.mp3",
+    "outputName": "041 piano-concerto-no-2-in-c-minor-rachmaninov.mp3"
+  },
+  {
+    "url": "audio/klassik/042 rossini - overture-william-tell.mp3",
+    "outputName": "042 overture-william-tell-rossini.mp3"
+  },
+  {
+    "url": "audio/klassik/043 dvorak - symphony-no-9.mp3",
+    "outputName": "043 symphony-no-9-dvorak.mp3"
+  },
+  {
+    "url": "audio/klassik/044 prokofiev - romeo-and-juliet.mp3",
+    "outputName": "044 romeo-and-juliet-prokofiev.mp3"
+  },
+  {
+    "url": "audio/klassik/045 mozart - rondo-a-la-turc.mp3",
+    "outputName": "045 rondo-a-la-turc-mozart.mp3"
+  },
+  {
+    "url": "audio/klassik/046 tchaikovsky - swan-lake.mp3",
+    "outputName": "046 swan-lake-tchaikovsky.mp3"
+  }
+];
+
+document.getElementById("download").onclick = async () => {
+  const btn = document.getElementById("download");
+  const progressContainer = document.getElementById("progress-container");
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+
+  // Disable button and show progress
+  btn.disabled = true;
+  progressContainer.style.display = "block";
+
+  try {
+    const zip = new JSZip();
+    const total = filesToDownload.length;
+
+    for (let i = 0; i < total; i++) {
+      const file = filesToDownload[i];
+
+      // Update progress
+      const percent = Math.round(((i + 1) / total) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+      progressText.textContent = `Downloading ${i + 1} of ${total}: ${file.outputName}`;
+
+      const response = await fetch(file.url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch no. ${i}: ${file.url}`);
+      }
+      const content = await response.blob();
+      zip.file(file.outputName, content);
+    }
+
+    // Show zipping progress
+    progressText.textContent = "Creating ZIP file...";
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "klassik.zip");
+
+    // Success message
+    progressText.textContent = "Download complete!";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      btn.disabled = false;
+    }, 2000);
+
+  } catch (error) {
+    progressText.textContent = "Error: " + error.message;
+    progressText.style.color = "red";
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      progressBar.style.width = "0%";
+      progressText.style.color = "#666";
+      btn.disabled = false;
+    }, 3000);
+  }
+};
+
+</script>
+</body>
+</html>

@@ -8,7 +8,7 @@ from process_mp3.tracks import track_from_file, Track, search_track, slugify
 
 
 def create_shuffled_playlist(src_dir: Path, amend: bool, create_preview: bool):
-    playlist_name = src_dir.name
+    playlist_name = src_dir.name.split("(", 1)[0].strip()
     output_dir = Path(__file__).parent.parent / 'docs' / 'audio' / slugify(playlist_name)
     if output_dir.is_dir():
         for file in output_dir.iterdir():
