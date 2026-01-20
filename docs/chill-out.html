@@ -785,27 +785,16 @@ function playYouTubeTrack(track, autoplay){
   }
 
   // Create or update YouTube player
-  if (!ytPlayer){
-    createYouTubePlayer(track.videoId, track.start);
-    if (autoplay){
-      setTimeout(() => {
-        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
-      }, 300);
-    }
+  if (!ytPlayer) {
+    createYouTubePlayer(track.videoId, track.start, autoplay);
   } else {
-    ytPlayer.loadVideoById({
-      videoId: track.videoId,
-      startSeconds: track.start || 0
-    });
-    if (autoplay){
-      setTimeout(() => {
-        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
-      }, 100);
+    const startSeconds = track.start || 0;
+    if (autoplay) {
+      ytPlayer.loadVideoById({ videoId: track.videoId, startSeconds });
     } else {
-      // Even without autoplay, seek to start position
-      setTimeout(() => {
-        if (ytPlayer && ytPlayer.seekTo) ytPlayer.seekTo(track.start || 0, true);
-      }, 100);
+      ytPlayer.cueVideoById({ videoId: track.videoId, startSeconds });
+      // Optional safety: ensure it's paused (some browsers/devices can briefly start)
+      setTimeout(() => ytPlayer.pauseVideo?.(), 0);
     }
   }
 }
