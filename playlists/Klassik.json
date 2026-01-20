@@ -1,6 +1,6 @@
 {
   "majorVersion": 2,
-  "minorVersion": 6,
+  "minorVersion": 7,
   "tracks": [
     {
       "name": "Carmen Suite No. 2 \u2022 Bizet",
@@ -128,7 +128,7 @@
       "url": "016 erik-satie-kevin-macleod - gymnopedie-no-1.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/"
+      "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100787&Search=Search"
     },
     {
       "name": "Hungarian Dance No. 5 \u2022 Brahms",
@@ -224,7 +224,7 @@
       "url": "028 beethoven - f-r-elise.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://archive.org/details/"
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
       "name": "Spring \u2022 Antonio Vivaldi",
@@ -324,7 +324,7 @@
     },
     {
       "name": "Piano Concerto No. 2 in C Minor \u2022 Rachmaninov",
-      "full": "Piano Concerto No. 2 in C Minor \u2022 Rachmaninov",
+      "full": "Piano Concerto No. 2 in C Minor (Op. 18, Adagio sostenuto) \u2022 Rachmaninov",
       "url": "041 rachmaninov - piano-concerto-no-2-in-c-minor.mp3",
       "start": 0.0,
       "end": null,
