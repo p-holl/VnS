@@ -136,14 +136,17 @@ def track_from_file(path: Path, playlist_name: str = None) -> Track:
 
 
 def get_url_from_comments(comments: list[str]):
+    valid_urls = []
     for comment in comments:
         if '.org' in comment and not comment.startswith('http'):
             comment = 'https://' + comment
         if comment.endswith('/watch'):
             continue
         if comment.startswith('http'):
-            return comment
-    return None
+            valid_urls.append(comment)
+    if not valid_urls:
+        return None
+    return max(valid_urls, key=lambda url: len(url))
 
 
 def check_no_duplicates(tracks: list[Track]):
