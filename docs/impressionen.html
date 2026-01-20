@@ -1281,6 +1281,10 @@ let loopTimer = null;
 let ytApiReady = false;
 let ytApiLoading = false;
 
+const bgAudio = new Audio('audio/SFX_Next.mp3');
+bgAudio.volume = 1.0;
+bgAudio.loop = false;
+
 // ============================================================================
 // YOUTUBE API LOADING
 // ============================================================================
@@ -1414,6 +1418,8 @@ function playTrack(index, autoplay = false){
   } else if (track.source === 'audio'){
     playAudioTrack(track, autoplay);
   }
+
+  bgAudio.pause()
 }
 
 function playYouTubeTrack(track, autoplay){
@@ -1567,7 +1573,10 @@ function highlightActive(){
   });
 }
 
+var isMusicPlaying = false;
+
 function updatePlayButton(isPlaying){
+  isMusicPlaying = isPlaying;
   document.getElementById('playBtn').textContent = isPlaying ? '⏸' : '▶';
 }
 
@@ -1601,30 +1610,38 @@ document.getElementById('prevBtn').onclick = () => {
   playTrack((currentIndex - 1 + tracks.length) % tracks.length, true);
 };
 
+let transition = false;
+
 document.getElementById('nextBtn').onclick = () => {
-  // Pause current track
-  const track = tracks[currentIndex];
-  if (track.source === 'youtube' && ytPlayer){
-    ytPlayer.pauseVideo();
-  } else if (track.source === 'audio' && audioPlayer){
-    audioPlayer.pause();
+  if (transition){
+    transition = false;
+    bgAudio.pause();
+    togglePlayPause();
+    return;
+  }
+  if (!isMusicPlaying) {
+    playTrack((currentIndex + 1) % tracks.length, true);
+    return;
   }
 
-  // Create background audio instance
-  const bgAudio = new Audio('audio/SFX_Next.mp3');
-  bgAudio.volume = 1.0;
-  bgAudio.loop = false;
+  playTrack((currentIndex + 1) % tracks.length, false);
+  updatePlayButton(false);
 
-  // Remove reference once audio ends
-  bgAudio.addEventListener('ended', () => {
-    bgAudio.src = '';
-  });
-
-  // Start playback
+  // Start transition
+  transition = true;
+  bgAudio.currentTime = 0;
   bgAudio.play()
     .then(() => {
       setTimeout(() => {  // Schedule main track to start
-        playTrack((currentIndex + 1) % tracks.length, true);
+        if (!transition)
+          return;
+        transition = false;
+        const track = tracks[currentIndex];
+        if (track.source === 'youtube' && ytPlayer){
+          ytPlayer.playVideo();
+        } else if (track.source === 'audio' && audioPlayer){
+          audioPlayer.play();
+        }
       }, 5500);
     })
     .catch(err => {
