@@ -1,6 +1,6 @@
 {
   "majorVersion": 2,
-  "minorVersion": 4,
+  "minorVersion": 6,
   "tracks": [
     {
       "name": "Carmen Suite No. 2 \u2022 Bizet",
@@ -43,12 +43,12 @@
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
-      "name": "Dance of the Sugar Plum Fairy \u2022 Kevin MacLeod",
-      "full": "Dance of the Sugar Plum Fairy \u2022 Kevin MacLeod",
-      "url": "006 kevin-macleod - dance-of-the-sugar-plum-fairy.mp3",
+      "name": "Piano Concerto No. 5 \u2022 Beethoven",
+      "full": "Piano Concerto No. 5 (in Eb Major, Op. 71, Allegro) \u2022 Beethoven",
+      "url": "006 beethoven - piano-concerto-no-5.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/"
+      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
       "name": "Sleeping Beauty \u2022 Tchaikovsky",
@@ -59,12 +59,12 @@
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
-      "name": "Piano Concerto No. 5 \u2022 Various\u3000Artists",
-      "full": "Piano Concerto No. 5 (in Eb Major, Op. 71, Allegro) \u2022 Various\u3000Artists",
-      "url": "008 various-artists - piano-concerto-no-5.mp3",
+      "name": "Dance of the Sugar Plum Fairy \u2022 Tchaikovsky",
+      "full": "Dance of the Sugar Plum Fairy \u2022 P. I. Tchaikovsky, Kevin MacLeod",
+      "url": "008 p-i-tchaikovsky-kevin-macleod - dance-of-the-sugar-plum-fairy.mp3",
       "start": 0.0,
       "end": null,
-      "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
+      "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Dance_of_the_Sugar_Plum_Fairy/"
     },
     {
       "name": "Sabre Dance \u2022 Khachaturian",
@@ -123,9 +123,9 @@
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
-      "name": "Gymnopedie No 1 \u2022 Kevin MacLeod",
-      "full": "Gymnopedie No 1 \u2022 Kevin MacLeod",
-      "url": "016 kevin-macleod - gymnopedie-no-1.mp3",
+      "name": "Gymnopedie No 1 \u2022 Erik Satie",
+      "full": "Gymnopedie No 1 \u2022 Erik Satie, Kevin MacLeod",
+      "url": "016 erik-satie-kevin-macleod - gymnopedie-no-1.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://freemusicarchive.org/music/Kevin_MacLeod/Classical_Sampler/Gymnopedie_No_1/"
@@ -147,9 +147,9 @@
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
-      "name": "The Nutcracker \u2022 Various",
-      "full": "The Nutcracker (Op. 71a, Chinese Dance) \u2022 Various",
-      "url": "019 various - the-nutcracker.mp3",
+      "name": "The Nutcracker \u2022 Tchaikovsky",
+      "full": "The Nutcracker (Op. 71a, Chinese Dance) \u2022 Tchaikovsky",
+      "url": "019 tchaikovsky - the-nutcracker.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
@@ -163,9 +163,9 @@
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
     },
     {
-      "name": "Orchestral Suite No. 2 \u2022 Various",
-      "full": "Orchestral Suite No. 2 (in B Minor, BWV1067, Badinerie) \u2022 Various",
-      "url": "021 various - orchestral-suite-no-2.mp3",
+      "name": "Orchestral Suite No. 2 \u2022 Bach",
+      "full": "Orchestral Suite No. 2 (in B Minor, BWV1067, Badinerie) \u2022 Bach",
+      "url": "021 bach - orchestral-suite-no-2.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
@@ -179,9 +179,9 @@
       "source": "https://musopen.org/music/45514"
     },
     {
-      "name": "Waltz No. 6 in Db Major \u2022 Various",
-      "full": "Waltz No. 6 in Db Major (Op. 64, No. 1) \u2022 Various",
-      "url": "023 various - waltz-no-6-in-db-major.mp3",
+      "name": "Waltz No. 6 in Db Major \u2022 Chopin",
+      "full": "Waltz No. 6 in Db Major (Op. 64, No. 1) \u2022 Chopin",
+      "url": "023 chopin - waltz-no-6-in-db-major.mp3",
       "start": 0.0,
       "end": null,
       "source": "https://archive.org/details/classical-music-mix-by-various-artists/"
