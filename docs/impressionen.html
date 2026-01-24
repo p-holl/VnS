@@ -1641,7 +1641,13 @@ document.getElementById('nextBtn').onclick = () => {
 };
 
 
-document.getElementById('playBtn').onclick = togglePlayPause;
+document.getElementById('playBtn').onclick = () => {
+  togglePlayPause();
+  if (transition) {
+    transition = false;
+    bgAudio.pause();
+  }
+}
 
 // ============================================================================
 // INITIALIZATION
